@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Kutir - Professional Tax Invoice System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #d4a574;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #8B4513, #d4a574);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
+        }
+        
+        .company-info h1 {
+            color: #5a3921;
+            font-size: 32px;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        
+        .company-info p {
+            color: #8B4513;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #8B4513;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5a3921;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #d4a574;
+            color: #5a3921;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #c19a6b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 165, 116, 0.3);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: #8B4513;
+            border: 1px solid #d4a574;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(212, 165, 116, 0.1);
+            color: #5a3921;
+            border-color: #8B4513;
+        }
+        
+        .invoice-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .editor-panel {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #d4a574;
+        }
+        
+        .preview-panel {
+            flex: 2;
+            min-width: 500px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid #8B4513;
+        }
+        
+        .panel-title {
+            color: #5a3921;
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0e6d6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .panel-title i {
+            color: #8B4513;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5a3921;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0d6c8;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border 0.3s;
+            background-color: #fcfaf7;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #8B4513;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.2);
+            background-color: white;
+        }
+        
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .row .form-group {
+            flex: 1;
+        }
+        
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0e6d6;
+        }
+        
+        .invoice-title {
+            font-size: 32px;
+            color: #5a3921;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .invoice-meta {
+            text-align: right;
+        }
+        
+        .invoice-meta p {
+            margin-bottom: 5px;
+            color: #8B4513;
+            font-size: 14px;
+        }
+        
+        .invoice-addresses {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 30px;
+        }
+        
+        .address-box {
+            flex: 1;
+            background-color: #fcfaf7;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #d4a574;
+        }
+        
+        .address-title {
+            font-weight: 600;
+            color: #5a3921;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .address-content {
+            color: #5a3921;
+            line-height: 1.6;
+        }
+        
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 14px;
+        }
+        
+        .invoice-table th {
+            background-color: #f5efe6;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #5a3921;
+            border-bottom: 2px solid #d4a574;
+            border-top: 2px solid #d4a574;
+        }
+        
+        .invoice-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0e6d6;
+        }
+        
+        .invoice-table tr:last-child td {
+            border-bottom: 2px solid #d4a574;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .invoice-summary {
+            margin-top: 30px;
+            width: 300px;
+            margin-left: auto;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #e0d6c8;
+        }
+        
+        .summary-row.total {
+            font-weight: 700;
+            font-size: 18px;
+            border-bottom: 2px solid #5a3921;
+            padding-top: 15px;
+            color: #5a3921;
+        }
+        
+        .authorization-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #d4a574;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .signature-box {
+            text-align: center;
+        }
+        
+        .signature-line {
+            width: 200px;
+            border-bottom: 1px solid #5a3921;
+            margin: 0 auto 5px;
+            padding-top: 40px;
+        }
+        
+        .signature-name {
+            font-weight: 600;
+            color: #5a3921;
+            font-size: 16px;
+        }
+        
+        .signature-title {
+            color: #8B4513;
+            font-size: 14px;
+        }
+        
+        .invoice-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #8B4513;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid #f0e6d6;
+        }
+        
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 100px;
+            color: rgba(139, 69, 19, 0.05);
+            font-weight: 900;
+            z-index: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            font-family: 'Georgia', serif;
+            opacity: 0.7;
+            letter-spacing: 5px;
+        }
+        
+        .items-section {
+            margin-top: 25px;
+        }
+        
+        .items-section-title {
+            color: #5a3921;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0e6d6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .items-table-container {
+            overflow-x: auto;
+            margin-bottom: 15px;
+            border: 1px solid #e0d6c8;
+            border-radius: 8px;
+        }
+        
+        .items-editor-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        
+        .items-editor-table th {
+            background-color: #f5efe6;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #5a3921;
+            font-size: 13px;
+            border-bottom: 1px solid #d4a574;
+        }
+        
+        .items-editor-table td {
+            padding: 10px;
+            border-bottom: 1px solid #f0e6d6;
+        }
+        
+        .items-editor-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .items-editor-table input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #e0d6c8;
+            border-radius: 4px;
+            font-size: 13px;
+            background-color: white;
+        }
+        
+        .items-editor-table input:focus {
+            border-color: #8B4513;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+        }
+        
+        .item-action-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .item-action-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        .add-item-btn {
+            background-color: #f5efe6;
+            border: 2px dashed #d4a574;
+            color: #8B4513;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .add-item-btn:hover {
+            background-color: #f0e6d6;
+            color: #5a3921;
+            border-color: #8B4513;
+        }
+        
+        .company-contact {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #8B4513;
+        }
+        
+        .company-gst-box {
+            background-color: #fcfaf7;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 8px;
+            border: 1px solid #e0d6c8;
+            display: inline-block;
+            font-size: 13px;
+        }
+        
+        .company-gst-box strong {
+            color: #5a3921;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #8B4513;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid #f0e6d6;
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        .legal-note {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            
+            .preview-panel, .preview-panel * {
+                visibility: visible;
+            }
+            
+            .preview-panel {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            .watermark {
+                opacity: 0.1;
+            }
+            
+            .controls, .editor-panel, footer, header {
+                display: none;
+            }
+            
+            .print-only {
+                display: block;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 12px;
+                color: #8B4513;
+            }
+            
+            .btn {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .invoice-container {
+                flex-direction: column;
+            }
+            
+            .editor-panel, .preview-panel {
+                min-width: 100%;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+            }
+            
+            .invoice-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .invoice-meta {
+                text-align: left;
+            }
+            
+            .invoice-addresses {
+                flex-direction: column;
+            }
+            
+            .items-editor-table {
+                min-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="company-info">
+                    <h1>Urban Kutir</h1>
+                    <p>Premium Home Solutions & Interior Design</p>
+                    <div class="company-contact">
+                        <p><i class="fas fa-phone"></i> 9831859858 | <i class="fas fa-envelope"></i> urbankutir@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-secondary" id="generatePdf">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+                <button class="btn btn-primary" id="printInvoice">
+                    <i class="fas fa-print"></i> Print Invoice
+                </button>
+                <button class="btn btn-outline" id="resetForm">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+        </header>
+        
+        <div class="invoice-container">
+            <div class="editor-panel">
+                <h2 class="panel-title"><i class="fas fa-edit"></i> Invoice Details</h2>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label for="invoiceNo">Invoice Number *</label>
+                        <input type="text" id="invoiceNo" value="30_25-26" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="invoiceDate">Invoice Date *</label>
+                        <input type="date" id="invoiceDate" value="2025-12-09" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label for="dueDate">Due Date</label>
+                        <input type="date" id="dueDate" value="2025-12-23">
+                    </div>
+                    <div class="form-group">
+                        <label for="poNumber">PO Number</label>
+                        <input type="text" id="poNumber" placeholder="Optional">
+                    </div>
+                </div>
+                
+                <h3 class="panel-title" style="font-size: 18px; margin-top: 30px;">
+                    <i class="fas fa-building"></i> Billed To
+                </h3>
+                
+                <div class="form-group">
+                    <label for="clientName">Client Name *</label>
+                    <input type="text" id="clientName" value="IN FRAME TECHNOLOGY PVT. LTD." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="clientGst">Client GST Number</label>
+                    <input type="text" id="clientGst" placeholder="Enter Client GST Number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="clientAddress">Client Address *</label>
+                    <textarea id="clientAddress" rows="3" required>6B, JATINDRA MOHAN AVENUE, KOLKATA-700006</textarea>
+                </div>
+                
+                <h3 class="panel-title" style="font-size: 18px; margin-top: 30px;">
+                    <i class="fas fa-truck"></i> Delivery Address
+                </h3>
+                
+                <div class="form-group">
+                    <label for="deliveryAddress">Delivery Address</label>
+                    <textarea id="deliveryAddress" rows="3">5TH FLOOR, SARI MALL, 545/2/1, GRAND TANK ROAD, HOWRAH RAILWAY STATION, HOWRAH-711101</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="text" id="phoneNumber" value="9830897578">
+                </div>
+                
+                <div class="items-section">
+                    <h3 class="items-section-title"><i class="fas fa-boxes"></i> Items & Products</h3>
+                    
+                    <div class="items-table-container">
+                        <table class="items-editor-table">
+                            <thead>
+                                <tr>
+                                    <th width="50">SL No</th>
+                                    <th>Description of Goods/Services</th>
+                                    <th width="100">HSN/SAC</th>
+                                    <th width="80">Qty</th>
+                                    <th width="100">Rate (₹)</th>
+                                    <th width="80">Unit</th>
+                                    <th width="120">Amount (₹)</th>
+                                    <th width="50">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemsContainer">
+                                <!-- Items will be added dynamically here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button class="add-item-btn" id="addItemBtn">
+                        <i class="fas fa-plus-circle"></i> Add New Line Item
+                    </button>
+                    
+                    <div class="legal-note">
+                        * Required fields. HSN/SAC codes are mandatory for GST compliance.
+                    </div>
+                </div>
+                
+                <div class="row" style="margin-top: 25px;">
+                    <div class="form-group">
+                        <label for="taxRate">Tax Rate (%) *</label>
+                        <input type="number" id="taxRate" value="9" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="roundOff">Round Off Amount</label>
+                        <input type="number" id="roundOff" value="0" step="0.01">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" rows="3" placeholder="Any special instructions or terms..."></textarea>
+                </div>
+                
+                <button class="btn btn-primary" id="updateInvoice" style="width: 100%; margin-top: 20px; padding: 15px;">
+                    <i class="fas fa-sync-alt"></i> Update Invoice Preview
+                </button>
+            </div>
+            
+            <div class="preview-panel">
+                <div class="watermark">URBAN KUTIR</div>
+                
+                <div class="print-only">
+                    <p>Generated from Urban Kutir Professional Invoice System | www.urbankutir.com</p>
+                </div>
+                
+                <div class="invoice-header">
+                    <div>
+                        <div class="invoice-title">TAX INVOICE</div>
+                        <div class="address-content">
+                            <strong>Urban Kutir</strong><br>
+                            59 Kali Charan Gosh Road<br>
+                            Binayak Enclave Block J2 Flat 308<br>
+                            Kolkata – 50, West Bengal<br>
+                            <div class="company-gst-box">
+                                <strong>GSTIN:</strong> 19AAHFU6863E1ZR
+                            </div>
+                            <br>
+                            <i class="fas fa-envelope"></i> urbankutir@gmail.com | 
+                            <i class="fas fa-phone"></i> 9831859858
+                        </div>
+                    </div>
+                    <div class="invoice-meta">
+                        <p><strong>INVOICE NO:</strong> <span id="previewInvoiceNo">30_25-26</span></p>
+                        <p><strong>DATE:</strong> <span id="previewDate">09/12/2025</span></p>
+                        <p><strong>DUE DATE:</strong> <span id="previewDueDate">23/12/2025</span></p>
+                        <p><strong>STATE:</strong> WEST BENGAL | <strong>CODE:</strong> 19</p>
+                    </div>
+                </div>
+                
+                <div class="invoice-addresses">
+                    <div class="address-box">
+                        <div class="address-title">BILLED TO:</div>
+                        <div class="address-content" id="previewClient">
+                            IN FRAME TECHNOLOGY PVT. LTD.<br>
+                            6B, JATINDRA MOHAN AVENUE<br>
+                            KOLKATA-700006, WEST BENGAL<br>
+                            <div id="previewClientGst" style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #d4a574;">
+                                <strong>GSTIN:</strong> <span id="previewClientGstNumber">Not Provided</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="address-box">
+                        <div class="address-title">SHIP TO:</div>
+                        <div class="address-content" id="previewDelivery">
+                            5TH FLOOR, SARI MALL, 545/2/1<br>
+                            GRAND TANK ROAD, HOWRAH RAILWAY STATION<br>
+                            HOWRAH-711101, WEST BENGAL<br>
+                            PHONE: 9830897578
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th class="text-center" width="50">SL No</th>
+                            <th>Description of Goods/Services</th>
+                            <th class="text-center" width="100">HSN/SAC</th>
+                            <th class="text-center" width="80">Qty</th>
+                            <th class="text-right" width="100">Rate (₹)</th>
+                            <th class="text-center" width="80">Unit</th>
+                            <th class="text-right" width="120">Amount (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="previewItems">
+                        <!-- Items will be populated here -->
+                    </tbody>
+                </table>
+                
+                <div class="invoice-summary">
+                    <div class="summary-row">
+                        <span>Total Taxable Value</span>
+                        <span id="previewTaxable">37,000.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>CGST <span id="previewTaxRate">9</span>%</span>
+                        <span id="previewCgst">3,330.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>SGST <span id="previewSgstRate">9</span>%</span>
+                        <span id="previewSgst">3,330.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>IGST <span id="previewIgstRate">0</span>%</span>
+                        <span id="previewIgst">0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Round Off</span>
+                        <span id="previewRoundOff">0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>GRAND TOTAL</span>
+                        <span id="previewTotal">₹43,660.00</span>
+                    </div>
+                </div>
+                
+                <div id="previewNotes" style="margin-top: 15px; font-size: 13px; color: #5a3921; padding: 10px; background-color: #fcfaf7; border-radius: 6px; display: none;">
+                    <strong>Notes:</strong> <span id="previewNotesContent"></span>
+                </div>
+                
+                <div class="authorization-section">
+                    <div style="flex: 1;">
+                        <p><strong>Payment Terms:</strong> 50% advance, 50% on delivery</p>
+                        <p><strong>Delivery:</strong> Within 15 working days from order confirmation</p>
+                        <p><strong>Bank Details:</strong> State Bank of India | A/C: 123456789012 | IFSC: SBIN0001234</p>
+                        <p><strong>PAN:</strong> AAHFU6863E</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <div class="signature-name">DOELPATHAK</div>
+                        <div class="signature-title">Authorized Signatory</div>
+                        <div class="signature-title">Urban Kutir</div>
+                    </div>
+                </div>
+                
+                <div class="invoice-footer">
+                    <p><strong>TOTAL AMOUNT:</strong> RUPEES <span id="previewAmountWords">FORTY THREE THOUSAND SIX HUNDRED AND SIXTY</span> ONLY.</p>
+                    <p style="margin-top: 15px; font-size: 12px;">This is a computer generated invoice and does not require a physical signature. Subject to Kolkata Jurisdiction.</p>
+                    <p style="font-size: 11px; color: #7f8c8d; margin-top: 10px;">As per GST rules, this invoice is valid without signature | E. & O.E.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Urban Kutir Professional Invoice System &copy; 2025 | GST No: 19AAHFU6863E1ZR | www.urbankutir.com</p>
+        </footer>
+    </div>
+    
+    <!-- Include jsPDF and html2canvas libraries for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize items with professional structure
+            let items = [
+                { 
+                    slNo: 1, 
+                    name: "Custom Window with Grill Work", 
+                    hsnCode: "9954", 
+                    qty: 1, 
+                    price: 37000, 
+                    unit: "Pcs",
+                    total: 37000 
+                }
+            ];
+            
+            // Initialize DOM elements
+            const itemsContainer = document.getElementById('itemsContainer');
+            const previewItems = document.getElementById('previewItems');
+            const addItemBtn = document.getElementById('addItemBtn');
+            const updateInvoiceBtn = document.getElementById('updateInvoice');
+            const printInvoiceBtn = document.getElementById('printInvoice');
+            const generatePdfBtn = document.getElementById('generatePdf');
+            const resetFormBtn = document.getElementById('resetForm');
+            const clientGstInput = document.getElementById('clientGst');
+            
+            // Render items in editor
+            function renderItems() {
+                itemsContainer.innerHTML = '';
+                
+                items.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><input type="text" class="item-sno" value="${item.slNo}" readonly></td>
+                        <td><input type="text" class="item-name" value="${item.name}" placeholder="Description"></td>
+                        <td><input type="text" class="item-hsn" value="${item.hsnCode}" placeholder="HSN/SAC"></td>
+                        <td><input type="number" class="item-qty" value="${item.qty}" placeholder="Qty" min="0" step="0.01"></td>
+                        <td><input type="number" class="item-price" value="${item.price}" placeholder="Rate" min="0" step="0.01"></td>
+                        <td><input type="text" class="item-unit" value="${item.unit}" placeholder="Unit"></td>
+                        <td><input type="text" class="item-total" value="${formatCurrency(item.total, true)}" readonly></td>
+                        <td class="text-center">
+                            ${items.length > 1 ? `<button type="button" class="item-action-btn" data-index="${index}">
+                                <i class="fas fa-trash"></i>
+                            </button>` : ''}
+                        </td>
+                    `;
+                    itemsContainer.appendChild(row);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.item-action-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        if (items.length > 1) {
+                            items.splice(index, 1);
+                            // Update SL numbers
+                            items.forEach((item, idx) => item.slNo = idx + 1);
+                            renderItems();
+                            updatePreview();
+                        }
+                    });
+                });
+                
+                // Add event listeners to qty and price inputs for auto-calculation
+                document.querySelectorAll('.item-qty, .item-price').forEach(input => {
+                    input.addEventListener('input', function() {
+                        const row = this.closest('tr');
+                        const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                        const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                        const total = qty * price;
+                        row.querySelector('.item-total').value = formatCurrency(total, true);
+                        
+                        // Update the items array
+                        const sno = parseInt(row.querySelector('.item-sno').value) - 1;
+                        items[sno].qty = qty;
+                        items[sno].price = price;
+                        items[sno].total = total;
+                        
+                        // Update item name and HSN if changed
+                        items[sno].name = row.querySelector('.item-name').value;
+                        items[sno].hsnCode = row.querySelector('.item-hsn').value;
+                        items[sno].unit = row.querySelector('.item-unit').value;
+                    });
+                });
+                
+                // Add event listeners to other inputs
+                document.querySelectorAll('.item-name, .item-hsn, .item-unit').forEach(input => {
+                    input.addEventListener('input', function() {
+                        const row = this.closest('tr');
+                        const sno = parseInt(row.querySelector('.item-sno').value) - 1;
+                        
+                        if (this.classList.contains('item-name')) {
+                            items[sno].name = this.value;
+                        } else if (this.classList.contains('item-hsn')) {
+                            items[sno].hsnCode = this.value;
+                        } else if (this.classList.contains('item-unit')) {
+                            items[sno].unit = this.value;
+                        }
+                    });
+                });
+            }
+            
+            // Render items in preview
+            function renderPreviewItems() {
+                previewItems.innerHTML = '';
+                
+                items.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="text-center">${item.slNo}</td>
+                        <td>${item.name}</td>
+                        <td class="text-center">${item.hsnCode}</td>
+                        <td class="text-center">${item.qty}</td>
+                        <td class="text-right">${formatCurrency(item.price, true)}</td>
+                        <td class="text-center">${item.unit}</td>
+                        <td class="text-right">${formatCurrency(item.total, true)}</td>
+                    `;
+                    previewItems.appendChild(row);
+                });
+            }
+            
+            // Format currency with commas and decimals
+            function formatCurrency(amount, withDecimals = false) {
+                if (withDecimals) {
+                    return amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                }
+                return amount.toLocaleString('en-IN');
+            }
+            
+            // Convert number to words for amount in words
+            function numberToWords(num) {
+                const ones = ['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN'];
+                const tens = ['', '', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'];
+                
+                if (num === 0) return 'ZERO';
+                
+                let words = '';
+                
+                if (num >= 10000000) {
+                    const crores = Math.floor(num / 10000000);
+                    words += numberToWords(crores) + ' CRORE ';
+                    num %= 10000000;
+                }
+                
+                if (num >= 100000) {
+                    const lakhs = Math.floor(num / 100000);
+                    words += numberToWords(lakhs) + ' LAKH ';
+                    num %= 100000;
+                }
+                
+                if (num >= 1000) {
+                    const thousands = Math.floor(num / 1000);
+                    words += numberToWords(thousands) + ' THOUSAND ';
+                    num %= 1000;
+                }
+                
+                if (num >= 100) {
+                    const hundreds = Math.floor(num / 100);
+                    words += ones[hundreds] + ' HUNDRED ';
+                    num %= 100;
+                }
+                
+                if (num > 0) {
+                    if (words !== '') words += 'AND ';
+                    
+                    if (num < 20) {
+                        words += ones[num];
+                    } else {
+                        words += tens[Math.floor(num / 10)];
+                        if (num % 10 > 0) {
+                            words += ' ' + ones[num % 10];
+                        }
+                    }
+                }
+                
+                return words.trim();
+            }
+            
+            // Update preview with form values
+            function updatePreview() {
+                // Update basic information
+                document.getElementById('previewInvoiceNo').textContent = document.getElementById('invoiceNo').value;
+                document.getElementById('previewDate').textContent = formatDate(document.getElementById('invoiceDate').value);
+                
+                const dueDate = document.getElementById('dueDate').value;
+                document.getElementById('previewDueDate').textContent = dueDate ? formatDate(dueDate) : 'N/A';
+                
+                // Update client information
+                const clientName = document.getElementById('clientName').value;
+                const clientAddress = document.getElementById('clientAddress').value.replace(/\n/g, '<br>');
+                const clientGst = document.getElementById('clientGst').value;
+                
+                document.getElementById('previewClient').innerHTML = `
+                    ${clientName}<br>
+                    ${clientAddress}<br>
+                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #d4a574;">
+                        <strong>GSTIN:</strong> <span id="previewClientGstNumber">${clientGst || 'Not Provided'}</span>
+                    </div>
+                `;
+                
+                // Update delivery information
+                const deliveryAddress = document.getElementById('deliveryAddress').value.replace(/\n/g, '<br>');
+                const phoneNumber = document.getElementById('phoneNumber').value;
+                document.getElementById('previewDelivery').innerHTML = `
+                    ${deliveryAddress}<br>
+                    ${phoneNumber ? 'PHONE: ' + phoneNumber : ''}
+                `;
+                
+                // Update items
+                renderPreviewItems();
+                
+                // Calculate totals
+                const taxableValue = items.reduce((sum, item) => sum + item.total, 0);
+                const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+                const taxAmount = (taxableValue * taxRate) / 100;
+                const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
+                const totalAmount = taxableValue + (taxAmount * 2) + roundOff;
+                
+                // Update summary
+                document.getElementById('previewTaxable').textContent = formatCurrency(taxableValue, true);
+                document.getElementById('previewTaxRate').textContent = taxRate;
+                document.getElementById('previewSgstRate').textContent = taxRate;
+                document.getElementById('previewCgst').textContent = formatCurrency(taxAmount, true);
+                document.getElementById('previewSgst').textContent = formatCurrency(taxAmount, true);
+                document.getElementById('previewRoundOff').textContent = formatCurrency(roundOff, true);
+                document.getElementById('previewTotal').textContent = '₹' + formatCurrency(totalAmount, true);
+                
+                // Update amount in words
+                document.getElementById('previewAmountWords').textContent = numberToWords(Math.round(totalAmount));
+                
+                // Update notes
+                const notes = document.getElementById('notes').value;
+                const notesContainer = document.getElementById('previewNotes');
+                const notesContent = document.getElementById('previewNotesContent');
+                
+                if (notes.trim()) {
+                    notesContent.textContent = notes;
+                    notesContainer.style.display = 'block';
+                } else {
+                    notesContainer.style.display = 'none';
+                }
+            }
+            
+            // Format date from YYYY-MM-DD to DD/MM/YYYY
+            function formatDate(dateString) {
+                if (!dateString) return '';
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+            
+            // Add new item
+            addItemBtn.addEventListener('click', function() {
+                const newSlNo = items.length + 1;
+                items.push({
+                    slNo: newSlNo,
+                    name: "New Item Description",
+                    hsnCode: "",
+                    qty: 1,
+                    price: 0,
+                    unit: "Pcs",
+                    total: 0
+                });
+                renderItems();
+                updatePreview();
+            });
+            
+            // Update invoice preview
+            updateInvoiceBtn.addEventListener('click', updatePreview);
+            
+            // Print invoice
+            printInvoiceBtn.addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Generate PDF
+            generatePdfBtn.addEventListener('click', function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'pt', 'a4');
+                const invoiceElement = document.querySelector('.preview-panel');
+                
+                // Show loading state
+                const originalText = generatePdfBtn.innerHTML;
+                generatePdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+                generatePdfBtn.disabled = true;
+                
+                html2canvas(invoiceElement, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgWidth = 595; // A4 width in pts
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    
+                    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                    doc.save(`UrbanKutir_Invoice_${document.getElementById('invoiceNo').value}.pdf`);
+                    
+                    // Reset button state
+                    generatePdfBtn.innerHTML = originalText;
+                    generatePdfBtn.disabled = false;
+                }).catch(error => {
+                    console.error('Error generating PDF:', error);
+                    generatePdfBtn.innerHTML = originalText;
+                    generatePdfBtn.disabled = false;
+                    alert('Error generating PDF. Please try again.');
+                });
+            });
+            
+            // Reset form
+            resetFormBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset the form? All changes will be lost.')) {
+                    // Reset form fields
+                    document.getElementById('invoiceNo').value = '30_25-26';
+                    document.getElementById('invoiceDate').value = '2025-12-09';
+                    document.getElementById('dueDate').value = '2025-12-23';
+                    document.getElementById('poNumber').value = '';
+                    document.getElementById('clientName').value = 'IN FRAME TECHNOLOGY PVT. LTD.';
+                    document.getElementById('clientGst').value = '';
+                    document.getElementById('clientAddress').value = '6B, JATINDRA MOHAN AVENUE, KOLKATA-700006';
+                    document.getElementById('deliveryAddress').value = '5TH FLOOR, SARI MALL, 545/2/1, GRAND TANK ROAD, HOWRAH RAILWAY STATION, HOWRAH-711101';
+                    document.getElementById('phoneNumber').value = '9830897578';
+                    document.getElementById('taxRate').value = '9';
+                    document.getElementById('roundOff').value = '0';
+                    document.getElementById('notes').value = '';
+                    
+                    // Reset items
+                    items = [
+                        { 
+                            slNo: 1, 
+                            name: "Custom Window with Grill Work", 
+                            hsnCode: "9954", 
+                            qty: 1, 
+                            price: 37000, 
+                            unit: "Pcs",
+                            total: 37000 
+                        }
+                    ];
+                    
+                    renderItems();
+                    updatePreview();
+                }
+            });
+            
+            // Initialize the invoice
+            renderItems();
+            updatePreview();
+            
+            // Auto-update on input changes
+            document.getElementById('invoiceNo').addEventListener('input', updatePreview);
+            document.getElementById('invoiceDate').addEventListener('input', updatePreview);
+            document.getElementById('dueDate').addEventListener('input', updatePreview);
+            document.getElementById('clientName').addEventListener('input', updatePreview);
+            document.getElementById('clientGst').addEventListener('input', updatePreview);
+            document.getElementById('clientAddress').addEventListener('input', updatePreview);
+            document.getElementById('deliveryAddress').addEventListener('input', updatePreview);
+            document.getElementById('phoneNumber').addEventListener('input', updatePreview);
+            document.getElementById('taxRate').addEventListener('input', updatePreview);
+            document.getElementById('roundOff').addEventListener('input', updatePreview);
+            document.getElementById('notes').addEventListener('input', updatePreview);
+        });
+    </script>
+</body>
+</html>
