@@ -47,18 +47,36 @@
             gap: 20px;
         }
         
+        /* Logo styling */
         .logo {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #8B4513, #d4a574);
-            border-radius: 12px;
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
+            overflow: hidden;
+            background-color: white;
+            padding: 5px;
+        }
+        
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .logo-fallback {
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
-            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
+            background: linear-gradient(135deg, #8B4513, #d4a574);
         }
         
         .company-info h1 {
@@ -355,20 +373,21 @@
             border-top: 1px solid #f0e6d6;
         }
         
+        /* Watermark using the same logo image */
         .watermark {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 100px;
-            color: rgba(139, 69, 19, 0.05);
-            font-weight: 900;
+            opacity: 0.03;
             z-index: 0;
             pointer-events: none;
-            white-space: nowrap;
-            font-family: 'Georgia', serif;
-            opacity: 0.7;
-            letter-spacing: 5px;
+            width: 500px;
+            height: 500px;
+            background-image: url('urbankutir.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         
         .items-section {
@@ -514,6 +533,13 @@
             font-style: italic;
         }
         
+        .empty-state {
+            color: #7f8c8d;
+            font-style: italic;
+            text-align: center;
+            padding: 10px;
+        }
+        
         @media print {
             body * {
                 visibility: hidden;
@@ -533,7 +559,7 @@
             }
             
             .watermark {
-                opacity: 0.1;
+                opacity: 0.08;
             }
             
             .controls, .editor-panel, footer, header {
@@ -582,6 +608,11 @@
             .items-editor-table {
                 min-width: 600px;
             }
+            
+            .watermark {
+                width: 300px;
+                height: 300px;
+            }
         }
     </style>
 </head>
@@ -590,7 +621,12 @@
         <header>
             <div class="logo-container">
                 <div class="logo">
-                    <i class="fas fa-home"></i>
+                    <!-- Logo will be loaded here -->
+                    <img src="urbankutir.png" alt="Urban Kutir Logo" class="logo-img" 
+                         onerror="document.getElementById('logo-fallback').style.display='flex'; this.style.display='none'">
+                    <div id="logo-fallback" class="logo-fallback" style="display: none;">
+                        <i class="fas fa-home"></i>
+                    </div>
                 </div>
                 <div class="company-info">
                     <h1>Urban Kutir</h1>
@@ -621,18 +657,18 @@
                 <div class="row">
                     <div class="form-group">
                         <label for="invoiceNo">Invoice Number *</label>
-                        <input type="text" id="invoiceNo" value="30_25-26" required>
+                        <input type="text" id="invoiceNo" placeholder="e.g., INV-001" required>
                     </div>
                     <div class="form-group">
                         <label for="invoiceDate">Invoice Date *</label>
-                        <input type="date" id="invoiceDate" value="2025-12-09" required>
+                        <input type="date" id="invoiceDate" required>
                     </div>
                 </div>
                 
                 <div class="row">
                     <div class="form-group">
                         <label for="dueDate">Due Date</label>
-                        <input type="date" id="dueDate" value="2025-12-23">
+                        <input type="date" id="dueDate">
                     </div>
                     <div class="form-group">
                         <label for="poNumber">PO Number</label>
@@ -646,7 +682,7 @@
                 
                 <div class="form-group">
                     <label for="clientName">Client Name *</label>
-                    <input type="text" id="clientName" value="IN FRAME TECHNOLOGY PVT. LTD." required>
+                    <input type="text" id="clientName" placeholder="Enter client name" required>
                 </div>
                 
                 <div class="form-group">
@@ -656,7 +692,7 @@
                 
                 <div class="form-group">
                     <label for="clientAddress">Client Address *</label>
-                    <textarea id="clientAddress" rows="3" required>6B, JATINDRA MOHAN AVENUE, KOLKATA-700006</textarea>
+                    <textarea id="clientAddress" rows="3" placeholder="Enter client address" required></textarea>
                 </div>
                 
                 <h3 class="panel-title" style="font-size: 18px; margin-top: 30px;">
@@ -665,12 +701,12 @@
                 
                 <div class="form-group">
                     <label for="deliveryAddress">Delivery Address</label>
-                    <textarea id="deliveryAddress" rows="3">5TH FLOOR, SARI MALL, 545/2/1, GRAND TANK ROAD, HOWRAH RAILWAY STATION, HOWRAH-711101</textarea>
+                    <textarea id="deliveryAddress" rows="3" placeholder="Enter delivery address (if different)"></textarea>
                 </div>
                 
                 <div class="form-group">
                     <label for="phoneNumber">Phone Number</label>
-                    <input type="text" id="phoneNumber" value="9830897578">
+                    <input type="text" id="phoneNumber" placeholder="Enter phone number">
                 </div>
                 
                 <div class="items-section">
@@ -727,7 +763,7 @@
             </div>
             
             <div class="preview-panel">
-                <div class="watermark">URBAN KUTIR</div>
+                <div class="watermark"></div>
                 
                 <div class="print-only">
                     <p>Generated from Urban Kutir Professional Invoice System | www.urbankutir.com</p>
@@ -750,9 +786,9 @@
                         </div>
                     </div>
                     <div class="invoice-meta">
-                        <p><strong>INVOICE NO:</strong> <span id="previewInvoiceNo">30_25-26</span></p>
-                        <p><strong>DATE:</strong> <span id="previewDate">09/12/2025</span></p>
-                        <p><strong>DUE DATE:</strong> <span id="previewDueDate">23/12/2025</span></p>
+                        <p><strong>INVOICE NO:</strong> <span id="previewInvoiceNo" class="empty-state">[Invoice Number]</span></p>
+                        <p><strong>DATE:</strong> <span id="previewDate" class="empty-state">[Date]</span></p>
+                        <p><strong>DUE DATE:</strong> <span id="previewDueDate" class="empty-state">[Due Date]</span></p>
                         <p><strong>STATE:</strong> WEST BENGAL | <strong>CODE:</strong> 19</p>
                     </div>
                 </div>
@@ -761,21 +797,16 @@
                     <div class="address-box">
                         <div class="address-title">BILLED TO:</div>
                         <div class="address-content" id="previewClient">
-                            IN FRAME TECHNOLOGY PVT. LTD.<br>
-                            6B, JATINDRA MOHAN AVENUE<br>
-                            KOLKATA-700006, WEST BENGAL<br>
-                            <div id="previewClientGst" style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #d4a574;">
-                                <strong>GSTIN:</strong> <span id="previewClientGstNumber">Not Provided</span>
+                            <div class="empty-state">[Client Information]</div>
+                            <div id="previewClientGst" style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #d4a574; display: none;">
+                                <strong>GSTIN:</strong> <span id="previewClientGstNumber"></span>
                             </div>
                         </div>
                     </div>
                     <div class="address-box">
                         <div class="address-title">SHIP TO:</div>
                         <div class="address-content" id="previewDelivery">
-                            5TH FLOOR, SARI MALL, 545/2/1<br>
-                            GRAND TANK ROAD, HOWRAH RAILWAY STATION<br>
-                            HOWRAH-711101, WEST BENGAL<br>
-                            PHONE: 9830897578
+                            <div class="empty-state">[Delivery Address]</div>
                         </div>
                     </div>
                 </div>
@@ -793,22 +824,24 @@
                         </tr>
                     </thead>
                     <tbody id="previewItems">
-                        <!-- Items will be populated here -->
+                        <tr>
+                            <td colspan="7" class="text-center empty-state">[Add items using the form on the left]</td>
+                        </tr>
                     </tbody>
                 </table>
                 
                 <div class="invoice-summary">
                     <div class="summary-row">
                         <span>Total Taxable Value</span>
-                        <span id="previewTaxable">37,000.00</span>
+                        <span id="previewTaxable">0.00</span>
                     </div>
                     <div class="summary-row">
                         <span>CGST <span id="previewTaxRate">9</span>%</span>
-                        <span id="previewCgst">3,330.00</span>
+                        <span id="previewCgst">0.00</span>
                     </div>
                     <div class="summary-row">
                         <span>SGST <span id="previewSgstRate">9</span>%</span>
-                        <span id="previewSgst">3,330.00</span>
+                        <span id="previewSgst">0.00</span>
                     </div>
                     <div class="summary-row">
                         <span>IGST <span id="previewIgstRate">0</span>%</span>
@@ -820,7 +853,7 @@
                     </div>
                     <div class="summary-row total">
                         <span>GRAND TOTAL</span>
-                        <span id="previewTotal">₹43,660.00</span>
+                        <span id="previewTotal">₹0.00</span>
                     </div>
                 </div>
                 
@@ -844,7 +877,7 @@
                 </div>
                 
                 <div class="invoice-footer">
-                    <p><strong>TOTAL AMOUNT:</strong> RUPEES <span id="previewAmountWords">FORTY THREE THOUSAND SIX HUNDRED AND SIXTY</span> ONLY.</p>
+                    <p><strong>TOTAL AMOUNT:</strong> RUPEES <span id="previewAmountWords" class="empty-state">[Amount in words]</span> ONLY.</p>
                     <p style="margin-top: 15px; font-size: 12px;">This is a computer generated invoice and does not require a physical signature. Subject to Kolkata Jurisdiction.</p>
                     <p style="font-size: 11px; color: #7f8c8d; margin-top: 10px;">As per GST rules, this invoice is valid without signature | E. & O.E.</p>
                 </div>
@@ -862,16 +895,27 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize items with professional structure
+            // Set default date to today
+            const today = new Date();
+            const formattedToday = today.toISOString().split('T')[0];
+            document.getElementById('invoiceDate').value = formattedToday;
+            
+            // Set due date to 15 days from today
+            const dueDate = new Date(today);
+            dueDate.setDate(today.getDate() + 15);
+            const formattedDueDate = dueDate.toISOString().split('T')[0];
+            document.getElementById('dueDate').value = formattedDueDate;
+            
+            // Initialize items with one empty item
             let items = [
                 { 
                     slNo: 1, 
-                    name: "Custom Window with Grill Work", 
-                    hsnCode: "9954", 
+                    name: "", 
+                    hsnCode: "", 
                     qty: 1, 
-                    price: 37000, 
+                    price: 0, 
                     unit: "Pcs",
-                    total: 37000 
+                    total: 0 
                 }
             ];
             
@@ -885,6 +929,28 @@
             const resetFormBtn = document.getElementById('resetForm');
             const clientGstInput = document.getElementById('clientGst');
             
+            // Preload watermark image
+            function preloadWatermark() {
+                const watermark = document.querySelector('.watermark');
+                const logoImg = document.querySelector('.logo-img');
+                if (logoImg.complete && logoImg.naturalWidth !== 0) {
+                    // Logo loaded successfully
+                    watermark.style.backgroundImage = `url('${logoImg.src}')`;
+                } else {
+                    // Use fallback if logo fails to load
+                    logoImg.onload = function() {
+                        watermark.style.backgroundImage = `url('${logoImg.src}')`;
+                    };
+                    logoImg.onerror = function() {
+                        watermark.style.backgroundImage = 'none';
+                        watermark.style.backgroundColor = 'rgba(139, 69, 19, 0.02)';
+                    };
+                }
+            }
+            
+            // Call preload function
+            setTimeout(preloadWatermark, 500);
+            
             // Render items in editor
             function renderItems() {
                 itemsContainer.innerHTML = '';
@@ -893,8 +959,8 @@
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td><input type="text" class="item-sno" value="${item.slNo}" readonly></td>
-                        <td><input type="text" class="item-name" value="${item.name}" placeholder="Description"></td>
-                        <td><input type="text" class="item-hsn" value="${item.hsnCode}" placeholder="HSN/SAC"></td>
+                        <td><input type="text" class="item-name" value="${item.name}" placeholder="Item description"></td>
+                        <td><input type="text" class="item-hsn" value="${item.hsnCode}" placeholder="HSN/SAC code"></td>
                         <td><input type="number" class="item-qty" value="${item.qty}" placeholder="Qty" min="0" step="0.01"></td>
                         <td><input type="number" class="item-price" value="${item.price}" placeholder="Rate" min="0" step="0.01"></td>
                         <td><input type="text" class="item-unit" value="${item.unit}" placeholder="Unit"></td>
@@ -941,6 +1007,9 @@
                         items[sno].name = row.querySelector('.item-name').value;
                         items[sno].hsnCode = row.querySelector('.item-hsn').value;
                         items[sno].unit = row.querySelector('.item-unit').value;
+                        
+                        // Auto-update preview
+                        updatePreview();
                     });
                 });
                 
@@ -957,6 +1026,9 @@
                         } else if (this.classList.contains('item-unit')) {
                             items[sno].unit = this.value;
                         }
+                        
+                        // Auto-update preview
+                        updatePreview();
                     });
                 });
             }
@@ -965,15 +1037,29 @@
             function renderPreviewItems() {
                 previewItems.innerHTML = '';
                 
+                // Check if we have any items with actual data
+                const hasItems = items.some(item => item.name.trim() !== '' || item.total > 0);
+                
+                if (!hasItems) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td colspan="7" class="text-center empty-state">[Add items using the form on the left]</td>
+                    `;
+                    previewItems.appendChild(row);
+                    return;
+                }
+                
                 items.forEach(item => {
+                    if (item.name.trim() === '' && item.total === 0) return;
+                    
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td class="text-center">${item.slNo}</td>
-                        <td>${item.name}</td>
-                        <td class="text-center">${item.hsnCode}</td>
+                        <td>${item.name || '-'}</td>
+                        <td class="text-center">${item.hsnCode || '-'}</td>
                         <td class="text-center">${item.qty}</td>
                         <td class="text-right">${formatCurrency(item.price, true)}</td>
-                        <td class="text-center">${item.unit}</td>
+                        <td class="text-center">${item.unit || 'Pcs'}</td>
                         <td class="text-right">${formatCurrency(item.total, true)}</td>
                     `;
                     previewItems.appendChild(row);
@@ -990,10 +1076,10 @@
             
             // Convert number to words for amount in words
             function numberToWords(num) {
+                if (num === 0) return 'ZERO';
+                
                 const ones = ['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN'];
                 const tens = ['', '', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'];
-                
-                if (num === 0) return 'ZERO';
                 
                 let words = '';
                 
@@ -1034,38 +1120,67 @@
                     }
                 }
                 
-                return words.trim();
+                return words.trim() || 'ZERO';
             }
             
             // Update preview with form values
             function updatePreview() {
                 // Update basic information
-                document.getElementById('previewInvoiceNo').textContent = document.getElementById('invoiceNo').value;
-                document.getElementById('previewDate').textContent = formatDate(document.getElementById('invoiceDate').value);
+                const invoiceNo = document.getElementById('invoiceNo').value;
+                document.getElementById('previewInvoiceNo').textContent = invoiceNo || '[Invoice Number]';
+                document.getElementById('previewInvoiceNo').className = invoiceNo ? '' : 'empty-state';
+                
+                const invoiceDate = document.getElementById('invoiceDate').value;
+                document.getElementById('previewDate').textContent = invoiceDate ? formatDate(invoiceDate) : '[Date]';
+                document.getElementById('previewDate').className = invoiceDate ? '' : 'empty-state';
                 
                 const dueDate = document.getElementById('dueDate').value;
-                document.getElementById('previewDueDate').textContent = dueDate ? formatDate(dueDate) : 'N/A';
+                document.getElementById('previewDueDate').textContent = dueDate ? formatDate(dueDate) : '[Due Date]';
+                document.getElementById('previewDueDate').className = dueDate ? '' : 'empty-state';
                 
                 // Update client information
                 const clientName = document.getElementById('clientName').value;
-                const clientAddress = document.getElementById('clientAddress').value.replace(/\n/g, '<br>');
+                const clientAddress = document.getElementById('clientAddress').value;
                 const clientGst = document.getElementById('clientGst').value;
                 
-                document.getElementById('previewClient').innerHTML = `
-                    ${clientName}<br>
-                    ${clientAddress}<br>
-                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #d4a574;">
-                        <strong>GSTIN:</strong> <span id="previewClientGstNumber">${clientGst || 'Not Provided'}</span>
-                    </div>
-                `;
+                const clientGstContainer = document.getElementById('previewClientGst');
+                if (clientGst.trim()) {
+                    document.getElementById('previewClientGstNumber').textContent = clientGst;
+                    clientGstContainer.style.display = 'block';
+                } else {
+                    clientGstContainer.style.display = 'none';
+                }
+                
+                if (clientName.trim() || clientAddress.trim()) {
+                    let clientHTML = '';
+                    if (clientName.trim()) clientHTML += clientName + '<br>';
+                    if (clientAddress.trim()) clientHTML += clientAddress.replace(/\n/g, '<br>');
+                    
+                    document.getElementById('previewClient').innerHTML = clientHTML + 
+                        (clientGst.trim() ? `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #d4a574;">
+                            <strong>GSTIN:</strong> <span id="previewClientGstNumber">${clientGst}</span>
+                        </div>` : '');
+                    
+                    // Remove empty state class
+                    document.getElementById('previewClient').querySelectorAll('.empty-state').forEach(el => el.remove());
+                } else {
+                    document.getElementById('previewClient').innerHTML = '<div class="empty-state">[Client Information]</div>';
+                }
                 
                 // Update delivery information
-                const deliveryAddress = document.getElementById('deliveryAddress').value.replace(/\n/g, '<br>');
+                const deliveryAddress = document.getElementById('deliveryAddress').value;
                 const phoneNumber = document.getElementById('phoneNumber').value;
-                document.getElementById('previewDelivery').innerHTML = `
-                    ${deliveryAddress}<br>
-                    ${phoneNumber ? 'PHONE: ' + phoneNumber : ''}
-                `;
+                
+                if (deliveryAddress.trim() || phoneNumber.trim()) {
+                    let deliveryHTML = '';
+                    if (deliveryAddress.trim()) deliveryHTML += deliveryAddress.replace(/\n/g, '<br>');
+                    if (phoneNumber.trim()) deliveryHTML += (deliveryAddress.trim() ? '<br>' : '') + 'PHONE: ' + phoneNumber;
+                    
+                    document.getElementById('previewDelivery').innerHTML = deliveryHTML;
+                    document.getElementById('previewDelivery').querySelectorAll('.empty-state').forEach(el => el.remove());
+                } else {
+                    document.getElementById('previewDelivery').innerHTML = '<div class="empty-state">[Delivery Address]</div>';
+                }
                 
                 // Update items
                 renderPreviewItems();
@@ -1087,7 +1202,9 @@
                 document.getElementById('previewTotal').textContent = '₹' + formatCurrency(totalAmount, true);
                 
                 // Update amount in words
-                document.getElementById('previewAmountWords').textContent = numberToWords(Math.round(totalAmount));
+                const amountWords = numberToWords(Math.round(totalAmount));
+                document.getElementById('previewAmountWords').textContent = totalAmount > 0 ? amountWords : '[Amount in words]';
+                document.getElementById('previewAmountWords').className = totalAmount > 0 ? '' : 'empty-state';
                 
                 // Update notes
                 const notes = document.getElementById('notes').value;
@@ -1117,7 +1234,7 @@
                 const newSlNo = items.length + 1;
                 items.push({
                     slNo: newSlNo,
-                    name: "New Item Description",
+                    name: "",
                     hsnCode: "",
                     qty: 1,
                     price: 0,
@@ -1158,7 +1275,8 @@
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
                     
                     doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                    doc.save(`UrbanKutir_Invoice_${document.getElementById('invoiceNo').value}.pdf`);
+                    const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
+                    doc.save(`UrbanKutir_Invoice_${invoiceNo}.pdf`);
                     
                     // Reset button state
                     generatePdfBtn.innerHTML = originalText;
@@ -1173,31 +1291,31 @@
             
             // Reset form
             resetFormBtn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to reset the form? All changes will be lost.')) {
-                    // Reset form fields
-                    document.getElementById('invoiceNo').value = '30_25-26';
-                    document.getElementById('invoiceDate').value = '2025-12-09';
-                    document.getElementById('dueDate').value = '2025-12-23';
+                if (confirm('Are you sure you want to reset the form? All data will be cleared.')) {
+                    // Reset form fields to empty
+                    document.getElementById('invoiceNo').value = '';
+                    document.getElementById('invoiceDate').value = formattedToday;
+                    document.getElementById('dueDate').value = formattedDueDate;
                     document.getElementById('poNumber').value = '';
-                    document.getElementById('clientName').value = 'IN FRAME TECHNOLOGY PVT. LTD.';
+                    document.getElementById('clientName').value = '';
                     document.getElementById('clientGst').value = '';
-                    document.getElementById('clientAddress').value = '6B, JATINDRA MOHAN AVENUE, KOLKATA-700006';
-                    document.getElementById('deliveryAddress').value = '5TH FLOOR, SARI MALL, 545/2/1, GRAND TANK ROAD, HOWRAH RAILWAY STATION, HOWRAH-711101';
-                    document.getElementById('phoneNumber').value = '9830897578';
+                    document.getElementById('clientAddress').value = '';
+                    document.getElementById('deliveryAddress').value = '';
+                    document.getElementById('phoneNumber').value = '';
                     document.getElementById('taxRate').value = '9';
                     document.getElementById('roundOff').value = '0';
                     document.getElementById('notes').value = '';
                     
-                    // Reset items
+                    // Reset items to one empty item
                     items = [
                         { 
                             slNo: 1, 
-                            name: "Custom Window with Grill Work", 
-                            hsnCode: "9954", 
+                            name: "", 
+                            hsnCode: "", 
                             qty: 1, 
-                            price: 37000, 
+                            price: 0, 
                             unit: "Pcs",
-                            total: 37000 
+                            total: 0 
                         }
                     ];
                     
