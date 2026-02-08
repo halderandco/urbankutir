@@ -1658,31 +1658,87 @@
             
             // State
             let selectedExportType = null;
+            let logoDataUrl = null;
             
-            // Preload watermark image
-            function preloadWatermark() {
-                const watermarks = document.querySelectorAll('.watermark');
-                const logoImg = document.querySelector('.logo-img');
-                watermarks.forEach(watermark => {
-                    if (logoImg && logoImg.complete && logoImg.naturalWidth !== 0) {
-                        watermark.style.backgroundImage = `url('${logoImg.src}')`;
+            // Function to convert logo to Data URL
+            function convertLogoToDataUrl() {
+                return new Promise((resolve, reject) => {
+                    const logoImg = document.querySelector('.logo-img');
+                    const logoFallback = document.getElementById('logo-fallback');
+                    
+                    // If logo image exists and is loaded
+                    if (logoImg && logoImg.src && !logoImg.src.includes('onerror')) {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const img = new Image();
+                        
+                        img.crossOrigin = 'anonymous';
+                        img.onload = function() {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            ctx.drawImage(img, 0, 0);
+                            logoDataUrl = canvas.toDataURL('image/png');
+                            resolve(logoDataUrl);
+                        };
+                        
+                        img.onerror = function() {
+                            // Create a fallback logo with gradient
+                            canvas.width = 100;
+                            canvas.height = 100;
+                            const gradient = ctx.createLinearGradient(0, 0, 100, 100);
+                            gradient.addColorStop(0, '#8B4513');
+                            gradient.addColorStop(1, '#d4a574');
+                            
+                            ctx.fillStyle = gradient;
+                            ctx.fillRect(0, 0, 100, 100);
+                            
+                            ctx.fillStyle = 'white';
+                            ctx.font = 'bold 30px Inter';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText('UK', 50, 50);
+                            
+                            logoDataUrl = canvas.toDataURL('image/png');
+                            resolve(logoDataUrl);
+                        };
+                        
+                        img.src = logoImg.src;
                     } else {
-                        if (logoImg) {
-                            logoImg.onload = function() {
-                                watermarks.forEach(w => w.style.backgroundImage = `url('${logoImg.src}')`);
-                            };
-                            logoImg.onerror = function() {
-                                watermarks.forEach(w => {
-                                    w.style.backgroundImage = 'none';
-                                    w.style.backgroundColor = 'rgba(139, 69, 19, 0.015)';
-                                });
-                            };
-                        } else {
-                            watermarks.forEach(w => {
-                                w.style.backgroundImage = 'none';
-                                w.style.backgroundColor = 'rgba(139, 69, 19, 0.015)';
-                            });
-                        }
+                        // Create a fallback logo
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = 100;
+                        canvas.height = 100;
+                        
+                        const gradient = ctx.createLinearGradient(0, 0, 100, 100);
+                        gradient.addColorStop(0, '#8B4513');
+                        gradient.addColorStop(1, '#d4a574');
+                        
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(0, 0, 100, 100);
+                        
+                        ctx.fillStyle = 'white';
+                        ctx.font = 'bold 30px Inter';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('UK', 50, 50);
+                        
+                        logoDataUrl = canvas.toDataURL('image/png');
+                        resolve(logoDataUrl);
+                    }
+                });
+            }
+            
+            // Preload watermark image and convert logo to Data URL
+            async function preloadWatermark() {
+                const watermarks = document.querySelectorAll('.watermark');
+                await convertLogoToDataUrl();
+                
+                watermarks.forEach(watermark => {
+                    if (logoDataUrl) {
+                        watermark.style.backgroundImage = `url('${logoDataUrl}')`;
+                    } else {
+                        watermark.style.backgroundColor = 'rgba(139, 69, 19, 0.015)';
                     }
                 });
             }
@@ -2067,6 +2123,23 @@
                             font-family: 'Inter', sans-serif;
                             color: #2c1810;
                             line-height: 1.5;
+                            position: relative;
+                        }
+                        
+                        .print-watermark {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%) rotate(-45deg);
+                            opacity: 0.02;
+                            z-index: 0;
+                            pointer-events: none;
+                            width: 400px;
+                            height: 400px;
+                            background-size: contain;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            ${logoDataUrl ? `background-image: url('${logoDataUrl}');` : 'background-color: rgba(139, 69, 19, 0.01);'}
                         }
                         
                         .print-header {
@@ -2076,6 +2149,21 @@
                             margin-bottom: 30px;
                             padding-bottom: 20px;
                             border-bottom: 2px solid #d4a574;
+                            position: relative;
+                            z-index: 1;
+                        }
+                        
+                        .print-logo-container {
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            margin-bottom: 15px;
+                        }
+                        
+                        .print-logo-img {
+                            width: 60px;
+                            height: 60px;
+                            object-fit: contain;
                         }
                         
                         .print-company-info h1 {
@@ -2086,6 +2174,8 @@
                         
                         .print-meta {
                             text-align: right;
+                            position: relative;
+                            z-index: 1;
                         }
                         
                         .print-meta p {
@@ -2098,6 +2188,8 @@
                             justify-content: space-between;
                             margin-bottom: 25px;
                             gap: 20px;
+                            position: relative;
+                            z-index: 1;
                         }
                         
                         .print-address-box {
@@ -2113,6 +2205,8 @@
                             border-collapse: collapse;
                             margin: 25px 0;
                             font-size: 11px;
+                            position: relative;
+                            z-index: 1;
                         }
                         
                         .print-table th {
@@ -2135,6 +2229,8 @@
                             max-width: 300px;
                             margin-left: auto;
                             margin-top: 30px;
+                            position: relative;
+                            z-index: 1;
                         }
                         
                         .print-summary-row {
@@ -2159,6 +2255,8 @@
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
+                            position: relative;
+                            z-index: 1;
                         }
                         
                         .print-signature {
@@ -2174,10 +2272,17 @@
                     </style>
                     
                     <div class="print-content">
+                        <div class="print-watermark"></div>
+                        
                         <div class="print-header">
-                            <div class="print-company-info">
-                                <h1>Urban Kutir</h1>
-                                <p style="color: #8B4513; font-size: 13px; margin-bottom: 8px;">Premium Home Solutions & Interior Design</p>
+                            <div>
+                                <div class="print-logo-container">
+                                    ${logoDataUrl ? `<img src="${logoDataUrl}" alt="Urban Kutir Logo" class="print-logo-img">` : ''}
+                                    <div>
+                                        <h1>Urban Kutir</h1>
+                                        <p style="color: #8B4513; font-size: 13px; margin-bottom: 8px;">Premium Home Solutions & Interior Design</p>
+                                    </div>
+                                </div>
                                 <p style="font-size: 12px;">
                                     59 Kali Charan Gosh Road, Binayak Enclave, Block J2, Flat 308, Kolkata 700050, West Bengal<br>
                                     <strong>GSTIN:</strong> 19AAHFU6863E1ZR<br>
@@ -2194,7 +2299,7 @@
                             </div>
                         </div>
                         
-                        <div style="text-align: center; margin: 30px 0;">
+                        <div style="text-align: center; margin: 30px 0; position: relative; z-index: 1;">
                             <h1 style="color: #5a3921; font-size: 28px; border-bottom: 2px solid #d4a574; padding-bottom: 10px; display: inline-block;">TAX INVOICE</h1>
                         </div>
                         
@@ -2250,7 +2355,7 @@
                         </div>
                         
                         ${notes.trim() ? `
-                            <div style="margin-top: 15px; font-size: 12px; padding: 10px; background-color: #fcfaf7; border-radius: 4px;">
+                            <div style="margin-top: 15px; font-size: 12px; padding: 10px; background-color: #fcfaf7; border-radius: 4px; position: relative; z-index: 1;">
                                 <strong>Notes:</strong> ${notes}
                             </div>
                         ` : ''}
@@ -2270,7 +2375,7 @@
                             </div>
                         </div>
                         
-                        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #f0e6d6; font-size: 10px; color: #8B4513;">
+                        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #f0e6d6; font-size: 10px; color: #8B4513; position: relative; z-index: 1;">
                             <p><strong>TOTAL AMOUNT:</strong> RUPEES ${amountWords} ONLY.</p>
                             <p style="margin-top: 10px;">This is a computer generated invoice and does not require a physical signature. Subject to Kolkata Jurisdiction.</p>
                             <p style="margin-top: 5px;">As per GST rules, this invoice is valid without signature | E. & O.E.</p>
@@ -2294,6 +2399,11 @@
                 confirmExport.disabled = true;
                 
                 try {
+                    // Ensure logo data URL is available
+                    if (!logoDataUrl) {
+                        await convertLogoToDataUrl();
+                    }
+                    
                     const html = generatePrintPreviewHTML();
                     
                     // Create a temporary container
@@ -2308,7 +2418,7 @@
                     document.body.appendChild(tempContainer);
                     
                     // Wait for content to load
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    await new Promise(resolve => setTimeout(resolve, 800));
                     
                     // Convert to canvas
                     const canvas = await html2canvas(tempContainer, {
@@ -2364,49 +2474,60 @@
             
             // Direct print function
             function directPrint() {
-                const html = generatePrintPreviewHTML();
+                // Ensure logo data URL is available
+                if (!logoDataUrl) {
+                    convertLogoToDataUrl().then(() => {
+                        executePrint();
+                    });
+                } else {
+                    executePrint();
+                }
                 
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
-                        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-                        <style>
-                            @media print {
-                                @page {
-                                    margin: 15mm;
-                                    size: A4;
+                function executePrint() {
+                    const html = generatePrintPreviewHTML();
+                    
+                    const printWindow = window.open('', '_blank');
+                    printWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
+                            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                            <style>
+                                @media print {
+                                    @page {
+                                        margin: 15mm;
+                                        size: A4;
+                                    }
+                                    body {
+                                        -webkit-print-color-adjust: exact;
+                                        print-color-adjust: exact;
+                                    }
                                 }
                                 body {
-                                    -webkit-print-color-adjust: exact;
-                                    print-color-adjust: exact;
+                                    margin: 0;
+                                    padding: 0;
+                                    font-family: 'Inter', sans-serif;
                                 }
-                            }
-                            body {
-                                margin: 0;
-                                padding: 0;
-                                font-family: 'Inter', sans-serif;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${html}
-                        <script>
-                            window.onload = function() {
-                                window.print();
-                                setTimeout(() => window.close(), 500);
-                            };
-                        <\/script>
-                    </body>
-                    </html>
-                `);
-                printWindow.document.close();
-                
-                exportModal.classList.remove('active');
-                showToast('success', 'Print Started', 'The print dialog has been opened.');
+                            </style>
+                        </head>
+                        <body>
+                            ${html}
+                            <script>
+                                window.onload = function() {
+                                    window.print();
+                                    setTimeout(() => window.close(), 500);
+                                };
+                            <\/script>
+                        </body>
+                        </html>
+                    `);
+                    printWindow.document.close();
+                    
+                    exportModal.classList.remove('active');
+                    showToast('success', 'Print Started', 'The print dialog has been opened.');
+                }
             }
             
             // Export modal functionality
@@ -2446,46 +2567,58 @@
             closePreviewModal.addEventListener('click', () => printPreviewModal.classList.remove('active'));
             
             printNowBtn.addEventListener('click', () => {
-                const html = printPreviewContent.innerHTML;
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
-                        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-                        <style>
-                            @media print {
-                                @page {
-                                    margin: 15mm;
-                                    size: A4;
+                // Ensure logo data URL is available
+                if (!logoDataUrl) {
+                    convertLogoToDataUrl().then(() => {
+                        const html = printPreviewContent.innerHTML;
+                        executePrint(html);
+                    });
+                } else {
+                    const html = printPreviewContent.innerHTML;
+                    executePrint(html);
+                }
+                
+                function executePrint(html) {
+                    const printWindow = window.open('', '_blank');
+                    printWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
+                            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                            <style>
+                                @media print {
+                                    @page {
+                                        margin: 15mm;
+                                        size: A4;
+                                    }
+                                    body {
+                                        -webkit-print-color-adjust: exact;
+                                        print-color-adjust: exact;
+                                    }
                                 }
                                 body {
-                                    -webkit-print-color-adjust: exact;
-                                    print-color-adjust: exact;
+                                    margin: 0;
+                                    padding: 0;
+                                    font-family: 'Inter', sans-serif;
                                 }
-                            }
-                            body {
-                                margin: 0;
-                                padding: 0;
-                                font-family: 'Inter', sans-serif;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${html}
-                        <script>
-                            window.onload = function() {
-                                window.print();
-                                setTimeout(() => window.close(), 500);
-                            };
-                        <\/script>
-                    </body>
-                    </html>
-                `);
-                printWindow.document.close();
-                printPreviewModal.classList.remove('active');
+                            </style>
+                        </head>
+                        <body>
+                            ${html}
+                            <script>
+                                window.onload = function() {
+                                    window.print();
+                                    setTimeout(() => window.close(), 500);
+                                };
+                            <\/script>
+                        </body>
+                        </html>
+                    `);
+                    printWindow.document.close();
+                    printPreviewModal.classList.remove('active');
+                }
             });
             
             downloadPdfFromPreviewBtn.addEventListener('click', async () => {
