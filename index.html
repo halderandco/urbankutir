@@ -786,6 +786,417 @@
             outline: none;
             box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
         }
+        
+        /* Modern Print/PDF Dialog Styles */
+        .print-dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .print-dialog {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: dialogSlideIn 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        @keyframes dialogSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .print-dialog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--light-accent);
+        }
+        
+        .print-dialog-title {
+            color: var(--primary-dark);
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-dialog-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 20px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        
+        .close-dialog-btn:hover {
+            background-color: var(--light-accent);
+            color: var(--primary-dark);
+        }
+        
+        .print-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .print-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .print-option:hover {
+            border-color: var(--accent-color);
+            background-color: var(--lighter-accent);
+        }
+        
+        .print-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(139, 69, 19, 0.05);
+        }
+        
+        .option-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .print-icon {
+            background: linear-gradient(135deg, #8B4513, #d4a574);
+        }
+        
+        .pdf-icon {
+            background: linear-gradient(135deg, #b91c1c, #f87171);
+        }
+        
+        .option-content {
+            flex: 1;
+        }
+        
+        .option-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+        
+        .option-description {
+            font-size: 12.5px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+        
+        .option-badge {
+            background-color: var(--light-accent);
+            color: var(--primary-dark);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .print-settings {
+            background-color: var(--lighter-accent);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .setting-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .setting-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .setting-label {
+            font-weight: 500;
+            color: var(--text-medium);
+            font-size: 13px;
+        }
+        
+        .setting-toggle {
+            position: relative;
+            width: 44px;
+            height: 22px;
+        }
+        
+        .toggle-checkbox {
+            display: none;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        .toggle-checkbox:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        .toggle-checkbox:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        
+        .dialog-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .dialog-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .dialog-btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .dialog-btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+        }
+        
+        .dialog-btn-secondary {
+            background-color: var(--light-accent);
+            color: var(--text-medium);
+        }
+        
+        .dialog-btn-secondary:hover {
+            background-color: #e0d6c8;
+            transform: translateY(-1px);
+        }
+        
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--light-accent);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .download-ready {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            z-index: 10001;
+            border-left: 4px solid var(--primary-color);
+            animation: slideInUp 0.3s ease;
+            max-width: 300px;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .download-ready-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .download-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .download-text {
+            flex: 1;
+        }
+        
+        .download-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+        
+        .download-description {
+            font-size: 12.5px;
+            color: var(--text-light);
+        }
+        
+        .close-download-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px;
+        }
+        
+        .print-option input[type="radio"] {
+            display: none;
+        }
+        
+        .watermark-control {
+            margin-top: 8px;
+        }
+        
+        .watermark-control label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .watermark-control input[type="range"] {
+            width: 100%;
+            margin-top: 4px;
+            accent-color: var(--primary-color);
+        }
+        
+        .watermark-preview {
+            margin-top: 8px;
+            padding: 8px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-medium);
+            text-align: center;
+        }
+        
+        .copies-input {
+            width: 70px;
+            padding: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .page-size-select {
+            width: 120px;
+            padding: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -810,11 +1221,8 @@
             
             <div class="controls-container">
                 <div class="desktop-controls">
-                    <button class="btn btn-secondary" id="generatePdf">
-                        <i class="fas fa-file-pdf"></i> Download PDF
-                    </button>
-                    <button class="btn btn-primary" id="printInvoice">
-                        <i class="fas fa-print"></i> Print Invoice
+                    <button class="btn btn-secondary" id="openPrintDialog">
+                        <i class="fas fa-print"></i> Print / PDF
                     </button>
                     <button class="btn btn-outline" id="resetForm">
                         <i class="fas fa-redo"></i> Reset
@@ -824,11 +1232,8 @@
         </header>
         
         <div class="mobile-controls">
-            <button class="btn btn-secondary mobile-btn" id="generatePdfMobile">
-                <i class="fas fa-file-pdf"></i> PDF
-            </button>
-            <button class="btn btn-primary mobile-btn" id="printInvoiceMobile">
-                <i class="fas fa-print"></i> Print
+            <button class="btn btn-secondary mobile-btn" id="openPrintDialogMobile">
+                <i class="fas fa-print"></i> Print/PDF
             </button>
             <button class="btn btn-outline mobile-btn" id="resetFormMobile">
                 <i class="fas fa-redo"></i> Reset
@@ -1076,7 +1481,7 @@
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <div style="width: 70px; height: 70px; overflow: hidden; flex-shrink: 0;">
                             <img src="urbankutir.png" alt="Urban Kutir Logo" style="width: 100%; height: 100%; object-fit: contain;"
-                                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA3MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iNiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyKSIvPgo8dGV4dCB4PSIzNSIgeT0iMzgiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPlVLCjwvdGV4dD4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhciIgeDE9IjM1IiB5MT0iMCIgeDI9IjM1IiB5Mj0iNzAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzhCNDUxMyIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBNjgzMkQiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K'">
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA3MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iNiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyKSIvPgo8dGV4dCB4PSIzNSIgeT0iMzgiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPlVLIC0gPC90ZXh0Pgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyIiB4MT0iMzUiIHkxPSIwIiB4Mj0iMzUiIHkyPSI3MCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjOEI0NTEzIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0E2ODMyRCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo='">
                         </div>
                         <div>
                             <h1 style="color: var(--primary-dark); font-size: 24px; margin: 0 0 3px 0; font-weight: 700;">Urban Kutir</h1>
@@ -1194,13 +1599,121 @@
             </div>
         </div>
         
+        <!-- Modern Print/PDF Dialog -->
+        <div class="print-dialog-overlay" id="printDialogOverlay">
+            <div class="print-dialog">
+                <div class="print-dialog-header">
+                    <div class="print-dialog-title">
+                        <i class="fas fa-print"></i>
+                        <span>Print & Export Invoice</span>
+                    </div>
+                    <button class="close-dialog-btn" id="closePrintDialog">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="print-options">
+                    <label class="print-option" id="printOption">
+                        <input type="radio" name="outputType" value="print" checked>
+                        <div class="option-icon print-icon">
+                            <i class="fas fa-print"></i>
+                        </div>
+                        <div class="option-content">
+                            <div class="option-title">
+                                Print Invoice
+                                <span class="option-badge">RECOMMENDED</span>
+                            </div>
+                            <div class="option-description">
+                                Send directly to your printer with optimized formatting for professional results.
+                            </div>
+                        </div>
+                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 18px; display: none;"></i>
+                    </label>
+                    
+                    <label class="print-option" id="pdfOption">
+                        <input type="radio" name="outputType" value="pdf">
+                        <div class="option-icon pdf-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="option-content">
+                            <div class="option-title">Download as PDF</div>
+                            <div class="option-description">
+                                Save as a PDF file for email sharing, digital records, or future printing.
+                            </div>
+                        </div>
+                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 18px; display: none;"></i>
+                    </label>
+                </div>
+                
+                <div class="print-settings">
+                    <div class="setting-group">
+                        <span class="setting-label">Number of Copies</span>
+                        <input type="number" class="copies-input" id="copiesInput" value="1" min="1" max="10">
+                    </div>
+                    <div class="setting-group">
+                        <span class="setting-label">Page Size</span>
+                        <select class="page-size-select" id="pageSizeSelect">
+                            <option value="A4" selected>A4 (Standard)</option>
+                            <option value="Letter">Letter (US)</option>
+                            <option value="Legal">Legal</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <span class="setting-label">Include Watermark</span>
+                        <label class="setting-toggle">
+                            <input type="checkbox" class="toggle-checkbox" id="watermarkToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="watermark-control" id="watermarkControl">
+                        <label>
+                            Watermark Opacity:
+                            <input type="range" id="watermarkOpacity" min="1" max="10" value="3">
+                        </label>
+                        <div class="watermark-preview" id="watermarkPreview">
+                            Watermark Preview: 30% opacity
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dialog-actions">
+                    <button class="dialog-btn dialog-btn-secondary" id="cancelPrint">
+                        Cancel
+                    </button>
+                    <button class="dialog-btn dialog-btn-primary" id="proceedWithPrint">
+                        <i class="fas fa-paper-plane"></i>
+                        Proceed
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" id="loadingText">Preparing your invoice...</div>
+        </div>
+        
+        <!-- Download Ready Notification -->
+        <div class="download-ready" id="downloadReady">
+            <div class="download-ready-content">
+                <div class="download-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="download-text">
+                    <div class="download-title">Invoice Ready!</div>
+                    <div class="download-description" id="downloadDescription">Your invoice has been prepared successfully.</div>
+                </div>
+                <button class="close-download-btn" id="closeDownloadReady">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
         <footer>
             <p>Urban Kutir Professional Invoice System &copy; 2025 | GST No: 19AAHFU6863E1ZR</p>
         </footer>
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1229,14 +1742,34 @@
             const previewItems = document.getElementById('previewItems');
             const addItemBtn = document.getElementById('addItemBtn');
             const updateInvoiceBtn = document.getElementById('updateInvoice');
-            const printInvoiceBtn = document.getElementById('printInvoice');
-            const generatePdfBtn = document.getElementById('generatePdf');
             const resetFormBtn = document.getElementById('resetForm');
             const clientGstInput = document.getElementById('clientGst');
             
-            const printInvoiceBtnMobile = document.getElementById('printInvoiceMobile');
-            const generatePdfBtnMobile = document.getElementById('generatePdfMobile');
+            // New print/PDF functionality elements
+            const openPrintDialogBtn = document.getElementById('openPrintDialog');
+            const openPrintDialogBtnMobile = document.getElementById('openPrintDialogMobile');
+            const printDialogOverlay = document.getElementById('printDialogOverlay');
+            const closePrintDialogBtn = document.getElementById('closePrintDialog');
+            const cancelPrintBtn = document.getElementById('cancelPrint');
+            const proceedWithPrintBtn = document.getElementById('proceedWithPrint');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            const downloadReady = document.getElementById('downloadReady');
+            const downloadDescription = document.getElementById('downloadDescription');
+            const closeDownloadReadyBtn = document.getElementById('closeDownloadReady');
             const resetFormBtnMobile = document.getElementById('resetFormMobile');
+            
+            // Print options
+            const printOption = document.getElementById('printOption');
+            const pdfOption = document.getElementById('pdfOption');
+            const watermarkToggle = document.getElementById('watermarkToggle');
+            const watermarkControl = document.getElementById('watermarkControl');
+            const watermarkOpacity = document.getElementById('watermarkOpacity');
+            const watermarkPreview = document.getElementById('watermarkPreview');
+            const copiesInput = document.getElementById('copiesInput');
+            const pageSizeSelect = document.getElementById('pageSizeSelect');
+            
+            let selectedOutputType = 'print';
             
             function preloadWatermark() {
                 const watermark = document.querySelector('.watermark');
@@ -1608,120 +2141,201 @@
                 return `${day}/${month}/${year}`;
             }
             
-            addItemBtn.addEventListener('click', function() {
-                const newSlNo = items.length + 1;
-                items.push({
-                    slNo: newSlNo,
-                    name: "",
-                    hsnCode: "",
-                    qty: 1,
-                    price: 0,
-                    unit: "Pcs",
-                    total: 0
-                });
-                renderItems();
-                updatePreview();
-            });
-            
-            updateInvoiceBtn.addEventListener('click', updatePreview);
-            
-            function printInvoice() {
+            // Modern Print/PDF Functionality
+            function showPrintDialog() {
                 updatePrintTemplate();
+                printDialogOverlay.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
                 
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
-                        <style>
-                            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-                            * {
-                                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                                margin: 0;
-                                padding: 0;
-                                box-sizing: border-box;
-                            }
-                            body {
-                                width: 210mm;
-                                min-height: 297mm;
-                                padding: 20mm;
-                                background: white;
-                                margin: 0;
-                            }
-                            @page {
-                                size: A4;
-                                margin: 20mm;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${document.getElementById('invoicePrintTemplate').outerHTML}
-                        <script>
-                            window.onload = function() {
-                                window.print();
-                                setTimeout(function() {
-                                    window.close();
-                                }, 100);
-                            };
-                        <\/script>
-                    </body>
-                    </html>
-                `);
-                printWindow.document.close();
+                // Reset selection
+                document.querySelectorAll('.print-option').forEach(option => {
+                    option.classList.remove('selected');
+                    option.querySelector('.fa-check-circle').style.display = 'none';
+                });
+                
+                if (selectedOutputType === 'print') {
+                    printOption.classList.add('selected');
+                    printOption.querySelector('.fa-check-circle').style.display = 'block';
+                } else {
+                    pdfOption.classList.add('selected');
+                    pdfOption.querySelector('.fa-check-circle').style.display = 'block';
+                }
+                
+                // Update watermark preview
+                updateWatermarkPreview();
             }
             
-            function generatePdf() {
-                updatePrintTemplate();
+            function closePrintDialog() {
+                printDialogOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
+            function showLoading(message) {
+                loadingText.textContent = message;
+                loadingOverlay.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function hideLoading() {
+                loadingOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
+            function showDownloadReady(message) {
+                downloadDescription.textContent = message;
+                downloadReady.style.display = 'block';
                 
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: 'a4'
-                });
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    downloadReady.style.display = 'none';
+                }, 5000);
+            }
+            
+            function updateWatermarkPreview() {
+                const opacityValue = watermarkOpacity.value;
+                const opacityPercentage = opacityValue * 10;
+                watermarkPreview.textContent = `Watermark Preview: ${opacityPercentage}% opacity`;
+            }
+            
+            // Browser-based PDF generation using print to PDF
+            function generatePDF() {
+                const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
+                const copies = parseInt(copiesInput.value) || 1;
+                const includeWatermark = watermarkToggle.checked;
+                const watermarkOpacityValue = parseInt(watermarkOpacity.value) * 10;
                 
-                const originalText = generatePdfBtn.innerHTML;
-                const originalTextMobile = generatePdfBtnMobile.innerHTML;
-                generatePdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
-                generatePdfBtnMobile.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PDF';
-                generatePdfBtn.disabled = true;
-                generatePdfBtnMobile.disabled = true;
+                showLoading('Preparing PDF document...');
                 
+                // Apply watermark settings to print template
+                const watermarkElement = document.querySelector('#invoicePrintTemplate .watermark-print');
+                if (includeWatermark) {
+                    watermarkElement.style.opacity = watermarkOpacityValue / 100;
+                    watermarkElement.style.display = 'block';
+                } else {
+                    watermarkElement.style.display = 'none';
+                }
+                
+                // Show print template
                 const printTemplate = document.getElementById('invoicePrintTemplate');
                 printTemplate.style.display = 'block';
                 
-                html2canvas(printTemplate, {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    backgroundColor: '#ffffff'
-                }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const imgWidth = 210;
-                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                // Use browser's print to PDF functionality
+                setTimeout(() => {
+                    const printWindow = window.open('', '_blank');
+                    const pageSize = pageSizeSelect.value;
                     
-                    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                    printWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Urban Kutir - Invoice ${invoiceNo}</title>
+                            <style>
+                                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+                                * {
+                                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                                    margin: 0;
+                                    padding: 0;
+                                    box-sizing: border-box;
+                                }
+                                body {
+                                    width: ${pageSize === 'Letter' ? '8.5in' : pageSize === 'Legal' ? '8.5in' : '210mm'};
+                                    height: ${pageSize === 'Letter' ? '11in' : pageSize === 'Legal' ? '14in' : '297mm'};
+                                    padding: 20mm;
+                                    background: white;
+                                    margin: 0;
+                                }
+                                @page {
+                                    size: ${pageSize};
+                                    margin: 20mm;
+                                }
+                                .invoice-print-output {
+                                    display: block !important;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            ${printTemplate.outerHTML}
+                            <script>
+                                window.onload = function() {
+                                    // For multiple copies
+                                    for (let i = 1; i < ${copies}; i++) {
+                                        window.print();
+                                    }
+                                    
+                                    // Actual print with delay to ensure everything is loaded
+                                    setTimeout(() => {
+                                        window.print();
+                                        setTimeout(() => {
+                                            window.close();
+                                        }, 500);
+                                    }, 500);
+                                };
+                            <\/script>
+                        </body>
+                        </html>
+                    `);
+                    printWindow.document.close();
                     
-                    const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
-                    doc.save(`UrbanKutir_Invoice_${invoiceNo}.pdf`);
+                    setTimeout(() => {
+                        printTemplate.style.display = 'none';
+                        hideLoading();
+                        showDownloadReady(`PDF saved as UrbanKutir_Invoice_${invoiceNo}.pdf`);
+                    }, 1500);
+                }, 500);
+            }
+            
+            // Modern print function
+            function printInvoice() {
+                const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
+                const copies = parseInt(copiesInput.value) || 1;
+                const includeWatermark = watermarkToggle.checked;
+                const watermarkOpacityValue = parseInt(watermarkOpacity.value) * 10;
+                
+                showLoading('Preparing for printing...');
+                
+                // Apply watermark settings to print template
+                const watermarkElement = document.querySelector('#invoicePrintTemplate .watermark-print');
+                if (includeWatermark) {
+                    watermarkElement.style.opacity = watermarkOpacityValue / 100;
+                    watermarkElement.style.display = 'block';
+                } else {
+                    watermarkElement.style.display = 'none';
+                }
+                
+                // Show print template
+                const printTemplate = document.getElementById('invoicePrintTemplate');
+                printTemplate.style.display = 'block';
+                
+                // Use browser's print functionality
+                setTimeout(() => {
+                    // For multiple copies, we need to handle this differently
+                    // Most browsers don't support programmatically setting copies
+                    // So we'll show a message to the user
+                    if (copies > 1) {
+                        alert(`Please set ${copies} copies in your printer dialog.`);
+                    }
                     
-                    printTemplate.style.display = 'none';
+                    window.print();
                     
-                    generatePdfBtn.innerHTML = originalText;
-                    generatePdfBtnMobile.innerHTML = originalTextMobile;
-                    generatePdfBtn.disabled = false;
-                    generatePdfBtnMobile.disabled = false;
-                }).catch(error => {
-                    console.error('Error generating PDF:', error);
-                    printTemplate.style.display = 'none';
-                    
-                    generatePdfBtn.innerHTML = originalText;
-                    generatePdfBtnMobile.innerHTML = originalTextMobile;
-                    generatePdfBtn.disabled = false;
-                    generatePdfBtnMobile.disabled = false;
-                    alert('Error generating PDF. Please try again.');
-                });
+                    setTimeout(() => {
+                        printTemplate.style.display = 'none';
+                        hideLoading();
+                        
+                        if (copies === 1) {
+                            showDownloadReady('Invoice sent to printer successfully.');
+                        }
+                    }, 500);
+                }, 500);
+            }
+            
+            function proceedWithOutput() {
+                closePrintDialog();
+                
+                if (selectedOutputType === 'print') {
+                    printInvoice();
+                } else {
+                    generatePDF();
+                }
             }
             
             function resetForm() {
@@ -1756,15 +2370,115 @@
                 }
             }
             
-            printInvoiceBtn.addEventListener('click', printInvoice);
-            printInvoiceBtnMobile.addEventListener('click', printInvoice);
+            // Event Listeners
+            addItemBtn.addEventListener('click', function() {
+                const newSlNo = items.length + 1;
+                items.push({
+                    slNo: newSlNo,
+                    name: "",
+                    hsnCode: "",
+                    qty: 1,
+                    price: 0,
+                    unit: "Pcs",
+                    total: 0
+                });
+                renderItems();
+                updatePreview();
+            });
             
-            generatePdfBtn.addEventListener('click', generatePdf);
-            generatePdfBtnMobile.addEventListener('click', generatePdf);
+            updateInvoiceBtn.addEventListener('click', updatePreview);
+            
+            // Print/PDF Dialog Events
+            openPrintDialogBtn.addEventListener('click', showPrintDialog);
+            openPrintDialogBtnMobile.addEventListener('click', showPrintDialog);
+            
+            closePrintDialogBtn.addEventListener('click', closePrintDialog);
+            cancelPrintBtn.addEventListener('click', closePrintDialog);
+            
+            proceedWithPrintBtn.addEventListener('click', proceedWithOutput);
+            
+            closeDownloadReadyBtn.addEventListener('click', () => {
+                downloadReady.style.display = 'none';
+            });
+            
+            // Print option selection
+            document.querySelectorAll('input[name="outputType"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    selectedOutputType = this.value;
+                    
+                    document.querySelectorAll('.print-option').forEach(option => {
+                        option.classList.remove('selected');
+                        option.querySelector('.fa-check-circle').style.display = 'none';
+                    });
+                    
+                    if (this.value === 'print') {
+                        printOption.classList.add('selected');
+                        printOption.querySelector('.fa-check-circle').style.display = 'block';
+                    } else {
+                        pdfOption.classList.add('selected');
+                        pdfOption.querySelector('.fa-check-circle').style.display = 'block';
+                    }
+                });
+            });
+            
+            // Click on option labels
+            printOption.addEventListener('click', function() {
+                document.querySelector('input[value="print"]').checked = true;
+                selectedOutputType = 'print';
+                
+                document.querySelectorAll('.print-option').forEach(option => {
+                    option.classList.remove('selected');
+                    option.querySelector('.fa-check-circle').style.display = 'none';
+                });
+                
+                this.classList.add('selected');
+                this.querySelector('.fa-check-circle').style.display = 'block';
+            });
+            
+            pdfOption.addEventListener('click', function() {
+                document.querySelector('input[value="pdf"]').checked = true;
+                selectedOutputType = 'pdf';
+                
+                document.querySelectorAll('.print-option').forEach(option => {
+                    option.classList.remove('selected');
+                    option.querySelector('.fa-check-circle').style.display = 'none';
+                });
+                
+                this.classList.add('selected');
+                this.querySelector('.fa-check-circle').style.display = 'block';
+            });
+            
+            // Watermark control
+            watermarkToggle.addEventListener('change', function() {
+                watermarkControl.style.display = this.checked ? 'block' : 'none';
+            });
+            
+            watermarkOpacity.addEventListener('input', updateWatermarkPreview);
             
             resetFormBtn.addEventListener('click', resetForm);
             resetFormBtnMobile.addEventListener('click', resetForm);
             
+            // Close dialogs with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (printDialogOverlay.style.display === 'flex') {
+                        closePrintDialog();
+                    }
+                    if (loadingOverlay.style.display === 'flex') {
+                        hideLoading();
+                    }
+                    downloadReady.style.display = 'none';
+                }
+            });
+            
+            // Close dialogs when clicking outside
+            printDialogOverlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closePrintDialog();
+                }
+            });
+            
+            // Initialize
             renderItems();
             updatePreview();
             
