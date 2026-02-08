@@ -487,16 +487,10 @@
             pointer-events: none;
             width: 350px;
             height: 350px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .watermark-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            opacity: 0.1;
+            background-image: url('urbankutir.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         
         @media (max-width: 768px) {
@@ -695,22 +689,9 @@
             max-width: 110px;
         }
         
-        .logo-in-invoice {
-            display: none;
-            max-width: 120px;
-            margin-bottom: 10px;
-        }
-        
-        .print-logo {
-            display: none;
-            max-width: 120px;
-        }
-        
         @media print {
             body * {
                 visibility: hidden;
-                margin: 0;
-                padding: 0;
             }
             
             .preview-panel, .preview-panel * {
@@ -724,20 +705,18 @@
                 width: 100%;
                 box-shadow: none;
                 border: none;
-                border-radius: 0;
-                padding: 20px;
+                padding: 15mm !important;
                 margin: 0;
+                background-color: white;
             }
             
-            .watermark-img {
-                opacity: 0.05;
-            }
-            
-            .logo-in-invoice {
+            .watermark {
+                opacity: 0.04 !important;
                 display: block !important;
+                z-index: -1;
             }
             
-            .controls, .editor-panel, footer, header, .mobile-controls, .btn {
+            .controls, .editor-panel, footer, header, .mobile-controls {
                 display: none;
             }
             
@@ -749,24 +728,40 @@
                 color: var(--text-light);
             }
             
+            .btn {
+                display: none;
+            }
+            
             .invoice-table {
-                font-size: 11pt;
+                font-size: 10pt;
             }
             
             .address-content, .invoice-meta p {
-                font-size: 11pt;
+                font-size: 10pt;
             }
             
             .invoice-title {
-                font-size: 22pt;
+                font-size: 20pt;
             }
             
-            .authorization-section {
-                page-break-inside: avoid;
+            .panel-title, .items-section-title {
+                font-size: 12pt;
+            }
+            
+            body {
+                background-color: white;
+                padding: 0;
+                margin: 0;
             }
             
             @page {
+                size: A4;
                 margin: 15mm;
+            }
+            
+            .preview-panel {
+                page-break-inside: avoid;
+                page-break-after: avoid;
             }
         }
         
@@ -799,71 +794,51 @@
             box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
         }
         
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 15px;
+        .watermark-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            opacity: 0.025;
+            z-index: 0;
+            pointer-events: none;
+            width: 350px;
+            height: 350px;
+            object-fit: contain;
         }
         
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--light-accent);
-            border-top: 5px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        @media (max-width: 768px) {
+            .watermark-img {
+                width: 200px;
+                height: 200px;
+            }
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @media print {
+            .watermark-img {
+                opacity: 0.04 !important;
+                display: block !important;
+                z-index: -1;
+            }
         }
         
-        .loading-text {
-            font-size: 16px;
-            color: var(--primary-dark);
-            font-weight: 600;
+        .pdf-generating {
+            background-color: #e74c3c !important;
+            cursor: wait !important;
         }
         
-        .logo-placeholder {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0 auto;
-        }
-        
-        .logo-placeholder i {
-            font-size: 48px;
+        .pdf-generating:hover {
+            transform: none !important;
         }
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
-        <div class="loading-text" id="loadingText">Generating PDF...</div>
-    </div>
-    
     <div class="container">
         <header>
             <div class="logo-container">
                 <div class="logo">
-                    <img src="https://via.placeholder.com/120x120/8B4513/FFFFFF?text=UK" alt="Urban Kutir Logo" class="logo-img" id="companyLogo">
+                    <img src="urbankutir.png" alt="Urban Kutir Logo" class="logo-img" 
+                         onerror="document.getElementById('logo-fallback').style.display='flex'; this.style.display='none'">
                     <div id="logo-fallback" class="logo-fallback" style="display: none;">
                         <i class="fas fa-home"></i>
                     </div>
@@ -1016,17 +991,17 @@
             </div>
             
             <div class="preview-panel compact-panel" id="invoicePreview">
+                <!-- Watermark image for better PDF capture -->
+                <img src="urbankutir.png" alt="Urban Kutir Watermark" class="watermark-img" 
+                     onerror="this.style.display='none'; document.querySelector('.watermark').style.display='block';">
+                <div class="watermark"></div>
+                
                 <div class="print-only">
                     <p>Generated from Urban Kutir Professional Invoice System</p>
                 </div>
                 
-                <div class="watermark">
-                    <img src="https://via.placeholder.com/350x350/8B4513/FFFFFF?text=Urban+Kutir" alt="Urban Kutir Watermark" class="watermark-img" id="watermarkImage">
-                </div>
-                
                 <div class="invoice-header">
                     <div>
-                        <img src="https://via.placeholder.com/120x120/8B4513/FFFFFF?text=UK" alt="Urban Kutir Logo" class="logo-in-invoice" id="invoiceLogo">
                         <div class="invoice-title">TAX INVOICE</div>
                         <div class="address-content">
                             <strong>Urban Kutir</strong><br>
@@ -1149,40 +1124,27 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Set today's date as default
             const today = new Date();
             const formattedToday = today.toISOString().split('T')[0];
             document.getElementById('invoiceDate').value = formattedToday;
             
-            // Set due date 15 days from today
             const dueDate = new Date(today);
             dueDate.setDate(today.getDate() + 15);
             const formattedDueDate = dueDate.toISOString().split('T')[0];
             document.getElementById('dueDate').value = formattedDueDate;
             
-            // Initialize items array
             let items = [
                 { 
                     slNo: 1, 
-                    name: "Premium Wooden Chair", 
-                    hsnCode: "94016100", 
-                    qty: 2, 
-                    price: 4500, 
-                    unit: "Pcs",
-                    total: 9000 
-                },
-                { 
-                    slNo: 2, 
-                    name: "Custom Table Design", 
-                    hsnCode: "94036000", 
+                    name: "", 
+                    hsnCode: "", 
                     qty: 1, 
-                    price: 12500, 
+                    price: 0, 
                     unit: "Pcs",
-                    total: 12500 
+                    total: 0 
                 }
             ];
             
-            // DOM Elements
             const itemsContainer = document.getElementById('itemsContainer');
             const previewItems = document.getElementById('previewItems');
             const addItemBtn = document.getElementById('addItemBtn');
@@ -1191,32 +1153,39 @@
             const generatePdfBtn = document.getElementById('generatePdf');
             const resetFormBtn = document.getElementById('resetForm');
             const clientGstInput = document.getElementById('clientGst');
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            const loadingText = document.getElementById('loadingText');
             
-            // Mobile buttons
             const printInvoiceBtnMobile = document.getElementById('printInvoiceMobile');
             const generatePdfBtnMobile = document.getElementById('generatePdfMobile');
             const resetFormBtnMobile = document.getElementById('resetFormMobile');
             
-            // Set default invoice number
-            document.getElementById('invoiceNo').value = `INV-${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-001`;
+            // Preload images for watermark
+            function preloadWatermark() {
+                const logoImg = document.querySelector('.logo-img');
+                const watermarkImg = document.querySelector('.watermark-img');
+                
+                if (logoImg.complete) {
+                    document.querySelector('.watermark').style.backgroundImage = `url('${logoImg.src}')`;
+                } else {
+                    logoImg.onload = function() {
+                        document.querySelector('.watermark').style.backgroundImage = `url('${logoImg.src}')`;
+                    };
+                }
+                
+                // Ensure watermark image is loaded
+                if (watermarkImg) {
+                    watermarkImg.onload = function() {
+                        console.log('Watermark image loaded successfully');
+                    };
+                    watermarkImg.onerror = function() {
+                        console.log('Watermark image failed to load, using CSS fallback');
+                        this.style.display = 'none';
+                        document.querySelector('.watermark').style.display = 'block';
+                    };
+                }
+            }
             
-            // Set default client info
-            document.getElementById('clientName').value = "ABC Enterprises";
-            document.getElementById('clientGst').value = "27AABCU9603R1ZP";
-            document.getElementById('clientAddress').value = "123 Park Street\nKolkata - 700016\nWest Bengal";
-            document.getElementById('deliveryAddress').value = "Same as billing address";
-            document.getElementById('phoneNumber').value = "9876543210";
-            document.getElementById('notes').value = "Please make payment within due date. Delivery within 15 days.";
+            setTimeout(preloadWatermark, 500);
             
-            // Load logo images
-            const logoUrl = "https://via.placeholder.com/120x120/8B4513/FFFFFF?text=UK";
-            const companyLogo = document.getElementById('companyLogo');
-            const invoiceLogo = document.getElementById('invoiceLogo');
-            const watermarkImage = document.getElementById('watermarkImage');
-            
-            // Function to render items in editor
             function renderItems() {
                 itemsContainer.innerHTML = '';
                 
@@ -1239,7 +1208,6 @@
                     itemsContainer.appendChild(row);
                 });
                 
-                // Add event listeners for delete buttons
                 document.querySelectorAll('.item-action-btn').forEach(button => {
                     button.addEventListener('click', function() {
                         const index = parseInt(this.getAttribute('data-index'));
@@ -1252,7 +1220,6 @@
                     });
                 });
                 
-                // Add event listeners for quantity and price inputs
                 document.querySelectorAll('.item-qty, .item-price').forEach(input => {
                     input.addEventListener('input', function() {
                         const row = this.closest('tr');
@@ -1274,7 +1241,6 @@
                     });
                 });
                 
-                // Add event listeners for other inputs
                 document.querySelectorAll('.item-name, .item-hsn, .item-unit').forEach(input => {
                     input.addEventListener('input', function() {
                         const row = this.closest('tr');
@@ -1293,7 +1259,6 @@
                 });
             }
             
-            // Function to render items in preview
             function renderPreviewItems() {
                 previewItems.innerHTML = '';
                 
@@ -1325,7 +1290,6 @@
                 });
             }
             
-            // Function to format currency
             function formatCurrency(amount, withDecimals = false) {
                 if (withDecimals) {
                     return amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -1333,7 +1297,6 @@
                 return amount.toLocaleString('en-IN');
             }
             
-            // Function to convert number to words
             function numberToWords(num) {
                 if (num === 0) return 'ZERO';
                 
@@ -1382,14 +1345,11 @@
                 return words.trim() || 'ZERO';
             }
             
-            // Function to update preview panel
             function updatePreview() {
-                // Update invoice number
                 const invoiceNo = document.getElementById('invoiceNo').value;
                 document.getElementById('previewInvoiceNo').textContent = invoiceNo || '[Invoice Number]';
                 document.getElementById('previewInvoiceNo').className = invoiceNo ? '' : 'empty-state';
                 
-                // Update dates
                 const invoiceDate = document.getElementById('invoiceDate').value;
                 document.getElementById('previewDate').textContent = invoiceDate ? formatDate(invoiceDate) : '[Date]';
                 document.getElementById('previewDate').className = invoiceDate ? '' : 'empty-state';
@@ -1398,7 +1358,6 @@
                 document.getElementById('previewDueDate').textContent = dueDate ? formatDate(dueDate) : '[Due Date]';
                 document.getElementById('previewDueDate').className = dueDate ? '' : 'empty-state';
                 
-                // Update client info
                 const clientName = document.getElementById('clientName').value;
                 const clientAddress = document.getElementById('clientAddress').value;
                 const clientGst = document.getElementById('clientGst').value;
@@ -1426,7 +1385,6 @@
                     document.getElementById('previewClient').innerHTML = '<div class="empty-state">[Client Information]</div>';
                 }
                 
-                // Update delivery address
                 const deliveryAddress = document.getElementById('deliveryAddress').value;
                 const phoneNumber = document.getElementById('phoneNumber').value;
                 
@@ -1441,17 +1399,14 @@
                     document.getElementById('previewDelivery').innerHTML = '<div class="empty-state">[Delivery Address]</div>';
                 }
                 
-                // Render items in preview
                 renderPreviewItems();
                 
-                // Calculate totals
                 const taxableValue = items.reduce((sum, item) => sum + item.total, 0);
                 const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
                 const taxAmount = (taxableValue * taxRate) / 100;
                 const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
                 const totalAmount = taxableValue + (taxAmount * 2) + roundOff;
                 
-                // Update summary
                 document.getElementById('previewTaxable').textContent = formatCurrency(taxableValue, true);
                 document.getElementById('previewTaxRate').textContent = taxRate;
                 document.getElementById('previewSgstRate').textContent = taxRate;
@@ -1460,12 +1415,10 @@
                 document.getElementById('previewRoundOff').textContent = formatCurrency(roundOff, true);
                 document.getElementById('previewTotal').textContent = '₹' + formatCurrency(totalAmount, true);
                 
-                // Update amount in words
                 const amountWords = numberToWords(Math.round(totalAmount));
                 document.getElementById('previewAmountWords').textContent = totalAmount > 0 ? amountWords : '[Amount in words]';
                 document.getElementById('previewAmountWords').className = totalAmount > 0 ? '' : 'empty-state';
                 
-                // Update notes
                 const notes = document.getElementById('notes').value;
                 const notesContainer = document.getElementById('previewNotes');
                 const notesContent = document.getElementById('previewNotesContent');
@@ -1478,7 +1431,6 @@
                 }
             }
             
-            // Function to format date
             function formatDate(dateString) {
                 if (!dateString) return '';
                 const date = new Date(dateString);
@@ -1488,7 +1440,6 @@
                 return `${day}/${month}/${year}`;
             }
             
-            // Function to add new item
             addItemBtn.addEventListener('click', function() {
                 const newSlNo = items.length + 1;
                 items.push({
@@ -1504,98 +1455,167 @@
                 updatePreview();
             });
             
-            // Function to print invoice
+            updateInvoiceBtn.addEventListener('click', updatePreview);
+            
+            // Professional Print Functionality
             function printInvoice() {
-                // Show logo in invoice for print
-                const invoiceLogo = document.getElementById('invoiceLogo');
-                invoiceLogo.style.display = 'block';
+                // Ensure watermark is visible for print
+                const watermarkImg = document.querySelector('.watermark-img');
+                const cssWatermark = document.querySelector('.watermark');
                 
-                // Show watermark with higher opacity for print
-                const watermarkImg = document.getElementById('watermarkImage');
-                watermarkImg.style.opacity = '0.05';
+                if (watermarkImg) {
+                    watermarkImg.style.opacity = '0.04';
+                    watermarkImg.style.zIndex = '-1';
+                }
+                if (cssWatermark) {
+                    cssWatermark.style.opacity = '0.04';
+                    cssWatermark.style.zIndex = '-1';
+                }
                 
-                // Call print function
+                // Trigger print
                 window.print();
                 
-                // Hide logo again after printing
+                // Restore original styles after print
                 setTimeout(() => {
-                    invoiceLogo.style.display = 'none';
-                    watermarkImg.style.opacity = '0.1';
-                }, 500);
+                    if (watermarkImg) {
+                        watermarkImg.style.opacity = '0.025';
+                        watermarkImg.style.zIndex = '0';
+                    }
+                    if (cssWatermark) {
+                        cssWatermark.style.opacity = '0.025';
+                        cssWatermark.style.zIndex = '0';
+                    }
+                }, 1000);
             }
             
-            // Function to generate PDF
+            // Professional PDF Generation
             function generatePdf() {
-                loadingText.textContent = 'Generating PDF...';
-                loadingOverlay.style.display = 'flex';
-                
-                // Temporarily show logo in invoice for PDF capture
-                const invoiceLogo = document.getElementById('invoiceLogo');
-                const watermarkImg = document.getElementById('watermarkImage');
-                invoiceLogo.style.display = 'block';
-                watermarkImg.style.opacity = '0.05';
-                
-                // Use html2canvas to capture the invoice
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'pt', 'a4');
                 const invoiceElement = document.getElementById('invoicePreview');
                 
-                // Set a timeout to ensure rendering is complete
-                setTimeout(() => {
-                    html2canvas(invoiceElement, {
-                        scale: 2,
-                        useCORS: true,
-                        logging: false,
-                        backgroundColor: '#ffffff',
-                        allowTaint: true,
-                        onclone: function(clonedDoc) {
-                            // Ensure logo is visible in cloned document
-                            const clonedLogo = clonedDoc.getElementById('invoiceLogo');
-                            const clonedWatermark = clonedDoc.getElementById('watermarkImage');
-                            if (clonedLogo) clonedLogo.style.display = 'block';
-                            if (clonedWatermark) clonedWatermark.style.opacity = '0.05';
+                // Store original button states
+                const originalText = generatePdfBtn.innerHTML;
+                const originalTextMobile = generatePdfBtnMobile.innerHTML;
+                
+                // Update button states to show loading
+                generatePdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                generatePdfBtnMobile.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                generatePdfBtn.classList.add('pdf-generating');
+                generatePdfBtnMobile.classList.add('pdf-generating');
+                generatePdfBtn.disabled = true;
+                generatePdfBtnMobile.disabled = true;
+                
+                // Ensure watermark is visible for PDF
+                const watermarkImg = document.querySelector('.watermark-img');
+                const cssWatermark = document.querySelector('.watermark');
+                
+                if (watermarkImg) {
+                    const tempOpacity = watermarkImg.style.opacity;
+                    watermarkImg.style.opacity = '0.04';
+                    watermarkImg.style.zIndex = '-1';
+                }
+                if (cssWatermark) {
+                    const tempOpacity = cssWatermark.style.opacity;
+                    cssWatermark.style.opacity = '0.04';
+                    cssWatermark.style.zIndex = '-1';
+                }
+                
+                // Set scale based on device
+                const scale = window.innerWidth < 768 ? 1.5 : 2;
+                
+                html2canvas(invoiceElement, {
+                    scale: scale,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    allowTaint: true,
+                    foreignObjectRendering: false,
+                    onclone: function(clonedDoc) {
+                        // Ensure watermark is visible in cloned document
+                        const clonedWatermark = clonedDoc.querySelector('.watermark-img');
+                        const clonedCssWatermark = clonedDoc.querySelector('.watermark');
+                        
+                        if (clonedWatermark) {
+                            clonedWatermark.style.opacity = '0.04';
+                            clonedWatermark.style.zIndex = '-1';
                         }
-                    }).then(canvas => {
-                        const { jsPDF } = window.jspdf;
-                        const doc = new jsPDF('p', 'pt', 'a4');
+                        if (clonedCssWatermark) {
+                            clonedCssWatermark.style.opacity = '0.04';
+                            clonedCssWatermark.style.zIndex = '-1';
+                        }
                         
-                        const imgWidth = 595;
-                        const pageHeight = 842;
-                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                        
-                        let heightLeft = imgHeight;
-                        let position = 0;
-                        
-                        doc.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
+                        // Ensure print-only elements are visible
+                        const printOnly = clonedDoc.querySelector('.print-only');
+                        if (printOnly) {
+                            printOnly.style.display = 'block';
+                        }
+                    }
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png', 1.0);
+                    const imgWidth = 595;
+                    const pageHeight = 842;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    
+                    let heightLeft = imgHeight;
+                    let position = 0;
+                    
+                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    
+                    // Add additional pages if needed
+                    while (heightLeft > 0) {
+                        position = heightLeft - imgHeight;
+                        doc.addPage();
+                        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
                         heightLeft -= pageHeight;
-                        
-                        // Add additional pages if needed
-                        while (heightLeft > 0) {
-                            position = heightLeft - imgHeight;
-                            doc.addPage();
-                            doc.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
-                            heightLeft -= pageHeight;
-                        }
-                        
-                        // Get invoice number for filename
-                        const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
-                        doc.save(`UrbanKutir_Invoice_${invoiceNo}.pdf`);
-                        
-                        // Hide loading overlay
-                        loadingOverlay.style.display = 'none';
-                        
-                        // Hide logo again
-                        invoiceLogo.style.display = 'none';
-                        watermarkImg.style.opacity = '0.1';
-                    }).catch(error => {
-                        console.error('Error generating PDF:', error);
-                        loadingOverlay.style.display = 'none';
-                        invoiceLogo.style.display = 'none';
-                        watermarkImg.style.opacity = '0.1';
-                        alert('Error generating PDF. Please try again.');
-                    });
-                }, 500);
+                    }
+                    
+                    const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
+                    doc.save(`UrbanKutir_Invoice_${invoiceNo}.pdf`);
+                    
+                    // Restore button states
+                    generatePdfBtn.innerHTML = originalText;
+                    generatePdfBtnMobile.innerHTML = originalTextMobile;
+                    generatePdfBtn.classList.remove('pdf-generating');
+                    generatePdfBtnMobile.classList.remove('pdf-generating');
+                    generatePdfBtn.disabled = false;
+                    generatePdfBtnMobile.disabled = false;
+                    
+                    // Restore watermark opacity
+                    if (watermarkImg) {
+                        watermarkImg.style.opacity = '0.025';
+                        watermarkImg.style.zIndex = '0';
+                    }
+                    if (cssWatermark) {
+                        cssWatermark.style.opacity = '0.025';
+                        cssWatermark.style.zIndex = '0';
+                    }
+                }).catch(error => {
+                    console.error('Error generating PDF:', error);
+                    
+                    // Restore button states on error
+                    generatePdfBtn.innerHTML = originalText;
+                    generatePdfBtnMobile.innerHTML = originalTextMobile;
+                    generatePdfBtn.classList.remove('pdf-generating');
+                    generatePdfBtnMobile.classList.remove('pdf-generating');
+                    generatePdfBtn.disabled = false;
+                    generatePdfBtnMobile.disabled = false;
+                    
+                    // Restore watermark opacity
+                    if (watermarkImg) {
+                        watermarkImg.style.opacity = '0.025';
+                        watermarkImg.style.zIndex = '0';
+                    }
+                    if (cssWatermark) {
+                        cssWatermark.style.opacity = '0.025';
+                        cssWatermark.style.zIndex = '0';
+                    }
+                    
+                    alert('Error generating PDF. Please try again or check browser console for details.');
+                });
             }
             
-            // Function to reset form
             function resetForm() {
                 if (confirm('Are you sure you want to reset the form? All data will be cleared.')) {
                     document.getElementById('invoiceNo').value = '';
@@ -1628,16 +1648,17 @@
                 }
             }
             
-            // Event listeners for buttons
-            updateInvoiceBtn.addEventListener('click', updatePreview);
+            // Event listeners for desktop
             printInvoiceBtn.addEventListener('click', printInvoice);
-            printInvoiceBtnMobile.addEventListener('click', printInvoice);
             generatePdfBtn.addEventListener('click', generatePdf);
-            generatePdfBtnMobile.addEventListener('click', generatePdf);
             resetFormBtn.addEventListener('click', resetForm);
+            
+            // Event listeners for mobile
+            printInvoiceBtnMobile.addEventListener('click', printInvoice);
+            generatePdfBtnMobile.addEventListener('click', generatePdf);
             resetFormBtnMobile.addEventListener('click', resetForm);
             
-            // Event listeners for form inputs
+            // Auto-update preview when form fields change
             document.getElementById('invoiceNo').addEventListener('input', updatePreview);
             document.getElementById('invoiceDate').addEventListener('input', updatePreview);
             document.getElementById('dueDate').addEventListener('input', updatePreview);
@@ -1650,10 +1671,15 @@
             document.getElementById('roundOff').addEventListener('input', updatePreview);
             document.getElementById('notes').addEventListener('input', updatePreview);
             
-            // Initialize the form
+            // Initialize
             renderItems();
             updatePreview();
+            
+            // Preload images on window load
+            window.addEventListener('load', function() {
+                setTimeout(preloadWatermark, 1000);
+            });
         });
     </script>
 </body>
-    </html>
+                </html>
