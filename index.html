@@ -19,6 +19,7 @@
             --border-color: #e0d6c8;
             --shadow: 0 3px 8px rgba(139, 69, 19, 0.08);
             --radius: 6px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         * {
@@ -34,6 +35,7 @@
             line-height: 1.5;
             padding: 12px;
             font-size: 14px;
+            min-height: 100vh;
         }
         
         .container {
@@ -46,28 +48,35 @@
         
         header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 15px;
-            padding: 18px 22px;
+            padding: 15px;
             border-bottom: 1px solid var(--accent-color);
             background-color: white;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
         }
         
+        @media (min-width: 768px) {
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 18px 22px;
+                gap: 20px;
+            }
+        }
+        
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             flex: 1;
-            min-width: 200px;
         }
         
         .logo {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -77,6 +86,13 @@
             background-color: white;
             padding: 3px;
             flex-shrink: 0;
+        }
+        
+        @media (min-width: 768px) {
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
         }
         
         .logo-img {
@@ -92,53 +108,85 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
         }
         
         .company-info h1 {
             color: var(--primary-dark);
-            font-size: 22px;
-            margin-bottom: 3px;
+            font-size: 18px;
+            margin-bottom: 2px;
             font-weight: 700;
             letter-spacing: -0.2px;
         }
         
+        @media (min-width: 768px) {
+            .company-info h1 {
+                font-size: 22px;
+            }
+        }
+        
         .company-info p {
             color: var(--text-light);
-            font-size: 12.5px;
+            font-size: 11.5px;
             font-weight: 500;
         }
         
-        .controls-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: flex-end;
-            flex-shrink: 0;
+        @media (min-width: 768px) {
+            .company-info p {
+                font-size: 12.5px;
+            }
+        }
+        
+        .company-contact {
+            margin-top: 3px;
+            font-size: 11px;
+            color: var(--text-light);
+        }
+        
+        @media (min-width: 768px) {
+            .company-contact {
+                font-size: 12px;
+            }
         }
         
         .controls {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            justify-content: flex-end;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .controls {
+                justify-content: flex-end;
+                width: auto;
+            }
         }
         
         .btn {
-            padding: 8px 16px;
+            padding: 8px 12px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11.5px;
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: all 0.2s ease;
-            min-width: 130px;
+            transition: var(--transition);
+            min-width: 120px;
             justify-content: center;
+        }
+        
+        @media (min-width: 768px) {
+            .btn {
+                padding: 8px 16px;
+                font-size: 12px;
+                min-width: 130px;
+            }
         }
         
         .btn-primary {
@@ -191,10 +239,16 @@
             flex: 1;
             background-color: white;
             border-radius: var(--radius);
-            padding: 20px;
+            padding: 15px;
             box-shadow: var(--shadow);
             border-top: 3px solid var(--accent-color);
             order: 2;
+        }
+        
+        @media (min-width: 768px) {
+            .editor-panel {
+                padding: 20px;
+            }
         }
         
         @media (min-width: 992px) {
@@ -207,12 +261,18 @@
             flex: 2;
             background-color: white;
             border-radius: var(--radius);
-            padding: 22px;
+            padding: 15px;
             box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
             border-top: 3px solid var(--primary-color);
             order: 1;
+        }
+        
+        @media (min-width: 768px) {
+            .preview-panel {
+                padding: 20px;
+            }
         }
         
         @media (min-width: 992px) {
@@ -223,14 +283,20 @@
         
         .panel-title {
             color: var(--primary-dark);
-            font-size: 16px;
-            margin-bottom: 16px;
+            font-size: 15px;
+            margin-bottom: 15px;
             padding-bottom: 8px;
             border-bottom: 1px solid var(--light-accent);
             display: flex;
             align-items: center;
             gap: 7px;
             font-weight: 600;
+        }
+        
+        @media (min-width: 768px) {
+            .panel-title {
+                font-size: 16px;
+            }
         }
         
         .panel-title i {
@@ -246,16 +312,22 @@
             margin-bottom: 5px;
             color: var(--text-medium);
             font-weight: 600;
-            font-size: 12.5px;
+            font-size: 12px;
+        }
+        
+        @media (min-width: 768px) {
+            label {
+                font-size: 12.5px;
+            }
         }
         
         input, select, textarea {
             width: 100%;
-            padding: 9px 11px;
+            padding: 8px 10px;
             border: 1px solid var(--border-color);
             border-radius: 5px;
             font-size: 13px;
-            transition: border 0.2s;
+            transition: var(--transition);
             background-color: var(--lighter-accent);
             font-family: 'Inter', sans-serif;
         }
@@ -287,10 +359,12 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            margin-bottom: 22px;
-            padding-bottom: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid var(--light-accent);
-            gap: 18px;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
         }
         
         @media (min-width: 768px) {
@@ -301,12 +375,18 @@
         }
         
         .invoice-title {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--primary-dark);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            .invoice-title {
+                font-size: 24px;
+            }
         }
         
         .invoice-meta {
@@ -322,67 +402,108 @@
         .invoice-meta p {
             margin-bottom: 3px;
             color: var(--text-light);
-            font-size: 12.5px;
+            font-size: 12px;
             line-height: 1.4;
+        }
+        
+        @media (min-width: 768px) {
+            .invoice-meta p {
+                font-size: 12.5px;
+            }
         }
         
         .invoice-addresses {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            margin-bottom: 22px;
-            gap: 18px;
+            margin-bottom: 20px;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
         }
         
         @media (min-width: 768px) {
             .invoice-addresses {
                 flex-direction: row;
-                gap: 22px;
+                gap: 20px;
             }
         }
         
         .address-box {
             flex: 1;
             background-color: var(--lighter-accent);
-            padding: 14px;
+            padding: 12px;
             border-radius: var(--radius);
             border-left: 3px solid var(--accent-color);
+        }
+        
+        @media (min-width: 768px) {
+            .address-box {
+                padding: 14px;
+            }
         }
         
         .address-title {
             font-weight: 600;
             color: var(--primary-dark);
             margin-bottom: 7px;
-            font-size: 14px;
+            font-size: 13px;
+        }
+        
+        @media (min-width: 768px) {
+            .address-title {
+                font-size: 14px;
+            }
         }
         
         .address-content {
             color: var(--text-medium);
             line-height: 1.5;
-            font-size: 13px;
+            font-size: 12.5px;
         }
         
         .invoice-table {
             width: 100%;
             border-collapse: collapse;
             margin: 18px 0;
-            font-size: 12.5px;
+            font-size: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (min-width: 768px) {
+            .invoice-table {
+                font-size: 12.5px;
+            }
         }
         
         .invoice-table th {
             background-color: var(--light-accent);
-            padding: 9px 11px;
+            padding: 8px 10px;
             text-align: left;
             font-weight: 600;
             color: var(--primary-dark);
             border-bottom: 1px solid var(--accent-color);
             border-top: 1px solid var(--accent-color);
-            font-size: 12px;
+            font-size: 11.5px;
+        }
+        
+        @media (min-width: 768px) {
+            .invoice-table th {
+                padding: 9px 11px;
+                font-size: 12px;
+            }
         }
         
         .invoice-table td {
-            padding: 9px 11px;
+            padding: 8px 10px;
             border-bottom: 1px solid var(--light-accent);
+        }
+        
+        @media (min-width: 768px) {
+            .invoice-table td {
+                padding: 9px 11px;
+            }
         }
         
         .invoice-table tr:last-child td {
@@ -398,36 +519,52 @@
         }
         
         .invoice-summary {
-            margin-top: 22px;
+            margin-top: 20px;
             width: 100%;
-            max-width: 280px;
-            margin-left: auto;
+            max-width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (min-width: 768px) {
+            .invoice-summary {
+                max-width: 280px;
+                margin-left: auto;
+            }
         }
         
         .summary-row {
             display: flex;
             justify-content: space-between;
-            padding: 7px 0;
+            padding: 6px 0;
             border-bottom: 1px dashed var(--border-color);
-            font-size: 13px;
+            font-size: 12.5px;
         }
         
         .summary-row.total {
             font-weight: 700;
-            font-size: 14.5px;
+            font-size: 14px;
             border-bottom: 1px solid var(--primary-dark);
             padding-top: 10px;
             color: var(--primary-dark);
         }
         
+        @media (min-width: 768px) {
+            .summary-row.total {
+                font-size: 14.5px;
+            }
+        }
+        
         .authorization-section {
-            margin-top: 30px;
-            padding-top: 16px;
+            margin-top: 25px;
+            padding-top: 15px;
             border-top: 1px dashed var(--accent-color);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 22px;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         @media (min-width: 768px) {
@@ -469,12 +606,20 @@
         }
         
         .invoice-footer {
-            margin-top: 16px;
+            margin-top: 15px;
             text-align: center;
             color: var(--text-light);
-            font-size: 12.5px;
-            padding-top: 16px;
+            font-size: 12px;
+            padding-top: 15px;
             border-top: 1px solid var(--light-accent);
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (min-width: 768px) {
+            .invoice-footer {
+                font-size: 12.5px;
+            }
         }
         
         .watermark {
@@ -485,18 +630,24 @@
             opacity: 0.025;
             z-index: 0;
             pointer-events: none;
-            width: 350px;
-            height: 350px;
-            background-image: url('urbankutir.png');
+            width: 200px;
+            height: 200px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
         }
         
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             .watermark {
-                width: 200px;
-                height: 200px;
+                width: 300px;
+                height: 300px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .watermark {
+                width: 350px;
+                height: 350px;
             }
         }
         
@@ -522,6 +673,8 @@
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
             -webkit-overflow-scrolling: touch;
+            margin-left: -1px;
+            margin-right: -1px;
         }
         
         .items-editor-table {
@@ -532,17 +685,30 @@
         
         .items-editor-table th {
             background-color: var(--light-accent);
-            padding: 9px 8px;
+            padding: 8px;
             text-align: left;
             font-weight: 600;
             color: var(--primary-dark);
-            font-size: 11.5px;
+            font-size: 11px;
             border-bottom: 1px solid var(--accent-color);
         }
         
+        @media (min-width: 768px) {
+            .items-editor-table th {
+                font-size: 11.5px;
+                padding: 9px 8px;
+            }
+        }
+        
         .items-editor-table td {
-            padding: 7px 8px;
+            padding: 6px 8px;
             border-bottom: 1px solid var(--light-accent);
+        }
+        
+        @media (min-width: 768px) {
+            .items-editor-table td {
+                padding: 7px 8px;
+            }
         }
         
         .items-editor-table tr:last-child td {
@@ -576,7 +742,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            transition: var(--transition);
             flex-shrink: 0;
             font-size: 12px;
         }
@@ -589,10 +755,10 @@
             background-color: var(--light-accent);
             border: 1.5px dashed var(--accent-color);
             color: var(--text-light);
-            padding: 7px 11px;
+            padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--transition);
             font-weight: 600;
             font-size: 12px;
             display: flex;
@@ -609,44 +775,24 @@
             border-color: var(--primary-color);
         }
         
-        .company-contact {
-            margin-top: 3px;
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        
         .company-gst-box {
             background-color: var(--lighter-accent);
-            padding: 5px 9px;
+            padding: 4px 8px;
             border-radius: 4px;
             margin-top: 5px;
             border: 1px solid var(--border-color);
             display: inline-block;
-            font-size: 11.5px;
+            font-size: 11px;
+        }
+        
+        @media (min-width: 768px) {
+            .company-gst-box {
+                font-size: 11.5px;
+            }
         }
         
         .company-gst-box strong {
             color: var(--primary-dark);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--text-light);
-            font-size: 12px;
-            padding-top: 16px;
-            border-top: 1px solid var(--light-accent);
-        }
-        
-        .print-only {
-            display: none;
-        }
-        
-        .legal-note {
-            font-size: 10px;
-            color: #7f8c8d;
-            margin-top: 7px;
-            font-style: italic;
         }
         
         .empty-state {
@@ -657,27 +803,356 @@
             font-size: 12.5px;
         }
         
-        .mobile-controls {
+        /* Modal Styles for Export Options */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
             display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            width: 100%;
+            align-items: center;
             justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .export-modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .export-modal {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary-dark);
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 20px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            background: var(--lighter-accent);
+            color: var(--primary-dark);
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .export-option {
+            background: var(--lighter-accent);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .export-option:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .export-option.active {
+            border-color: var(--primary-color);
+            background: white;
+        }
+        
+        .export-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .export-option h4 {
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        
+        .export-option p {
+            color: var(--text-light);
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 100px;
+        }
+        
+        .modal-btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .modal-btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .modal-btn-secondary {
+            background: var(--lighter-accent);
+            color: var(--text-medium);
+            border: 1px solid var(--border-color);
+        }
+        
+        .modal-btn-secondary:hover {
+            background: var(--light-accent);
+        }
+        
+        .modal-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* Print Preview Modal */
+        .print-preview-modal {
+            max-width: 900px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .print-preview-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            flex-shrink: 0;
+        }
+        
+        .print-preview-body {
+            flex: 1;
+            overflow: auto;
+            padding: 24px;
+            background: #f5f5f5;
+        }
+        
+        .print-preview-content {
+            background: white;
+            min-height: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 25mm;
+        }
+        
+        /* Progress Indicator */
+        .progress-indicator {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .progress-indicator.active {
+            display: flex;
+        }
+        
+        .progress-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--light-accent);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-text {
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+        
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            max-width: 350px;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .toast-success .toast-icon {
+            background: #10b981;
+        }
+        
+        .toast-error .toast-icon {
+            background: #ef4444;
+        }
+        
+        .toast-info .toast-icon {
+            background: var(--primary-color);
+        }
+        
+        .toast-content {
+            flex: 1;
+        }
+        
+        .toast-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 2px;
+        }
+        
+        .toast-message {
+            color: var(--text-medium);
+            font-size: 13px;
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .toast-close:hover {
+            background: var(--lighter-accent);
+            color: var(--primary-dark);
+        }
+        
+        /* Mobile-specific optimizations */
+        @media (max-width: 767px) {
+            .controls {
+                display: none;
+            }
+            
+            .mobile-controls {
+                display: flex;
+                gap: 8px;
+                margin-top: 12px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .export-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .export-modal {
+                width: 95%;
+                margin: 10px;
+            }
+            
+            .print-preview-modal {
+                height: 85vh;
+            }
+            
+            .print-preview-content {
+                padding: 15mm;
+            }
         }
         
         @media (min-width: 768px) {
             .mobile-controls {
                 display: none;
-            }
-        }
-        
-        .desktop-controls {
-            display: none;
-        }
-        
-        @media (min-width: 768px) {
-            .desktop-controls {
-                display: flex;
             }
         }
         
@@ -689,15 +1164,9 @@
             max-width: 110px;
         }
         
-        /* Print styles for invoice output */
-        .invoice-print-output {
+        /* Print and PDF Output Styles */
+        .print-logo {
             display: none;
-            width: 210mm;
-            min-height: 297mm;
-            padding: 20mm;
-            background: white;
-            position: relative;
-            margin: 0 auto;
         }
         
         @media print {
@@ -707,69 +1176,68 @@
                 padding: 0;
             }
             
-            body {
+            .print-preview-content,
+            .print-preview-content * {
+                visibility: visible;
+            }
+            
+            .print-preview-content {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                min-height: 100vh;
                 background: white;
+                box-shadow: none;
+                border: none;
                 padding: 0;
                 margin: 0;
             }
             
-            .invoice-print-output,
-            .invoice-print-output * {
-                visibility: visible;
+            @page {
+                margin: 15mm;
+                size: A4;
             }
             
-            .invoice-print-output {
-                display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 210mm;
-                min-height: 297mm;
-                padding: 20mm;
-                box-shadow: none;
-                margin: 0;
-                page-break-after: always;
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             
-            .watermark-print {
-                opacity: 0.03;
-                transform: translate(-50%, -50%) rotate(-45deg);
-            }
-            
-            .controls, .editor-panel, footer, header, .mobile-controls, .container, .invoice-container, .preview-panel {
+            .no-print {
                 display: none !important;
             }
-            
-            .btn {
-                display: none;
-            }
-            
-            .invoice-table {
-                font-size: 11pt;
-            }
-            
-            .address-content, .invoice-meta p {
-                font-size: 11pt;
-            }
-            
-            @page {
-                size: A4;
-                margin: 20mm;
-            }
         }
         
-        .compact-spacing {
-            margin-bottom: 14px;
-        }
-        
+        /* Compact spacing */
         .form-group.compact {
             margin-bottom: 14px;
         }
         
-        .compact-panel {
-            padding: 18px;
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-light);
+            font-size: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--light-accent);
         }
         
+        .legal-note {
+            font-size: 10px;
+            color: #7f8c8d;
+            margin-top: 7px;
+            font-style: italic;
+        }
+        
+        /* Focus states */
+        .btn:focus, input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
+        }
+        
+        /* Elegant font refinements */
         h1, h2, h3, h4, .invoice-title, .panel-title {
             letter-spacing: -0.1px;
         }
@@ -777,431 +1245,11 @@
         .address-title, .signature-name {
             letter-spacing: 0.2px;
         }
-        
-        .btn, input, textarea, select, .item-action-btn, .add-item-btn {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .btn:focus, input:focus, textarea:focus, select:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
-        }
-        
-        /* Modern Print/PDF Dialog Styles */
-        .print-dialog-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .print-dialog {
-            background: white;
-            border-radius: 12px;
-            padding: 28px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            animation: dialogSlideIn 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-        
-        @keyframes dialogSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .print-dialog-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 22px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--light-accent);
-        }
-        
-        .print-dialog-title {
-            color: var(--primary-dark);
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .close-dialog-btn {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 20px;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.2s;
-        }
-        
-        .close-dialog-btn:hover {
-            background-color: var(--light-accent);
-            color: var(--primary-dark);
-        }
-        
-        .print-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        
-        .print-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .print-option:hover {
-            border-color: var(--accent-color);
-            background-color: var(--lighter-accent);
-        }
-        
-        .print-option.selected {
-            border-color: var(--primary-color);
-            background-color: rgba(139, 69, 19, 0.05);
-        }
-        
-        .option-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: white;
-            flex-shrink: 0;
-        }
-        
-        .print-icon {
-            background: linear-gradient(135deg, #8B4513, #d4a574);
-        }
-        
-        .pdf-icon {
-            background: linear-gradient(135deg, #b91c1c, #f87171);
-        }
-        
-        .option-content {
-            flex: 1;
-        }
-        
-        .option-title {
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-        
-        .option-description {
-            font-size: 12.5px;
-            color: var(--text-light);
-            line-height: 1.4;
-        }
-        
-        .option-badge {
-            background-color: var(--light-accent);
-            color: var(--primary-dark);
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-        
-        .print-settings {
-            background-color: var(--lighter-accent);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .setting-group {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-        
-        .setting-group:last-child {
-            margin-bottom: 0;
-        }
-        
-        .setting-label {
-            font-weight: 500;
-            color: var(--text-medium);
-            font-size: 13px;
-        }
-        
-        .setting-toggle {
-            position: relative;
-            width: 44px;
-            height: 22px;
-        }
-        
-        .toggle-checkbox {
-            display: none;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        .toggle-checkbox:checked + .toggle-slider {
-            background-color: var(--primary-color);
-        }
-        
-        .toggle-checkbox:checked + .toggle-slider:before {
-            transform: translateX(22px);
-        }
-        
-        .dialog-actions {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .dialog-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        
-        .dialog-btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .dialog-btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
-        }
-        
-        .dialog-btn-secondary {
-            background-color: var(--light-accent);
-            color: var(--text-medium);
-        }
-        
-        .dialog-btn-secondary:hover {
-            background-color: #e0d6c8;
-            transform: translateY(-1px);
-        }
-        
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid var(--light-accent);
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .loading-text {
-            color: var(--primary-dark);
-            font-weight: 600;
-            font-size: 16px;
-        }
-        
-        .download-ready {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            border-radius: 10px;
-            padding: 16px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            z-index: 10001;
-            border-left: 4px solid var(--primary-color);
-            animation: slideInUp 0.3s ease;
-            max-width: 300px;
-        }
-        
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .download-ready-content {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .download-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-        
-        .download-text {
-            flex: 1;
-        }
-        
-        .download-title {
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-        
-        .download-description {
-            font-size: 12.5px;
-            color: var(--text-light);
-        }
-        
-        .close-download-btn {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 18px;
-            padding: 4px;
-        }
-        
-        .print-option input[type="radio"] {
-            display: none;
-        }
-        
-        .watermark-control {
-            margin-top: 8px;
-        }
-        
-        .watermark-control label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        
-        .watermark-control input[type="range"] {
-            width: 100%;
-            margin-top: 4px;
-            accent-color: var(--primary-color);
-        }
-        
-        .watermark-preview {
-            margin-top: 8px;
-            padding: 8px;
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 12px;
-            color: var(--text-medium);
-            text-align: center;
-        }
-        
-        .copies-input {
-            width: 70px;
-            padding: 6px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            text-align: center;
-        }
-        
-        .page-size-select {
-            width: 120px;
-            padding: 6px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="no-print">
             <div class="logo-container">
                 <div class="logo">
                     <img src="urbankutir.png" alt="Urban Kutir Logo" class="logo-img" 
@@ -1219,21 +1267,26 @@
                 </div>
             </div>
             
-            <div class="controls-container">
-                <div class="desktop-controls">
-                    <button class="btn btn-secondary" id="openPrintDialog">
-                        <i class="fas fa-print"></i> Print / PDF
-                    </button>
-                    <button class="btn btn-outline" id="resetForm">
-                        <i class="fas fa-redo"></i> Reset
-                    </button>
-                </div>
+            <div class="controls">
+                <button class="btn btn-secondary" id="exportInvoice">
+                    <i class="fas fa-download"></i> Export Invoice
+                </button>
+                <button class="btn btn-primary" id="updateInvoice">
+                    <i class="fas fa-sync-alt"></i> Update Preview
+                </button>
+                <button class="btn btn-outline" id="resetForm">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
             </div>
         </header>
         
-        <div class="mobile-controls">
-            <button class="btn btn-secondary mobile-btn" id="openPrintDialogMobile">
-                <i class="fas fa-print"></i> Print/PDF
+        <!-- Mobile controls -->
+        <div class="mobile-controls no-print">
+            <button class="btn btn-secondary mobile-btn" id="exportInvoiceMobile">
+                <i class="fas fa-download"></i> Export
+            </button>
+            <button class="btn btn-primary mobile-btn" id="updateInvoiceMobile">
+                <i class="fas fa-sync-alt"></i> Update
             </button>
             <button class="btn btn-outline mobile-btn" id="resetFormMobile">
                 <i class="fas fa-redo"></i> Reset
@@ -1241,7 +1294,7 @@
         </div>
         
         <div class="invoice-container">
-            <div class="editor-panel compact-panel">
+            <div class="editor-panel no-print">
                 <h2 class="panel-title"><i class="fas fa-edit"></i> Invoice Details</h2>
                 
                 <div class="row">
@@ -1346,17 +1399,13 @@
                     <textarea id="notes" rows="2" placeholder="Any special instructions or terms..."></textarea>
                 </div>
                 
-                <button class="btn btn-primary" id="updateInvoice" style="width: 100%; margin-top: 16px; padding: 10px;">
+                <button class="btn btn-primary" id="updateInvoiceBtn" style="width: 100%; margin-top: 16px; padding: 10px;">
                     <i class="fas fa-sync-alt"></i> Update Invoice Preview
                 </button>
             </div>
             
-            <div class="preview-panel compact-panel">
+            <div class="preview-panel no-print" id="previewPanel">
                 <div class="watermark"></div>
-                
-                <div class="print-only">
-                    <p>Generated from Urban Kutir Professional Invoice System</p>
-                </div>
                 
                 <div class="invoice-header">
                     <div>
@@ -1472,251 +1521,91 @@
             </div>
         </div>
         
-        <!-- Hidden print template -->
-        <div id="invoicePrintTemplate" class="invoice-print-output" style="display: none;">
-            <div class="watermark watermark-print"></div>
-            
-            <div style="margin-bottom: 25px; border-bottom: 2px solid var(--primary-color); padding-bottom: 15px;">
-                <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <div style="width: 70px; height: 70px; overflow: hidden; flex-shrink: 0;">
-                            <img src="urbankutir.png" alt="Urban Kutir Logo" style="width: 100%; height: 100%; object-fit: contain;"
-                                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA3MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iNiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyKSIvPgo8dGV4dCB4PSIzNSIgeT0iMzgiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPlVLIC0gPC90ZXh0Pgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyIiB4MT0iMzUiIHkxPSIwIiB4Mj0iMzUiIHkyPSI3MCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjOEI0NTEzIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0E2ODMyRCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo='">
-                        </div>
-                        <div>
-                            <h1 style="color: var(--primary-dark); font-size: 24px; margin: 0 0 3px 0; font-weight: 700;">Urban Kutir</h1>
-                            <p style="color: var(--text-light); font-size: 13px; margin: 0 0 5px 0; font-weight: 500;">Premium Home Solutions & Interior Design</p>
-                            <p style="color: var(--text-light); font-size: 11px; margin: 0;">
-                                <i class="fas fa-phone"></i> 9831859858 | <i class="fas fa-envelope"></i> urbankutir@gmail.com
-                            </p>
-                        </div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 26px; color: var(--primary-dark); font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">TAX INVOICE</div>
-                        <div style="font-size: 12px; color: var(--text-light); line-height: 1.4;">
-                            <p style="margin: 2px 0;"><strong>GSTIN:</strong> 19AAHFU6863E1ZR</p>
-                            <p style="margin: 2px 0;"><strong>STATE:</strong> WEST BENGAL</p>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top: 10px; font-size: 11px; color: var(--text-light);">
-                    <p style="margin: 2px 0;">59 Kali Charan Gosh Road, Binayak Enclave, Block J2, Flat 308, Kolkata 700050, West Bengal</p>
-                </div>
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px;">
-                <div>
-                    <p style="margin: 3px 0;"><strong>INVOICE NO:</strong> <span id="printInvoiceNo">[Invoice Number]</span></p>
-                    <p style="margin: 3px 0;"><strong>DATE:</strong> <span id="printDate">[Date]</span></p>
-                    <p style="margin: 3px 0;"><strong>DUE DATE:</strong> <span id="printDueDate">[Due Date]</span></p>
-                </div>
-                <div style="text-align: right;">
-                    <p style="margin: 3px 0;"><strong>PAN:</strong> AAHFU6863E</p>
-                </div>
-            </div>
-            
-            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
-                <div style="flex: 1; padding: 12px; background-color: var(--lighter-accent); border-radius: var(--radius); border-left: 3px solid var(--accent-color);">
-                    <div style="font-weight: 600; color: var(--primary-dark); margin-bottom: 7px; font-size: 14px;">BILLED TO:</div>
-                    <div style="color: var(--text-medium); line-height: 1.5; font-size: 12px;" id="printClient">
-                        [Client Information]
-                    </div>
-                </div>
-                <div style="flex: 1; padding: 12px; background-color: var(--lighter-accent); border-radius: var(--radius); border-left: 3px solid var(--accent-color);">
-                    <div style="font-weight: 600; color: var(--primary-dark); margin-bottom: 7px; font-size: 14px;">SHIP TO:</div>
-                    <div style="color: var(--text-medium); line-height: 1.5; font-size: 12px;" id="printDelivery">
-                        [Delivery Address]
-                    </div>
-                </div>
-            </div>
-            
-            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 11.5px;">
-                <thead>
-                    <tr>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="45">SL No</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: left; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);">Description of Goods/Services</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="85">HSN/SAC</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="65">Qty</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: right; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="85">Rate (₹)</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="65">Unit</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: right; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="95">Amount (₹)</th>
-                    </tr>
-                </thead>
-                <tbody id="printItems">
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 15px; color: #95a5a6; font-style: italic;">[Add items using the form]</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div style="margin-top: 25px; width: 100%; max-width: 300px; margin-left: auto;">
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
-                    <span>Total Taxable Value</span>
-                    <span id="printTaxable">0.00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
-                    <span>CGST <span id="printTaxRate">9</span>%</span>
-                    <span id="printCgst">0.00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
-                    <span>SGST <span id="printSgstRate">9</span>%</span>
-                    <span id="printSgst">0.00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
-                    <span>Round Off</span>
-                    <span id="printRoundOff">0.00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid var(--primary-dark); font-size: 14px; font-weight: 700; color: var(--primary-dark);">
-                    <span>GRAND TOTAL</span>
-                    <span id="printTotal">₹0.00</span>
-                </div>
-            </div>
-            
-            <div id="printNotes" style="margin-top: 15px; font-size: 11px; color: var(--text-medium); padding: 8px; background-color: var(--lighter-accent); border-radius: 4px; display: none;">
-                <strong>Notes:</strong> <span id="printNotesContent"></span>
-            </div>
-            
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px dashed var(--accent-color); display: flex; justify-content: space-between; align-items: flex-start; font-size: 11px;">
-                <div style="flex: 1;">
-                    <p style="margin: 4px 0;"><strong>Payment Terms:</strong> 50% advance, 50% on delivery</p>
-                    <p style="margin: 4px 0;"><strong>Delivery:</strong> Within 15 working days from order confirmation</p>
-                    <p style="margin: 4px 0;"><strong>Bank Details:</strong> State Bank of India | A/C: 123456789012 | IFSC: SBIN0001234</p>
-                    <p style="margin: 4px 0;"><strong>Declaration:</strong> We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</p>
-                </div>
-                <div style="text-align: center; margin-left: 30px;">
-                    <div style="width: 160px; border-bottom: 1px solid var(--primary-dark); margin: 0 auto 5px; padding-top: 30px;"></div>
-                    <div style="font-weight: 600; color: var(--primary-dark); font-size: 13px;">Doel Pathak</div>
-                    <div style="color: var(--text-light); font-size: 11px;">Authorized Signatory</div>
-                    <div style="color: var(--text-light); font-size: 11px;">Urban Kutir</div>
-                </div>
-            </div>
-            
-            <div style="margin-top: 25px; text-align: center; color: var(--text-light); font-size: 11px; padding-top: 15px; border-top: 1px solid var(--light-accent);">
-                <p style="margin: 5px 0;"><strong>TOTAL AMOUNT:</strong> RUPEES <span id="printAmountWords">[Amount in words]</span> ONLY.</p>
-                <p style="margin: 8px 0; font-size: 10px;">This is a computer generated invoice and does not require a physical signature. Subject to Kolkata Jurisdiction.</p>
-                <p style="margin: 5px 0; font-size: 9px; color: #7f8c8d;">As per GST rules, this invoice is valid without signature | E. & O.E.</p>
-                <p style="margin: 10px 0 0 0; font-size: 9px; color: #7f8c8d;">Generated from Urban Kutir Professional Invoice System</p>
-            </div>
-        </div>
-        
-        <!-- Modern Print/PDF Dialog -->
-        <div class="print-dialog-overlay" id="printDialogOverlay">
-            <div class="print-dialog">
-                <div class="print-dialog-header">
-                    <div class="print-dialog-title">
-                        <i class="fas fa-print"></i>
-                        <span>Print & Export Invoice</span>
-                    </div>
-                    <button class="close-dialog-btn" id="closePrintDialog">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <div class="print-options">
-                    <label class="print-option" id="printOption">
-                        <input type="radio" name="outputType" value="print" checked>
-                        <div class="option-icon print-icon">
-                            <i class="fas fa-print"></i>
-                        </div>
-                        <div class="option-content">
-                            <div class="option-title">
-                                Print Invoice
-                                <span class="option-badge">RECOMMENDED</span>
-                            </div>
-                            <div class="option-description">
-                                Send directly to your printer with optimized formatting for professional results.
-                            </div>
-                        </div>
-                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 18px; display: none;"></i>
-                    </label>
-                    
-                    <label class="print-option" id="pdfOption">
-                        <input type="radio" name="outputType" value="pdf">
-                        <div class="option-icon pdf-icon">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
-                        <div class="option-content">
-                            <div class="option-title">Download as PDF</div>
-                            <div class="option-description">
-                                Save as a PDF file for email sharing, digital records, or future printing.
-                            </div>
-                        </div>
-                        <i class="fas fa-check-circle" style="color: var(--primary-color); font-size: 18px; display: none;"></i>
-                    </label>
-                </div>
-                
-                <div class="print-settings">
-                    <div class="setting-group">
-                        <span class="setting-label">Number of Copies</span>
-                        <input type="number" class="copies-input" id="copiesInput" value="1" min="1" max="10">
-                    </div>
-                    <div class="setting-group">
-                        <span class="setting-label">Page Size</span>
-                        <select class="page-size-select" id="pageSizeSelect">
-                            <option value="A4" selected>A4 (Standard)</option>
-                            <option value="Letter">Letter (US)</option>
-                            <option value="Legal">Legal</option>
-                        </select>
-                    </div>
-                    <div class="setting-group">
-                        <span class="setting-label">Include Watermark</span>
-                        <label class="setting-toggle">
-                            <input type="checkbox" class="toggle-checkbox" id="watermarkToggle" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="watermark-control" id="watermarkControl">
-                        <label>
-                            Watermark Opacity:
-                            <input type="range" id="watermarkOpacity" min="1" max="10" value="3">
-                        </label>
-                        <div class="watermark-preview" id="watermarkPreview">
-                            Watermark Preview: 30% opacity
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dialog-actions">
-                    <button class="dialog-btn dialog-btn-secondary" id="cancelPrint">
-                        Cancel
-                    </button>
-                    <button class="dialog-btn dialog-btn-primary" id="proceedWithPrint">
-                        <i class="fas fa-paper-plane"></i>
-                        Proceed
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Loading Overlay -->
-        <div class="loading-overlay" id="loadingOverlay">
-            <div class="loading-spinner"></div>
-            <div class="loading-text" id="loadingText">Preparing your invoice...</div>
-        </div>
-        
-        <!-- Download Ready Notification -->
-        <div class="download-ready" id="downloadReady">
-            <div class="download-ready-content">
-                <div class="download-icon">
-                    <i class="fas fa-check"></i>
-                </div>
-                <div class="download-text">
-                    <div class="download-title">Invoice Ready!</div>
-                    <div class="download-description" id="downloadDescription">Your invoice has been prepared successfully.</div>
-                </div>
-                <button class="close-download-btn" id="closeDownloadReady">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        
-        <footer>
+        <footer class="no-print">
             <p>Urban Kutir Professional Invoice System &copy; 2025 | GST No: 19AAHFU6863E1ZR</p>
         </footer>
     </div>
     
+    <!-- Export Modal -->
+    <div class="modal-overlay" id="exportModal">
+        <div class="export-modal">
+            <div class="modal-header">
+                <h3>Export Invoice</h3>
+                <button class="close-modal" id="closeExportModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="export-options">
+                    <div class="export-option" data-export-type="print">
+                        <div class="export-icon">
+                            <i class="fas fa-print"></i>
+                        </div>
+                        <h4>Print</h4>
+                        <p>Print directly to your printer or save as PDF</p>
+                    </div>
+                    <div class="export-option" data-export-type="pdf">
+                        <div class="export-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h4>Download PDF</h4>
+                        <p>High-quality PDF optimized for sharing</p>
+                    </div>
+                    <div class="export-option" data-export-type="preview">
+                        <div class="export-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h4>Preview</h4>
+                        <p>Preview before printing or downloading</p>
+                    </div>
+                </div>
+                <div class="progress-indicator" id="exportProgress">
+                    <div class="progress-spinner"></div>
+                    <span class="progress-text">Preparing document...</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" id="cancelExport">Cancel</button>
+                <button class="modal-btn modal-btn-primary" id="confirmExport" disabled>Continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Print Preview Modal -->
+    <div class="modal-overlay" id="printPreviewModal">
+        <div class="export-modal print-preview-modal">
+            <div class="print-preview-header">
+                <h3>Print Preview</h3>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-outline" id="printNow">
+                        <i class="fas fa-print"></i> Print Now
+                    </button>
+                    <button class="btn btn-secondary" id="downloadPdfFromPreview">
+                        <i class="fas fa-file-pdf"></i> Save as PDF
+                    </button>
+                    <button class="close-modal" id="closePreviewModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="print-preview-body">
+                <div class="print-preview-content" id="printPreviewContent">
+                    <!-- Print preview will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+    
+    <!-- Include jsPDF and html2canvas libraries for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Set default dates
             const today = new Date();
             const formattedToday = today.toISOString().split('T')[0];
             document.getElementById('invoiceDate').value = formattedToday;
@@ -1726,6 +1615,7 @@
             const formattedDueDate = dueDate.toISOString().split('T')[0];
             document.getElementById('dueDate').value = formattedDueDate;
             
+            // Initialize items with one empty item
             let items = [
                 { 
                     slNo: 1, 
@@ -1738,168 +1628,115 @@
                 }
             ];
             
+            // Initialize DOM elements
             const itemsContainer = document.getElementById('itemsContainer');
             const previewItems = document.getElementById('previewItems');
             const addItemBtn = document.getElementById('addItemBtn');
-            const updateInvoiceBtn = document.getElementById('updateInvoice');
+            const updateInvoiceBtn = document.getElementById('updateInvoiceBtn');
+            const exportInvoiceBtn = document.getElementById('exportInvoice');
             const resetFormBtn = document.getElementById('resetForm');
-            const clientGstInput = document.getElementById('clientGst');
             
-            // New print/PDF functionality elements
-            const openPrintDialogBtn = document.getElementById('openPrintDialog');
-            const openPrintDialogBtnMobile = document.getElementById('openPrintDialogMobile');
-            const printDialogOverlay = document.getElementById('printDialogOverlay');
-            const closePrintDialogBtn = document.getElementById('closePrintDialog');
-            const cancelPrintBtn = document.getElementById('cancelPrint');
-            const proceedWithPrintBtn = document.getElementById('proceedWithPrint');
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            const loadingText = document.getElementById('loadingText');
-            const downloadReady = document.getElementById('downloadReady');
-            const downloadDescription = document.getElementById('downloadDescription');
-            const closeDownloadReadyBtn = document.getElementById('closeDownloadReady');
+            // Mobile buttons
+            const exportInvoiceBtnMobile = document.getElementById('exportInvoiceMobile');
+            const updateInvoiceBtnMobile = document.getElementById('updateInvoiceMobile');
             const resetFormBtnMobile = document.getElementById('resetFormMobile');
             
-            // Print options
-            const printOption = document.getElementById('printOption');
-            const pdfOption = document.getElementById('pdfOption');
-            const watermarkToggle = document.getElementById('watermarkToggle');
-            const watermarkControl = document.getElementById('watermarkControl');
-            const watermarkOpacity = document.getElementById('watermarkOpacity');
-            const watermarkPreview = document.getElementById('watermarkPreview');
-            const copiesInput = document.getElementById('copiesInput');
-            const pageSizeSelect = document.getElementById('pageSizeSelect');
+            // Export modal elements
+            const exportModal = document.getElementById('exportModal');
+            const closeExportModal = document.getElementById('closeExportModal');
+            const cancelExport = document.getElementById('cancelExport');
+            const confirmExport = document.getElementById('confirmExport');
+            const exportProgress = document.getElementById('exportProgress');
+            const exportOptions = document.querySelectorAll('.export-option');
             
-            let selectedOutputType = 'print';
+            // Print preview modal elements
+            const printPreviewModal = document.getElementById('printPreviewModal');
+            const closePreviewModal = document.getElementById('closePreviewModal');
+            const printNowBtn = document.getElementById('printNow');
+            const downloadPdfFromPreviewBtn = document.getElementById('downloadPdfFromPreview');
+            const printPreviewContent = document.getElementById('printPreviewContent');
             
+            // State
+            let selectedExportType = null;
+            
+            // Preload watermark image
             function preloadWatermark() {
-                const watermark = document.querySelector('.watermark');
+                const watermarks = document.querySelectorAll('.watermark');
                 const logoImg = document.querySelector('.logo-img');
-                if (logoImg.complete && logoImg.naturalWidth !== 0) {
-                    watermark.style.backgroundImage = `url('${logoImg.src}')`;
-                } else {
-                    logoImg.onload = function() {
+                watermarks.forEach(watermark => {
+                    if (logoImg && logoImg.complete && logoImg.naturalWidth !== 0) {
                         watermark.style.backgroundImage = `url('${logoImg.src}')`;
-                    };
-                    logoImg.onerror = function() {
-                        watermark.style.backgroundImage = 'none';
-                        watermark.style.backgroundColor = 'rgba(139, 69, 19, 0.015)';
-                    };
-                }
+                    } else {
+                        if (logoImg) {
+                            logoImg.onload = function() {
+                                watermarks.forEach(w => w.style.backgroundImage = `url('${logoImg.src}')`);
+                            };
+                            logoImg.onerror = function() {
+                                watermarks.forEach(w => {
+                                    w.style.backgroundImage = 'none';
+                                    w.style.backgroundColor = 'rgba(139, 69, 19, 0.015)';
+                                });
+                            };
+                        } else {
+                            watermarks.forEach(w => {
+                                w.style.backgroundImage = 'none';
+                                w.style.backgroundColor = 'rgba(139, 69, 19, 0.015)';
+                            });
+                        }
+                    }
+                });
             }
             
+            // Call preload function
             setTimeout(preloadWatermark, 500);
             
-            function renderItems() {
-                itemsContainer.innerHTML = '';
+            // Toast notification system
+            function showToast(type, title, message) {
+                const toastContainer = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.innerHTML = `
+                    <div class="toast-icon">
+                        <i class="fas ${type === 'success' ? 'fa-check' : type === 'error' ? 'fa-exclamation' : 'fa-info'}"></i>
+                    </div>
+                    <div class="toast-content">
+                        <div class="toast-title">${title}</div>
+                        <div class="toast-message">${message}</div>
+                    </div>
+                    <button class="toast-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
                 
-                items.forEach((item, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td><input type="text" class="item-sno" value="${item.slNo}" readonly></td>
-                        <td><input type="text" class="item-name" value="${item.name}" placeholder="Item description"></td>
-                        <td><input type="text" class="item-hsn" value="${item.hsnCode}" placeholder="HSN/SAC code"></td>
-                        <td><input type="number" class="item-qty" value="${item.qty}" placeholder="Qty" min="0" step="0.01"></td>
-                        <td><input type="number" class="item-price" value="${item.price}" placeholder="Rate" min="0" step="0.01"></td>
-                        <td><input type="text" class="item-unit" value="${item.unit}" placeholder="Unit"></td>
-                        <td><input type="text" class="item-total" value="${formatCurrency(item.total, true)}" readonly></td>
-                        <td class="text-center">
-                            ${items.length > 1 ? `<button type="button" class="item-action-btn" data-index="${index}">
-                                <i class="fas fa-trash"></i>
-                            </button>` : ''}
-                        </td>
-                    `;
-                    itemsContainer.appendChild(row);
-                });
+                toastContainer.appendChild(toast);
                 
-                document.querySelectorAll('.item-action-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        if (items.length > 1) {
-                            items.splice(index, 1);
-                            items.forEach((item, idx) => item.slNo = idx + 1);
-                            renderItems();
-                            updatePreview();
-                        }
-                    });
-                });
+                // Show toast
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 10);
                 
-                document.querySelectorAll('.item-qty, .item-price').forEach(input => {
-                    input.addEventListener('input', function() {
-                        const row = this.closest('tr');
-                        const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
-                        const price = parseFloat(row.querySelector('.item-price').value) || 0;
-                        const total = qty * price;
-                        row.querySelector('.item-total').value = formatCurrency(total, true);
-                        
-                        const sno = parseInt(row.querySelector('.item-sno').value) - 1;
-                        items[sno].qty = qty;
-                        items[sno].price = price;
-                        items[sno].total = total;
-                        
-                        items[sno].name = row.querySelector('.item-name').value;
-                        items[sno].hsnCode = row.querySelector('.item-hsn').value;
-                        items[sno].unit = row.querySelector('.item-unit').value;
-                        
-                        updatePreview();
-                    });
-                });
+                // Auto-remove toast after 5 seconds
+                const autoRemove = setTimeout(() => {
+                    hideToast(toast);
+                }, 5000);
                 
-                document.querySelectorAll('.item-name, .item-hsn, .item-unit').forEach(input => {
-                    input.addEventListener('input', function() {
-                        const row = this.closest('tr');
-                        const sno = parseInt(row.querySelector('.item-sno').value) - 1;
-                        
-                        if (this.classList.contains('item-name')) {
-                            items[sno].name = this.value;
-                        } else if (this.classList.contains('item-hsn')) {
-                            items[sno].hsnCode = this.value;
-                        } else if (this.classList.contains('item-unit')) {
-                            items[sno].unit = this.value;
-                        }
-                        
-                        updatePreview();
-                    });
+                // Close button
+                toast.querySelector('.toast-close').addEventListener('click', () => {
+                    clearTimeout(autoRemove);
+                    hideToast(toast);
                 });
             }
             
-            function renderPreviewItems() {
-                previewItems.innerHTML = '';
-                
-                const hasItems = items.some(item => item.name.trim() !== '' || item.total > 0);
-                
-                if (!hasItems) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td colspan="7" class="text-center empty-state">[Add items using the form on the left]</td>
-                    `;
-                    previewItems.appendChild(row);
-                    return;
-                }
-                
-                items.forEach(item => {
-                    if (item.name.trim() === '' && item.total === 0) return;
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="text-center">${item.slNo}</td>
-                        <td>${item.name || '-'}</td>
-                        <td class="text-center">${item.hsnCode || '-'}</td>
-                        <td class="text-center">${item.qty}</td>
-                        <td class="text-right">${formatCurrency(item.price, true)}</td>
-                        <td class="text-center">${item.unit || 'Pcs'}</td>
-                        <td class="text-right">${formatCurrency(item.total, true)}</td>
-                    `;
-                    previewItems.appendChild(row);
-                });
+            function hideToast(toast) {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
             }
             
-            function formatCurrency(amount, withDecimals = false) {
-                if (withDecimals) {
-                    return amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                }
-                return amount.toLocaleString('en-IN');
-            }
-            
+            // Number to words function
             function numberToWords(num) {
                 if (num === 0) return 'ZERO';
                 
@@ -1948,7 +1785,136 @@
                 return words.trim() || 'ZERO';
             }
             
-            function updatePreview() {
+            // Format currency with commas and decimals
+            function formatCurrency(amount, withDecimals = false) {
+                if (withDecimals) {
+                    return amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                }
+                return amount.toLocaleString('en-IN');
+            }
+            
+            // Format date from YYYY-MM-DD to DD/MM/YYYY
+            function formatDate(dateString) {
+                if (!dateString) return '';
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+            
+            // Render items in editor
+            function renderItems() {
+                itemsContainer.innerHTML = '';
+                
+                items.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><input type="text" class="item-sno" value="${item.slNo}" readonly></td>
+                        <td><input type="text" class="item-name" value="${item.name}" placeholder="Description of goods/services"></td>
+                        <td><input type="text" class="item-hsn" value="${item.hsnCode}" placeholder="HSN/SAC code"></td>
+                        <td><input type="number" class="item-qty" value="${item.qty}" placeholder="Qty" min="0" step="0.01"></td>
+                        <td><input type="number" class="item-price" value="${item.price}" placeholder="Rate" min="0" step="0.01"></td>
+                        <td><input type="text" class="item-unit" value="${item.unit}" placeholder="Unit"></td>
+                        <td><input type="text" class="item-total" value="${formatCurrency(item.total, true)}" readonly></td>
+                        <td class="text-center">
+                            ${items.length > 1 ? `<button type="button" class="item-action-btn" data-index="${index}" aria-label="Delete item">
+                                <i class="fas fa-trash"></i>
+                            </button>` : ''}
+                        </td>
+                    `;
+                    itemsContainer.appendChild(row);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.item-action-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        if (items.length > 1) {
+                            items.splice(index, 1);
+                            items.forEach((item, idx) => item.slNo = idx + 1);
+                            renderItems();
+                            updateInvoicePreview();
+                        }
+                    });
+                });
+                
+                // Add event listeners to qty and price inputs for auto-calculation
+                document.querySelectorAll('.item-qty, .item-price').forEach(input => {
+                    input.addEventListener('input', function() {
+                        const row = this.closest('tr');
+                        const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                        const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                        const total = qty * price;
+                        row.querySelector('.item-total').value = formatCurrency(total, true);
+                        
+                        const sno = parseInt(row.querySelector('.item-sno').value) - 1;
+                        items[sno].qty = qty;
+                        items[sno].price = price;
+                        items[sno].total = total;
+                        
+                        items[sno].name = row.querySelector('.item-name').value;
+                        items[sno].hsnCode = row.querySelector('.item-hsn').value;
+                        items[sno].unit = row.querySelector('.item-unit').value;
+                        
+                        updateInvoicePreview();
+                    });
+                });
+                
+                // Add event listeners to other inputs
+                document.querySelectorAll('.item-name, .item-hsn, .item-unit').forEach(input => {
+                    input.addEventListener('input', function() {
+                        const row = this.closest('tr');
+                        const sno = parseInt(row.querySelector('.item-sno').value) - 1;
+                        
+                        if (this.classList.contains('item-name')) {
+                            items[sno].name = this.value;
+                        } else if (this.classList.contains('item-hsn')) {
+                            items[sno].hsnCode = this.value;
+                        } else if (this.classList.contains('item-unit')) {
+                            items[sno].unit = this.value;
+                        }
+                        
+                        updateInvoicePreview();
+                    });
+                });
+            }
+            
+            // Render items in preview
+            function renderPreviewItems() {
+                previewItems.innerHTML = '';
+                
+                const hasItems = items.some(item => item.name.trim() !== '' || item.total > 0);
+                
+                if (!hasItems) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td colspan="7" class="text-center empty-state">[Add items using the form on the left]</td>
+                    `;
+                    previewItems.appendChild(row);
+                    return;
+                }
+                
+                items.forEach(item => {
+                    if (item.name.trim() === '' && item.total === 0) return;
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="text-center">${item.slNo}</td>
+                        <td>${item.name || '-'}</td>
+                        <td class="text-center">${item.hsnCode || '-'}</td>
+                        <td class="text-center">${item.qty}</td>
+                        <td class="text-right">${formatCurrency(item.price, true)}</td>
+                        <td class="text-center">${item.unit || 'Pcs'}</td>
+                        <td class="text-right">${formatCurrency(item.total, true)}</td>
+                    `;
+                    previewItems.appendChild(row);
+                });
+            }
+            
+            // Update invoice preview with form values
+            function updateInvoicePreview() {
+                // Update basic information
                 const invoiceNo = document.getElementById('invoiceNo').value;
                 document.getElementById('previewInvoiceNo').textContent = invoiceNo || '[Invoice Number]';
                 document.getElementById('previewInvoiceNo').className = invoiceNo ? '' : 'empty-state';
@@ -1961,6 +1927,7 @@
                 document.getElementById('previewDueDate').textContent = dueDate ? formatDate(dueDate) : '[Due Date]';
                 document.getElementById('previewDueDate').className = dueDate ? '' : 'empty-state';
                 
+                // Update client information
                 const clientName = document.getElementById('clientName').value;
                 const clientAddress = document.getElementById('clientAddress').value;
                 const clientGst = document.getElementById('clientGst').value;
@@ -1988,6 +1955,7 @@
                     document.getElementById('previewClient').innerHTML = '<div class="empty-state">[Client Information]</div>';
                 }
                 
+                // Update delivery address
                 const deliveryAddress = document.getElementById('deliveryAddress').value;
                 const phoneNumber = document.getElementById('phoneNumber').value;
                 
@@ -2002,14 +1970,17 @@
                     document.getElementById('previewDelivery').innerHTML = '<div class="empty-state">[Delivery Address]</div>';
                 }
                 
+                // Update items
                 renderPreviewItems();
                 
+                // Calculate totals
                 const taxableValue = items.reduce((sum, item) => sum + item.total, 0);
                 const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
                 const taxAmount = (taxableValue * taxRate) / 100;
                 const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
                 const totalAmount = taxableValue + (taxAmount * 2) + roundOff;
                 
+                // Update summary
                 document.getElementById('previewTaxable').textContent = formatCurrency(taxableValue, true);
                 document.getElementById('previewTaxRate').textContent = taxRate;
                 document.getElementById('previewSgstRate').textContent = taxRate;
@@ -2018,10 +1989,12 @@
                 document.getElementById('previewRoundOff').textContent = formatCurrency(roundOff, true);
                 document.getElementById('previewTotal').textContent = '₹' + formatCurrency(totalAmount, true);
                 
+                // Update amount in words
                 const amountWords = numberToWords(Math.round(totalAmount));
                 document.getElementById('previewAmountWords').textContent = totalAmount > 0 ? amountWords : '[Amount in words]';
                 document.getElementById('previewAmountWords').className = totalAmount > 0 ? '' : 'empty-state';
                 
+                // Update notes
                 const notes = document.getElementById('notes').value;
                 const notesContainer = document.getElementById('previewNotes');
                 const notesContent = document.getElementById('previewNotesContent');
@@ -2032,314 +2005,518 @@
                 } else {
                     notesContainer.style.display = 'none';
                 }
-                
-                updatePrintTemplate();
             }
             
-            function updatePrintTemplate() {
+            // Generate print preview HTML
+            function generatePrintPreviewHTML() {
                 const invoiceNo = document.getElementById('invoiceNo').value;
-                document.getElementById('printInvoiceNo').textContent = invoiceNo || '[Invoice Number]';
-                
                 const invoiceDate = document.getElementById('invoiceDate').value;
-                document.getElementById('printDate').textContent = invoiceDate ? formatDate(invoiceDate) : '[Date]';
-                
                 const dueDate = document.getElementById('dueDate').value;
-                document.getElementById('printDueDate').textContent = dueDate ? formatDate(dueDate) : '[Due Date]';
-                
+                const poNumber = document.getElementById('poNumber').value;
                 const clientName = document.getElementById('clientName').value;
                 const clientAddress = document.getElementById('clientAddress').value;
                 const clientGst = document.getElementById('clientGst').value;
-                
-                if (clientName.trim() || clientAddress.trim()) {
-                    let clientHTML = '';
-                    if (clientName.trim()) clientHTML += clientName + '<br>';
-                    if (clientAddress.trim()) clientHTML += clientAddress.replace(/\n/g, '<br>');
-                    if (clientGst.trim()) clientHTML += '<br><strong>GSTIN:</strong> ' + clientGst;
-                    
-                    document.getElementById('printClient').innerHTML = clientHTML;
-                } else {
-                    document.getElementById('printClient').innerHTML = '[Client Information]';
-                }
-                
                 const deliveryAddress = document.getElementById('deliveryAddress').value;
                 const phoneNumber = document.getElementById('phoneNumber').value;
+                const notes = document.getElementById('notes').value;
+                const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+                const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
                 
-                if (deliveryAddress.trim() || phoneNumber.trim()) {
-                    let deliveryHTML = '';
-                    if (deliveryAddress.trim()) deliveryHTML += deliveryAddress.replace(/\n/g, '<br>');
-                    if (phoneNumber.trim()) deliveryHTML += (deliveryAddress.trim() ? '<br>' : '') + 'PHONE: ' + phoneNumber;
-                    
-                    document.getElementById('printDelivery').innerHTML = deliveryHTML;
-                } else {
-                    document.getElementById('printDelivery').innerHTML = '[Delivery Address]';
-                }
+                // Calculate totals
+                const taxableValue = items.reduce((sum, item) => sum + item.total, 0);
+                const taxAmount = (taxableValue * taxRate) / 100;
+                const totalAmount = taxableValue + (taxAmount * 2) + roundOff;
+                const amountWords = numberToWords(Math.round(totalAmount));
                 
-                const printItemsContainer = document.getElementById('printItems');
-                printItemsContainer.innerHTML = '';
-                
-                const hasItems = items.some(item => item.name.trim() !== '' || item.total > 0);
-                
-                if (!hasItems) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td colspan="7" style="text-align: center; padding: 15px; color: #95a5a6; font-style: italic;">[Add items using the form]</td>
-                    `;
-                    printItemsContainer.appendChild(row);
-                } else {
+                // Generate items HTML
+                let itemsHTML = '';
+                if (items.some(item => item.name.trim() !== '' || item.total > 0)) {
                     items.forEach(item => {
                         if (item.name.trim() === '' && item.total === 0) return;
                         
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td style="text-align: center; padding: 8px; border: 1px solid var(--light-accent);">${item.slNo}</td>
-                            <td style="padding: 8px; border: 1px solid var(--light-accent);">${item.name || '-'}</td>
-                            <td style="text-align: center; padding: 8px; border: 1px solid var(--light-accent);">${item.hsnCode || '-'}</td>
-                            <td style="text-align: center; padding: 8px; border: 1px solid var(--light-accent);">${item.qty}</td>
-                            <td style="text-align: right; padding: 8px; border: 1px solid var(--light-accent);">${formatCurrency(item.price, true)}</td>
-                            <td style="text-align: center; padding: 8px; border: 1px solid var(--light-accent);">${item.unit || 'Pcs'}</td>
-                            <td style="text-align: right; padding: 8px; border: 1px solid var(--light-accent);">${formatCurrency(item.total, true)}</td>
+                        itemsHTML += `
+                            <tr>
+                                <td class="text-center">${item.slNo}</td>
+                                <td>${item.name || '-'}</td>
+                                <td class="text-center">${item.hsnCode || '-'}</td>
+                                <td class="text-center">${item.qty}</td>
+                                <td class="text-right">${formatCurrency(item.price, true)}</td>
+                                <td class="text-center">${item.unit || 'Pcs'}</td>
+                                <td class="text-right">${formatCurrency(item.total, true)}</td>
+                            </tr>
                         `;
-                        printItemsContainer.appendChild(row);
                     });
-                }
-                
-                const taxableValue = items.reduce((sum, item) => sum + item.total, 0);
-                const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
-                const taxAmount = (taxableValue * taxRate) / 100;
-                const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
-                const totalAmount = taxableValue + (taxAmount * 2) + roundOff;
-                
-                document.getElementById('printTaxable').textContent = formatCurrency(taxableValue, true);
-                document.getElementById('printTaxRate').textContent = taxRate;
-                document.getElementById('printSgstRate').textContent = taxRate;
-                document.getElementById('printCgst').textContent = formatCurrency(taxAmount, true);
-                document.getElementById('printSgst').textContent = formatCurrency(taxAmount, true);
-                document.getElementById('printRoundOff').textContent = formatCurrency(roundOff, true);
-                document.getElementById('printTotal').textContent = '₹' + formatCurrency(totalAmount, true);
-                
-                const amountWords = numberToWords(Math.round(totalAmount));
-                document.getElementById('printAmountWords').textContent = totalAmount > 0 ? amountWords : '[Amount in words]';
-                
-                const notes = document.getElementById('notes').value;
-                const notesContainer = document.getElementById('printNotes');
-                const notesContent = document.getElementById('printNotesContent');
-                
-                if (notes.trim()) {
-                    notesContent.textContent = notes;
-                    notesContainer.style.display = 'block';
                 } else {
-                    notesContainer.style.display = 'none';
-                }
-            }
-            
-            function formatDate(dateString) {
-                if (!dateString) return '';
-                const date = new Date(dateString);
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                return `${day}/${month}/${year}`;
-            }
-            
-            // Modern Print/PDF Functionality
-            function showPrintDialog() {
-                updatePrintTemplate();
-                printDialogOverlay.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                
-                // Reset selection
-                document.querySelectorAll('.print-option').forEach(option => {
-                    option.classList.remove('selected');
-                    option.querySelector('.fa-check-circle').style.display = 'none';
-                });
-                
-                if (selectedOutputType === 'print') {
-                    printOption.classList.add('selected');
-                    printOption.querySelector('.fa-check-circle').style.display = 'block';
-                } else {
-                    pdfOption.classList.add('selected');
-                    pdfOption.querySelector('.fa-check-circle').style.display = 'block';
+                    itemsHTML = '<tr><td colspan="7" class="text-center">[No items added]</td></tr>';
                 }
                 
-                // Update watermark preview
-                updateWatermarkPreview();
-            }
-            
-            function closePrintDialog() {
-                printDialogOverlay.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-            
-            function showLoading(message) {
-                loadingText.textContent = message;
-                loadingOverlay.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function hideLoading() {
-                loadingOverlay.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-            
-            function showDownloadReady(message) {
-                downloadDescription.textContent = message;
-                downloadReady.style.display = 'block';
+                // Client info
+                let clientHTML = '';
+                if (clientName.trim()) clientHTML += clientName + '<br>';
+                if (clientAddress.trim()) clientHTML += clientAddress.replace(/\n/g, '<br>');
+                if (clientGst.trim()) clientHTML += '<br><strong>GSTIN:</strong> ' + clientGst;
                 
-                // Auto-hide after 5 seconds
-                setTimeout(() => {
-                    downloadReady.style.display = 'none';
-                }, 5000);
-            }
-            
-            function updateWatermarkPreview() {
-                const opacityValue = watermarkOpacity.value;
-                const opacityPercentage = opacityValue * 10;
-                watermarkPreview.textContent = `Watermark Preview: ${opacityPercentage}% opacity`;
-            }
-            
-            // Browser-based PDF generation using print to PDF
-            function generatePDF() {
-                const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
-                const copies = parseInt(copiesInput.value) || 1;
-                const includeWatermark = watermarkToggle.checked;
-                const watermarkOpacityValue = parseInt(watermarkOpacity.value) * 10;
+                // Delivery info
+                let deliveryHTML = '';
+                if (deliveryAddress.trim()) deliveryHTML += deliveryAddress.replace(/\n/g, '<br>');
+                if (phoneNumber.trim()) deliveryHTML += (deliveryAddress.trim() ? '<br>' : '') + 'PHONE: ' + phoneNumber;
                 
-                showLoading('Preparing PDF document...');
-                
-                // Apply watermark settings to print template
-                const watermarkElement = document.querySelector('#invoicePrintTemplate .watermark-print');
-                if (includeWatermark) {
-                    watermarkElement.style.opacity = watermarkOpacityValue / 100;
-                    watermarkElement.style.display = 'block';
-                } else {
-                    watermarkElement.style.display = 'none';
-                }
-                
-                // Show print template
-                const printTemplate = document.getElementById('invoicePrintTemplate');
-                printTemplate.style.display = 'block';
-                
-                // Use browser's print to PDF functionality
-                setTimeout(() => {
-                    const printWindow = window.open('', '_blank');
-                    const pageSize = pageSizeSelect.value;
+                return `
+                    <style>
+                        .print-content {
+                            font-family: 'Inter', sans-serif;
+                            color: #2c1810;
+                            line-height: 1.5;
+                        }
+                        
+                        .print-header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-start;
+                            margin-bottom: 30px;
+                            padding-bottom: 20px;
+                            border-bottom: 2px solid #d4a574;
+                        }
+                        
+                        .print-company-info h1 {
+                            color: #5a3921;
+                            font-size: 24px;
+                            margin-bottom: 5px;
+                        }
+                        
+                        .print-meta {
+                            text-align: right;
+                        }
+                        
+                        .print-meta p {
+                            margin-bottom: 5px;
+                            font-size: 12px;
+                        }
+                        
+                        .print-addresses {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 25px;
+                            gap: 20px;
+                        }
+                        
+                        .print-address-box {
+                            flex: 1;
+                            background-color: #fcfaf7;
+                            padding: 15px;
+                            border-radius: 6px;
+                            border-left: 3px solid #d4a574;
+                        }
+                        
+                        .print-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 25px 0;
+                            font-size: 11px;
+                        }
+                        
+                        .print-table th {
+                            background-color: #f0e6d6;
+                            padding: 10px 12px;
+                            text-align: left;
+                            font-weight: 600;
+                            color: #5a3921;
+                            border-bottom: 1px solid #d4a574;
+                            border-top: 1px solid #d4a574;
+                        }
+                        
+                        .print-table td {
+                            padding: 9px 12px;
+                            border-bottom: 1px solid #f0e6d6;
+                        }
+                        
+                        .print-summary {
+                            width: 100%;
+                            max-width: 300px;
+                            margin-left: auto;
+                            margin-top: 30px;
+                        }
+                        
+                        .print-summary-row {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 8px 0;
+                            border-bottom: 1px dashed #e0d6c8;
+                        }
+                        
+                        .print-total {
+                            font-weight: 700;
+                            font-size: 15px;
+                            border-bottom: 2px solid #5a3921;
+                            padding-top: 12px;
+                            color: #5a3921;
+                        }
+                        
+                        .print-authorization {
+                            margin-top: 40px;
+                            padding-top: 25px;
+                            border-top: 2px dashed #d4a574;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+                        
+                        .print-signature {
+                            text-align: center;
+                        }
+                        
+                        .print-signature-line {
+                            width: 200px;
+                            border-bottom: 1px solid #5a3921;
+                            margin: 0 auto 5px;
+                            padding-top: 40px;
+                        }
+                    </style>
                     
-                    printWindow.document.write(`
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <title>Urban Kutir - Invoice ${invoiceNo}</title>
-                            <style>
-                                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-                                * {
-                                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                                    margin: 0;
-                                    padding: 0;
-                                    box-sizing: border-box;
-                                }
-                                body {
-                                    width: ${pageSize === 'Letter' ? '8.5in' : pageSize === 'Legal' ? '8.5in' : '210mm'};
-                                    height: ${pageSize === 'Letter' ? '11in' : pageSize === 'Legal' ? '14in' : '297mm'};
-                                    padding: 20mm;
-                                    background: white;
-                                    margin: 0;
-                                }
-                                @page {
-                                    size: ${pageSize};
-                                    margin: 20mm;
-                                }
-                                .invoice-print-output {
-                                    display: block !important;
-                                }
-                            </style>
-                        </head>
-                        <body>
-                            ${printTemplate.outerHTML}
-                            <script>
-                                window.onload = function() {
-                                    // For multiple copies
-                                    for (let i = 1; i < ${copies}; i++) {
-                                        window.print();
-                                    }
-                                    
-                                    // Actual print with delay to ensure everything is loaded
-                                    setTimeout(() => {
-                                        window.print();
-                                        setTimeout(() => {
-                                            window.close();
-                                        }, 500);
-                                    }, 500);
-                                };
-                            <\/script>
-                        </body>
-                        </html>
-                    `);
-                    printWindow.document.close();
-                    
-                    setTimeout(() => {
-                        printTemplate.style.display = 'none';
-                        hideLoading();
-                        showDownloadReady(`PDF saved as UrbanKutir_Invoice_${invoiceNo}.pdf`);
-                    }, 1500);
-                }, 500);
+                    <div class="print-content">
+                        <div class="print-header">
+                            <div class="print-company-info">
+                                <h1>Urban Kutir</h1>
+                                <p style="color: #8B4513; font-size: 13px; margin-bottom: 8px;">Premium Home Solutions & Interior Design</p>
+                                <p style="font-size: 12px;">
+                                    59 Kali Charan Gosh Road, Binayak Enclave, Block J2, Flat 308, Kolkata 700050, West Bengal<br>
+                                    <strong>GSTIN:</strong> 19AAHFU6863E1ZR<br>
+                                    <i class="fas fa-envelope"></i> urbankutir@gmail.com | 
+                                    <i class="fas fa-phone"></i> 9831859858
+                                </p>
+                            </div>
+                            <div class="print-meta">
+                                <p><strong>INVOICE NO:</strong> ${invoiceNo || 'INV-XXXX'}</p>
+                                <p><strong>DATE:</strong> ${invoiceDate ? formatDate(invoiceDate) : formatDate(formattedToday)}</p>
+                                <p><strong>DUE DATE:</strong> ${dueDate ? formatDate(dueDate) : formatDate(formattedDueDate)}</p>
+                                ${poNumber ? `<p><strong>PO NUMBER:</strong> ${poNumber}</p>` : ''}
+                                <p><strong>STATE:</strong> WEST BENGAL</p>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin: 30px 0;">
+                            <h1 style="color: #5a3921; font-size: 28px; border-bottom: 2px solid #d4a574; padding-bottom: 10px; display: inline-block;">TAX INVOICE</h1>
+                        </div>
+                        
+                        <div class="print-addresses">
+                            <div class="print-address-box">
+                                <strong style="color: #5a3921; font-size: 14px;">BILLED TO:</strong><br>
+                                <div style="margin-top: 8px; font-size: 12px;">${clientHTML || '[Client Information]'}</div>
+                            </div>
+                            <div class="print-address-box">
+                                <strong style="color: #5a3921; font-size: 14px;">SHIP TO:</strong><br>
+                                <div style="margin-top: 8px; font-size: 12px;">${deliveryHTML || '[Delivery Address]'}</div>
+                            </div>
+                        </div>
+                        
+                        <table class="print-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="45">SL No</th>
+                                    <th>Description of Goods/Services</th>
+                                    <th class="text-center" width="85">HSN/SAC</th>
+                                    <th class="text-center" width="65">Qty</th>
+                                    <th class="text-right" width="85">Rate (₹)</th>
+                                    <th class="text-center" width="65">Unit</th>
+                                    <th class="text-right" width="95">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${itemsHTML}
+                            </tbody>
+                        </table>
+                        
+                        <div class="print-summary">
+                            <div class="print-summary-row">
+                                <span>Total Taxable Value</span>
+                                <span>${formatCurrency(taxableValue, true)}</span>
+                            </div>
+                            <div class="print-summary-row">
+                                <span>CGST ${taxRate}%</span>
+                                <span>${formatCurrency(taxAmount, true)}</span>
+                            </div>
+                            <div class="print-summary-row">
+                                <span>SGST ${taxRate}%</span>
+                                <span>${formatCurrency(taxAmount, true)}</span>
+                            </div>
+                            <div class="print-summary-row">
+                                <span>Round Off</span>
+                                <span>${formatCurrency(roundOff, true)}</span>
+                            </div>
+                            <div class="print-summary-row print-total">
+                                <span>GRAND TOTAL</span>
+                                <span>₹${formatCurrency(totalAmount, true)}</span>
+                            </div>
+                        </div>
+                        
+                        ${notes.trim() ? `
+                            <div style="margin-top: 15px; font-size: 12px; padding: 10px; background-color: #fcfaf7; border-radius: 4px;">
+                                <strong>Notes:</strong> ${notes}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="print-authorization">
+                            <div style="flex: 1;">
+                                <p style="font-size: 11px;"><strong>Payment Terms:</strong> 50% advance, 50% on delivery</p>
+                                <p style="font-size: 11px;"><strong>Delivery:</strong> Within 15 working days from order confirmation</p>
+                                <p style="font-size: 11px;"><strong>Bank Details:</strong> State Bank of India | A/C: 123456789012 | IFSC: SBIN0001234</p>
+                                <p style="font-size: 11px;"><strong>PAN:</strong> AAHFU6863E</p>
+                            </div>
+                            <div class="print-signature">
+                                <div class="print-signature-line"></div>
+                                <div style="font-weight: 600; color: #5a3921; font-size: 14px;">Doel Pathak</div>
+                                <div style="color: #8B4513; font-size: 12px;">Authorized Signatory</div>
+                                <div style="color: #8B4513; font-size: 12px;">Urban Kutir</div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #f0e6d6; font-size: 10px; color: #8B4513;">
+                            <p><strong>TOTAL AMOUNT:</strong> RUPEES ${amountWords} ONLY.</p>
+                            <p style="margin-top: 10px;">This is a computer generated invoice and does not require a physical signature. Subject to Kolkata Jurisdiction.</p>
+                            <p style="margin-top: 5px;">As per GST rules, this invoice is valid without signature | E. & O.E.</p>
+                        </div>
+                    </div>
+                `;
             }
             
-            // Modern print function
-            function printInvoice() {
-                const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
-                const copies = parseInt(copiesInput.value) || 1;
-                const includeWatermark = watermarkToggle.checked;
-                const watermarkOpacityValue = parseInt(watermarkOpacity.value) * 10;
+            // Show print preview
+            function showPrintPreview() {
+                const html = generatePrintPreviewHTML();
+                printPreviewContent.innerHTML = html;
+                printPreviewModal.classList.add('active');
+            }
+            
+            // Generate PDF
+            async function generatePDF() {
+                const { jsPDF } = window.jspdf;
                 
-                showLoading('Preparing for printing...');
+                exportProgress.classList.add('active');
+                confirmExport.disabled = true;
                 
-                // Apply watermark settings to print template
-                const watermarkElement = document.querySelector('#invoicePrintTemplate .watermark-print');
-                if (includeWatermark) {
-                    watermarkElement.style.opacity = watermarkOpacityValue / 100;
-                    watermarkElement.style.display = 'block';
-                } else {
-                    watermarkElement.style.display = 'none';
-                }
-                
-                // Show print template
-                const printTemplate = document.getElementById('invoicePrintTemplate');
-                printTemplate.style.display = 'block';
-                
-                // Use browser's print functionality
-                setTimeout(() => {
-                    // For multiple copies, we need to handle this differently
-                    // Most browsers don't support programmatically setting copies
-                    // So we'll show a message to the user
-                    if (copies > 1) {
-                        alert(`Please set ${copies} copies in your printer dialog.`);
+                try {
+                    const html = generatePrintPreviewHTML();
+                    
+                    // Create a temporary container
+                    const tempContainer = document.createElement('div');
+                    tempContainer.style.position = 'absolute';
+                    tempContainer.style.left = '-9999px';
+                    tempContainer.style.top = '0';
+                    tempContainer.style.width = '800px';
+                    tempContainer.style.padding = '20px';
+                    tempContainer.style.background = 'white';
+                    tempContainer.innerHTML = html;
+                    document.body.appendChild(tempContainer);
+                    
+                    // Wait for content to load
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                    // Convert to canvas
+                    const canvas = await html2canvas(tempContainer, {
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        backgroundColor: '#ffffff',
+                        width: 800,
+                        height: tempContainer.scrollHeight
+                    });
+                    
+                    // Remove temp container
+                    document.body.removeChild(tempContainer);
+                    
+                    // Create PDF
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgWidth = 210;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    
+                    let heightLeft = imgHeight;
+                    let position = 0;
+                    
+                    pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= 297;
+                    
+                    // Add additional pages if needed
+                    while (heightLeft > 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= 297;
                     }
                     
-                    window.print();
+                    const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
+                    const filename = `UrbanKutir_Invoice_${invoiceNo}.pdf`;
                     
-                    setTimeout(() => {
-                        printTemplate.style.display = 'none';
-                        hideLoading();
-                        
-                        if (copies === 1) {
-                            showDownloadReady('Invoice sent to printer successfully.');
-                        }
-                    }, 500);
-                }, 500);
-            }
-            
-            function proceedWithOutput() {
-                closePrintDialog();
-                
-                if (selectedOutputType === 'print') {
-                    printInvoice();
-                } else {
-                    generatePDF();
+                    pdf.save(filename);
+                    
+                    exportProgress.classList.remove('active');
+                    confirmExport.disabled = false;
+                    exportModal.classList.remove('active');
+                    
+                    showToast('success', 'PDF Downloaded', `Invoice saved as ${filename}`);
+                    
+                } catch (error) {
+                    console.error('Error generating PDF:', error);
+                    exportProgress.classList.remove('active');
+                    confirmExport.disabled = false;
+                    
+                    showToast('error', 'PDF Generation Failed', 'Unable to generate PDF. Please try again.');
                 }
             }
             
+            // Direct print function
+            function directPrint() {
+                const html = generatePrintPreviewHTML();
+                
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
+                        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                        <style>
+                            @media print {
+                                @page {
+                                    margin: 15mm;
+                                    size: A4;
+                                }
+                                body {
+                                    -webkit-print-color-adjust: exact;
+                                    print-color-adjust: exact;
+                                }
+                            }
+                            body {
+                                margin: 0;
+                                padding: 0;
+                                font-family: 'Inter', sans-serif;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${html}
+                        <script>
+                            window.onload = function() {
+                                window.print();
+                                setTimeout(() => window.close(), 500);
+                            };
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                
+                exportModal.classList.remove('active');
+                showToast('success', 'Print Started', 'The print dialog has been opened.');
+            }
+            
+            // Export modal functionality
+            exportInvoiceBtn.addEventListener('click', () => exportModal.classList.add('active'));
+            exportInvoiceBtnMobile.addEventListener('click', () => exportModal.classList.add('active'));
+            
+            closeExportModal.addEventListener('click', () => exportModal.classList.remove('active'));
+            cancelExport.addEventListener('click', () => exportModal.classList.remove('active'));
+            
+            // Export option selection
+            exportOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    exportOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedExportType = this.getAttribute('data-export-type');
+                    confirmExport.disabled = false;
+                });
+            });
+            
+            // Confirm export
+            confirmExport.addEventListener('click', () => {
+                switch (selectedExportType) {
+                    case 'print':
+                        directPrint();
+                        break;
+                    case 'pdf':
+                        generatePDF();
+                        break;
+                    case 'preview':
+                        showPrintPreview();
+                        exportModal.classList.remove('active');
+                        break;
+                }
+            });
+            
+            // Print preview modal
+            closePreviewModal.addEventListener('click', () => printPreviewModal.classList.remove('active'));
+            
+            printNowBtn.addEventListener('click', () => {
+                const html = printPreviewContent.innerHTML;
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
+                        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                        <style>
+                            @media print {
+                                @page {
+                                    margin: 15mm;
+                                    size: A4;
+                                }
+                                body {
+                                    -webkit-print-color-adjust: exact;
+                                    print-color-adjust: exact;
+                                }
+                            }
+                            body {
+                                margin: 0;
+                                padding: 0;
+                                font-family: 'Inter', sans-serif;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${html}
+                        <script>
+                            window.onload = function() {
+                                window.print();
+                                setTimeout(() => window.close(), 500);
+                            };
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printPreviewModal.classList.remove('active');
+            });
+            
+            downloadPdfFromPreviewBtn.addEventListener('click', async () => {
+                printPreviewModal.classList.remove('active');
+                await generatePDF();
+            });
+            
+            // Add new item
+            addItemBtn.addEventListener('click', function() {
+                const newSlNo = items.length + 1;
+                items.push({
+                    slNo: newSlNo,
+                    name: "",
+                    hsnCode: "",
+                    qty: 1,
+                    price: 0,
+                    unit: "Pcs",
+                    total: 0
+                });
+                renderItems();
+                updateInvoicePreview();
+            });
+            
+            // Update invoice preview
+            updateInvoiceBtn.addEventListener('click', updateInvoicePreview);
+            updateInvoiceBtnMobile.addEventListener('click', updateInvoicePreview);
+            
+            // Reset form function
             function resetForm() {
                 if (confirm('Are you sure you want to reset the form? All data will be cleared.')) {
+                    // Reset form fields to empty
                     document.getElementById('invoiceNo').value = '';
                     document.getElementById('invoiceDate').value = formattedToday;
                     document.getElementById('dueDate').value = formattedDueDate;
@@ -2353,6 +2530,7 @@
                     document.getElementById('roundOff').value = '0';
                     document.getElementById('notes').value = '';
                     
+                    // Reset items to one empty item
                     items = [
                         { 
                             slNo: 1, 
@@ -2366,133 +2544,47 @@
                     ];
                     
                     renderItems();
-                    updatePreview();
+                    updateInvoicePreview();
+                    
+                    showToast('success', 'Form Reset', 'All fields have been reset to default values.');
                 }
             }
             
-            // Event Listeners
-            addItemBtn.addEventListener('click', function() {
-                const newSlNo = items.length + 1;
-                items.push({
-                    slNo: newSlNo,
-                    name: "",
-                    hsnCode: "",
-                    qty: 1,
-                    price: 0,
-                    unit: "Pcs",
-                    total: 0
-                });
-                renderItems();
-                updatePreview();
-            });
-            
-            updateInvoiceBtn.addEventListener('click', updatePreview);
-            
-            // Print/PDF Dialog Events
-            openPrintDialogBtn.addEventListener('click', showPrintDialog);
-            openPrintDialogBtnMobile.addEventListener('click', showPrintDialog);
-            
-            closePrintDialogBtn.addEventListener('click', closePrintDialog);
-            cancelPrintBtn.addEventListener('click', closePrintDialog);
-            
-            proceedWithPrintBtn.addEventListener('click', proceedWithOutput);
-            
-            closeDownloadReadyBtn.addEventListener('click', () => {
-                downloadReady.style.display = 'none';
-            });
-            
-            // Print option selection
-            document.querySelectorAll('input[name="outputType"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    selectedOutputType = this.value;
-                    
-                    document.querySelectorAll('.print-option').forEach(option => {
-                        option.classList.remove('selected');
-                        option.querySelector('.fa-check-circle').style.display = 'none';
-                    });
-                    
-                    if (this.value === 'print') {
-                        printOption.classList.add('selected');
-                        printOption.querySelector('.fa-check-circle').style.display = 'block';
-                    } else {
-                        pdfOption.classList.add('selected');
-                        pdfOption.querySelector('.fa-check-circle').style.display = 'block';
-                    }
-                });
-            });
-            
-            // Click on option labels
-            printOption.addEventListener('click', function() {
-                document.querySelector('input[value="print"]').checked = true;
-                selectedOutputType = 'print';
-                
-                document.querySelectorAll('.print-option').forEach(option => {
-                    option.classList.remove('selected');
-                    option.querySelector('.fa-check-circle').style.display = 'none';
-                });
-                
-                this.classList.add('selected');
-                this.querySelector('.fa-check-circle').style.display = 'block';
-            });
-            
-            pdfOption.addEventListener('click', function() {
-                document.querySelector('input[value="pdf"]').checked = true;
-                selectedOutputType = 'pdf';
-                
-                document.querySelectorAll('.print-option').forEach(option => {
-                    option.classList.remove('selected');
-                    option.querySelector('.fa-check-circle').style.display = 'none';
-                });
-                
-                this.classList.add('selected');
-                this.querySelector('.fa-check-circle').style.display = 'block';
-            });
-            
-            // Watermark control
-            watermarkToggle.addEventListener('change', function() {
-                watermarkControl.style.display = this.checked ? 'block' : 'none';
-            });
-            
-            watermarkOpacity.addEventListener('input', updateWatermarkPreview);
-            
+            // Add event listeners to buttons
             resetFormBtn.addEventListener('click', resetForm);
             resetFormBtnMobile.addEventListener('click', resetForm);
             
-            // Close dialogs with Escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    if (printDialogOverlay.style.display === 'flex') {
-                        closePrintDialog();
-                    }
-                    if (loadingOverlay.style.display === 'flex') {
-                        hideLoading();
-                    }
-                    downloadReady.style.display = 'none';
+            // Auto-update on input changes
+            document.getElementById('invoiceNo').addEventListener('input', updateInvoicePreview);
+            document.getElementById('invoiceDate').addEventListener('input', updateInvoicePreview);
+            document.getElementById('dueDate').addEventListener('input', updateInvoicePreview);
+            document.getElementById('clientName').addEventListener('input', updateInvoicePreview);
+            document.getElementById('clientGst').addEventListener('input', updateInvoicePreview);
+            document.getElementById('clientAddress').addEventListener('input', updateInvoicePreview);
+            document.getElementById('deliveryAddress').addEventListener('input', updateInvoicePreview);
+            document.getElementById('phoneNumber').addEventListener('input', updateInvoicePreview);
+            document.getElementById('taxRate').addEventListener('input', updateInvoicePreview);
+            document.getElementById('roundOff').addEventListener('input', updateInvoicePreview);
+            document.getElementById('notes').addEventListener('input', updateInvoicePreview);
+            
+            // Close modals when clicking outside
+            document.addEventListener('click', (e) => {
+                if (e.target === exportModal) {
+                    exportModal.classList.remove('active');
+                }
+                if (e.target === printPreviewModal) {
+                    printPreviewModal.classList.remove('active');
                 }
             });
             
-            // Close dialogs when clicking outside
-            printDialogOverlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closePrintDialog();
-                }
-            });
-            
-            // Initialize
+            // Initialize the invoice
             renderItems();
-            updatePreview();
+            updateInvoicePreview();
             
-            document.getElementById('invoiceNo').addEventListener('input', updatePreview);
-            document.getElementById('invoiceDate').addEventListener('input', updatePreview);
-            document.getElementById('dueDate').addEventListener('input', updatePreview);
-            document.getElementById('clientName').addEventListener('input', updatePreview);
-            document.getElementById('clientGst').addEventListener('input', updatePreview);
-            document.getElementById('clientAddress').addEventListener('input', updatePreview);
-            document.getElementById('deliveryAddress').addEventListener('input', updatePreview);
-            document.getElementById('phoneNumber').addEventListener('input', updatePreview);
-            document.getElementById('taxRate').addEventListener('input', updatePreview);
-            document.getElementById('roundOff').addEventListener('input', updatePreview);
-            document.getElementById('notes').addEventListener('input', updatePreview);
+            // Show welcome message
+            setTimeout(() => {
+                showToast('info', 'Welcome to Urban Kutir Invoice System', 'Fill in the details and click "Export Invoice" when ready.');
+            }, 1000);
         });
     </script>
 </body>
