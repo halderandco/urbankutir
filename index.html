@@ -1076,7 +1076,7 @@
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <div style="width: 70px; height: 70px; overflow: hidden; flex-shrink: 0;">
                             <img src="urbankutir.png" alt="Urban Kutir Logo" style="width: 100%; height: 100%; object-fit: contain;"
-                                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA3MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iNiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyKSIvPgo8dGV4dCB4PSIzNSIgeT0iMzgiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPlVLCjwvdGV4dD4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhciIgeDE9IjM1IiB5MT0iMCIgeDI9IjM1IiB5Mj0iNzAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzhCNDUxMyIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBNjgzMkQiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K'">
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA3MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iNiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyKSIvPgo8dGV4dCB4PSIzNSIgeT0iMzgiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPlVLICgvPC90ZXh0Pgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyIiB4MT0iMzUiIHkxPSIwIiB4Mj0iMzUiIHkyPSI3MCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjOEI0NTEzIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0E2ODMyRCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo='">
                         </div>
                         <div>
                             <h1 style="color: var(--primary-dark); font-size: 24px; margin: 0 0 3px 0; font-weight: 700;">Urban Kutir</h1>
@@ -1628,47 +1628,84 @@
             function printInvoice() {
                 updatePrintTemplate();
                 
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
-                        <style>
-                            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-                            * {
-                                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                                margin: 0;
-                                padding: 0;
-                                box-sizing: border-box;
-                            }
-                            body {
-                                width: 210mm;
-                                min-height: 297mm;
-                                padding: 20mm;
-                                background: white;
-                                margin: 0;
-                            }
-                            @page {
-                                size: A4;
-                                margin: 20mm;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${document.getElementById('invoicePrintTemplate').outerHTML}
-                        <script>
-                            window.onload = function() {
-                                window.print();
-                                setTimeout(function() {
-                                    window.close();
-                                }, 100);
-                            };
-                        <\/script>
-                    </body>
-                    </html>
-                `);
-                printWindow.document.close();
+                const { jsPDF } = window.jspdf;
+                
+                const originalText = printInvoiceBtn.innerHTML;
+                const originalTextMobile = printInvoiceBtnMobile.innerHTML;
+                printInvoiceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing...';
+                printInvoiceBtnMobile.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Print';
+                printInvoiceBtn.disabled = true;
+                printInvoiceBtnMobile.disabled = true;
+                
+                const printTemplate = document.getElementById('invoicePrintTemplate');
+                printTemplate.style.display = 'block';
+                
+                html2canvas(printTemplate, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    const printWindow = window.open('', '_blank');
+                    printWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
+                            <style>
+                                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+                                * {
+                                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                                    margin: 0;
+                                    padding: 0;
+                                    box-sizing: border-box;
+                                }
+                                body {
+                                    width: 210mm;
+                                    min-height: 297mm;
+                                    padding: 20mm;
+                                    background: white;
+                                    margin: 0;
+                                }
+                                @page {
+                                    size: A4;
+                                    margin: 20mm;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <img src="${imgData}" style="width: 100%; height: auto;" onload="window.print();" />
+                            <script>
+                                window.onload = function() {
+                                    window.print();
+                                    setTimeout(function() {
+                                        window.close();
+                                    }, 100);
+                                };
+                            <\/script>
+                        </body>
+                        </html>
+                    `);
+                    printWindow.document.close();
+                    
+                    printTemplate.style.display = 'none';
+                    
+                    printInvoiceBtn.innerHTML = originalText;
+                    printInvoiceBtnMobile.innerHTML = originalTextMobile;
+                    printInvoiceBtn.disabled = false;
+                    printInvoiceBtnMobile.disabled = false;
+                }).catch(error => {
+                    console.error('Error generating print image:', error);
+                    printTemplate.style.display = 'none';
+                    
+                    printInvoiceBtn.innerHTML = originalText;
+                    printInvoiceBtnMobile.innerHTML = originalTextMobile;
+                    printInvoiceBtn.disabled = false;
+                    printInvoiceBtnMobile.disabled = false;
+                    alert('Error generating print. Please try again.');
+                });
             }
             
             function generatePdf() {
