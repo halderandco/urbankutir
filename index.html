@@ -689,15 +689,17 @@
             max-width: 110px;
         }
         
-        /* Print styles for invoice output */
-        .invoice-print-output {
+        /* Invoice output template - used for both PDF and Print */
+        .invoice-output-template {
             display: none;
             width: 210mm;
             min-height: 297mm;
-            padding: 20mm;
+            padding: 15mm;
             background: white;
             position: relative;
             margin: 0 auto;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
         }
         
         @media print {
@@ -711,27 +713,29 @@
                 background: white;
                 padding: 0;
                 margin: 0;
+                width: 210mm;
+                height: 297mm;
             }
             
-            .invoice-print-output,
-            .invoice-print-output * {
+            .invoice-output-template,
+            .invoice-output-template * {
                 visibility: visible;
             }
             
-            .invoice-print-output {
+            .invoice-output-template {
                 display: block !important;
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 210mm;
                 min-height: 297mm;
-                padding: 20mm;
+                padding: 15mm;
                 box-shadow: none;
                 margin: 0;
                 page-break-after: always;
             }
             
-            .watermark-print {
+            .watermark-output {
                 opacity: 0.03;
                 transform: translate(-50%, -50%) rotate(-45deg);
             }
@@ -744,17 +748,9 @@
                 display: none;
             }
             
-            .invoice-table {
-                font-size: 11pt;
-            }
-            
-            .address-content, .invoice-meta p {
-                font-size: 11pt;
-            }
-            
             @page {
                 size: A4;
-                margin: 20mm;
+                margin: 15mm;
             }
         }
         
@@ -1067,110 +1063,130 @@
             </div>
         </div>
         
-        <!-- Hidden print template -->
-        <div id="invoicePrintTemplate" class="invoice-print-output" style="display: none;">
-            <div class="watermark watermark-print"></div>
+        <!-- Invoice Output Template - Used for BOTH PDF and Print -->
+        <div id="invoiceOutputTemplate" class="invoice-output-template">
+            <div class="watermark watermark-output"></div>
             
-            <div style="margin-bottom: 25px; border-bottom: 2px solid var(--primary-color); padding-bottom: 15px;">
-                <div style="display: flex; align-items: center; justify-content: space-between;">
+            <!-- Header Section -->
+            <div style="border-bottom: 2px solid var(--primary-color); padding-bottom: 15px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
                     <div style="display: flex; align-items: center; gap: 15px;">
-                        <div style="width: 70px; height: 70px; overflow: hidden; flex-shrink: 0;">
+                        <div style="width: 70px; height: 70px; overflow: hidden; flex-shrink: 0; border-radius: 6px; border: 1px solid var(--border-color);">
                             <img src="urbankutir.png" alt="Urban Kutir Logo" style="width: 100%; height: 100%; object-fit: contain;"
-                                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA3MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iNiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyKSIvPgo8dGV4dCB4PSIzNSIgeT0iMzgiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPlVLICgvPC90ZXh0Pgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyIiB4MT0iMzUiIHkxPSIwIiB4Mj0iMzUiIHkyPSI3MCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjOEI0NTEzIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0E2ODMyRCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo='">
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAiIGhlaWdodD0iNzAiIHZpZXdCb3g9IjAgMCA3MCA3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iNiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyKSIvPgo8dGV4dCB4PSIzNSIgeT0iMzgiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmZmZmYiPlVLIC0gSW52b2ljZTwvdGV4dD4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhciIgeDE9IjM1IiB5MT0iMCIgeDI9IjM1IiB5Mj0iNzAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzhCNDUxMyIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNBNjgzMkQiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K'">
                         </div>
                         <div>
-                            <h1 style="color: var(--primary-dark); font-size: 24px; margin: 0 0 3px 0; font-weight: 700;">Urban Kutir</h1>
+                            <h1 style="color: var(--primary-dark); font-size: 24px; margin: 0 0 3px 0; font-weight: 700; letter-spacing: -0.2px;">Urban Kutir</h1>
                             <p style="color: var(--text-light); font-size: 13px; margin: 0 0 5px 0; font-weight: 500;">Premium Home Solutions & Interior Design</p>
                             <p style="color: var(--text-light); font-size: 11px; margin: 0;">
-                                <i class="fas fa-phone"></i> 9831859858 | <i class="fas fa-envelope"></i> urbankutir@gmail.com
+                                <strong>GSTIN:</strong> 19AAHFU6863E1ZR | 
+                                <strong>PAN:</strong> AAHFU6863E
                             </p>
                         </div>
                     </div>
                     <div style="text-align: right;">
-                        <div style="font-size: 26px; color: var(--primary-dark); font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">TAX INVOICE</div>
+                        <div style="font-size: 26px; color: var(--primary-dark); font-weight: 700; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px;">TAX INVOICE</div>
                         <div style="font-size: 12px; color: var(--text-light); line-height: 1.4;">
-                            <p style="margin: 2px 0;"><strong>GSTIN:</strong> 19AAHFU6863E1ZR</p>
-                            <p style="margin: 2px 0;"><strong>STATE:</strong> WEST BENGAL</p>
+                            <p style="margin: 2px 0;"><strong>State:</strong> WEST BENGAL</p>
+                            <p style="margin: 2px 0;"><strong>Date:</strong> <span id="outputDate">[Date]</span></p>
                         </div>
                     </div>
                 </div>
-                <div style="margin-top: 10px; font-size: 11px; color: var(--text-light);">
+                <div style="font-size: 11px; color: var(--text-light); line-height: 1.4;">
                     <p style="margin: 2px 0;">59 Kali Charan Gosh Road, Binayak Enclave, Block J2, Flat 308, Kolkata 700050, West Bengal</p>
+                    <p style="margin: 2px 0;"><i class="fas fa-phone"></i> 9831859858 | <i class="fas fa-envelope"></i> urbankutir@gmail.com</p>
                 </div>
             </div>
             
+            <!-- Invoice Details -->
             <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px;">
                 <div>
-                    <p style="margin: 3px 0;"><strong>INVOICE NO:</strong> <span id="printInvoiceNo">[Invoice Number]</span></p>
-                    <p style="margin: 3px 0;"><strong>DATE:</strong> <span id="printDate">[Date]</span></p>
-                    <p style="margin: 3px 0;"><strong>DUE DATE:</strong> <span id="printDueDate">[Due Date]</span></p>
+                    <p style="margin: 3px 0;"><strong>Invoice No:</strong> <span id="outputInvoiceNo">[Invoice Number]</span></p>
+                    <p style="margin: 3px 0;"><strong>Due Date:</strong> <span id="outputDueDate">[Due Date]</span></p>
+                    <p style="margin: 3px 0;"><strong>PO Number:</strong> <span id="outputPoNumber"></span></p>
                 </div>
                 <div style="text-align: right;">
-                    <p style="margin: 3px 0;"><strong>PAN:</strong> AAHFU6863E</p>
+                    <p style="margin: 3px 0;"><strong>Invoice Date:</strong> <span id="outputInvoiceDate">[Date]</span></p>
+                    <p style="margin: 3px 0;"><strong>State Code:</strong> 19</p>
                 </div>
             </div>
             
-            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+            <!-- Billed To and Ship To -->
+            <div style="display: flex; gap: 20px; margin-bottom: 25px;">
                 <div style="flex: 1; padding: 12px; background-color: var(--lighter-accent); border-radius: var(--radius); border-left: 3px solid var(--accent-color);">
-                    <div style="font-weight: 600; color: var(--primary-dark); margin-bottom: 7px; font-size: 14px;">BILLED TO:</div>
-                    <div style="color: var(--text-medium); line-height: 1.5; font-size: 12px;" id="printClient">
+                    <div style="font-weight: 600; color: var(--primary-dark); margin-bottom: 7px; font-size: 14px; letter-spacing: 0.2px;">BILLED TO:</div>
+                    <div style="color: var(--text-medium); line-height: 1.5; font-size: 12px;" id="outputClient">
                         [Client Information]
+                    </div>
+                    <div id="outputClientGst" style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--accent-color); font-size: 11px; display: none;">
+                        <strong>GSTIN:</strong> <span id="outputClientGstNumber"></span>
                     </div>
                 </div>
                 <div style="flex: 1; padding: 12px; background-color: var(--lighter-accent); border-radius: var(--radius); border-left: 3px solid var(--accent-color);">
-                    <div style="font-weight: 600; color: var(--primary-dark); margin-bottom: 7px; font-size: 14px;">SHIP TO:</div>
-                    <div style="color: var(--text-medium); line-height: 1.5; font-size: 12px;" id="printDelivery">
+                    <div style="font-weight: 600; color: var(--primary-dark); margin-bottom: 7px; font-size: 14px; letter-spacing: 0.2px;">SHIP TO:</div>
+                    <div style="color: var(--text-medium); line-height: 1.5; font-size: 12px;" id="outputDelivery">
                         [Delivery Address]
                     </div>
                 </div>
             </div>
             
-            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 11.5px;">
+            <!-- Items Table -->
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 11.5px; border: 1px solid var(--accent-color);">
                 <thead>
                     <tr>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="45">SL No</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: left; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);">Description of Goods/Services</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="85">HSN/SAC</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="65">Qty</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: right; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="85">Rate (₹)</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="65">Unit</th>
-                        <th style="background-color: var(--light-accent); padding: 8px; text-align: right; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="95">Amount (₹)</th>
+                        <th style="background-color: var(--light-accent); padding: 10px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="45">SL No</th>
+                        <th style="background-color: var(--light-accent); padding: 10px; text-align: left; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);">Description of Goods/Services</th>
+                        <th style="background-color: var(--light-accent); padding: 10px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="85">HSN/SAC</th>
+                        <th style="background-color: var(--light-accent); padding: 10px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="65">Qty</th>
+                        <th style="background-color: var(--light-accent); padding: 10px; text-align: right; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="85">Rate (₹)</th>
+                        <th style="background-color: var(--light-accent); padding: 10px; text-align: center; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="65">Unit</th>
+                        <th style="background-color: var(--light-accent); padding: 10px; text-align: right; font-weight: 600; color: var(--primary-dark); border: 1px solid var(--accent-color);" width="95">Amount (₹)</th>
                     </tr>
                 </thead>
-                <tbody id="printItems">
+                <tbody id="outputItems">
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 15px; color: #95a5a6; font-style: italic;">[Add items using the form]</td>
+                        <td colspan="7" style="text-align: center; padding: 20px; color: #95a5a6; font-style: italic; border: 1px solid var(--accent-color);">No items added</td>
                     </tr>
                 </tbody>
             </table>
             
+            <!-- Summary -->
             <div style="margin-top: 25px; width: 100%; max-width: 300px; margin-left: auto;">
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
+                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
                     <span>Total Taxable Value</span>
-                    <span id="printTaxable">0.00</span>
+                    <span id="outputTaxable">0.00</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
-                    <span>CGST <span id="printTaxRate">9</span>%</span>
-                    <span id="printCgst">0.00</span>
+                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
+                    <span>CGST <span id="outputTaxRate">9</span>%</span>
+                    <span id="outputCgst">0.00</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
-                    <span>SGST <span id="printSgstRate">9</span>%</span>
-                    <span id="printSgst">0.00</span>
+                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
+                    <span>SGST <span id="outputSgstRate">9</span>%</span>
+                    <span id="outputSgst">0.00</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
+                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border-color); font-size: 12.5px;">
                     <span>Round Off</span>
-                    <span id="printRoundOff">0.00</span>
+                    <span id="outputRoundOff">0.00</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid var(--primary-dark); font-size: 14px; font-weight: 700; color: var(--primary-dark);">
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 2px solid var(--primary-dark); font-size: 15px; font-weight: 700; color: var(--primary-dark);">
                     <span>GRAND TOTAL</span>
-                    <span id="printTotal">₹0.00</span>
+                    <span id="outputTotal">₹0.00</span>
                 </div>
             </div>
             
-            <div id="printNotes" style="margin-top: 15px; font-size: 11px; color: var(--text-medium); padding: 8px; background-color: var(--lighter-accent); border-radius: 4px; display: none;">
-                <strong>Notes:</strong> <span id="printNotesContent"></span>
+            <!-- Notes -->
+            <div id="outputNotes" style="margin-top: 15px; font-size: 11px; color: var(--text-medium); padding: 10px; background-color: var(--lighter-accent); border-radius: 4px; display: none;">
+                <strong>Notes:</strong> <span id="outputNotesContent"></span>
             </div>
             
+            <!-- Amount in Words -->
+            <div style="margin-top: 20px; padding: 10px; background-color: var(--lighter-accent); border-radius: 4px; border-left: 3px solid var(--primary-color);">
+                <p style="margin: 0; font-size: 12px; color: var(--primary-dark); font-weight: 600;">
+                    <strong>TOTAL AMOUNT:</strong> RUPEES <span id="outputAmountWords">[Amount in words]</span> ONLY.
+                </p>
+            </div>
+            
+            <!-- Authorization and Footer -->
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px dashed var(--accent-color); display: flex; justify-content: space-between; align-items: flex-start; font-size: 11px;">
                 <div style="flex: 1;">
                     <p style="margin: 4px 0;"><strong>Payment Terms:</strong> 50% advance, 50% on delivery</p>
@@ -1179,18 +1195,18 @@
                     <p style="margin: 4px 0;"><strong>Declaration:</strong> We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</p>
                 </div>
                 <div style="text-align: center; margin-left: 30px;">
-                    <div style="width: 160px; border-bottom: 1px solid var(--primary-dark); margin: 0 auto 5px; padding-top: 30px;"></div>
-                    <div style="font-weight: 600; color: var(--primary-dark); font-size: 13px;">Doel Pathak</div>
+                    <div style="width: 180px; border-bottom: 1px solid var(--primary-dark); margin: 0 auto 5px; padding-top: 30px;"></div>
+                    <div style="font-weight: 600; color: var(--primary-dark); font-size: 13px; letter-spacing: 0.3px;">Doel Pathak</div>
                     <div style="color: var(--text-light); font-size: 11px;">Authorized Signatory</div>
                     <div style="color: var(--text-light); font-size: 11px;">Urban Kutir</div>
                 </div>
             </div>
             
-            <div style="margin-top: 25px; text-align: center; color: var(--text-light); font-size: 11px; padding-top: 15px; border-top: 1px solid var(--light-accent);">
-                <p style="margin: 5px 0;"><strong>TOTAL AMOUNT:</strong> RUPEES <span id="printAmountWords">[Amount in words]</span> ONLY.</p>
-                <p style="margin: 8px 0; font-size: 10px;">This is a computer generated invoice and does not require a physical signature. Subject to Kolkata Jurisdiction.</p>
+            <!-- Legal Footer -->
+            <div style="margin-top: 25px; text-align: center; color: var(--text-light); font-size: 10px; padding-top: 15px; border-top: 1px solid var(--light-accent);">
+                <p style="margin: 5px 0; font-size: 9px;">This is a computer generated invoice and does not require a physical signature. Subject to Kolkata Jurisdiction.</p>
                 <p style="margin: 5px 0; font-size: 9px; color: #7f8c8d;">As per GST rules, this invoice is valid without signature | E. & O.E.</p>
-                <p style="margin: 10px 0 0 0; font-size: 9px; color: #7f8c8d;">Generated from Urban Kutir Professional Invoice System</p>
+                <p style="margin: 10px 0 0 0; font-size: 8px; color: #7f8c8d;">Generated from Urban Kutir Professional Invoice System</p>
             </div>
         </div>
         
@@ -1232,7 +1248,6 @@
             const printInvoiceBtn = document.getElementById('printInvoice');
             const generatePdfBtn = document.getElementById('generatePdf');
             const resetFormBtn = document.getElementById('resetForm');
-            const clientGstInput = document.getElementById('clientGst');
             
             const printInvoiceBtnMobile = document.getElementById('printInvoiceMobile');
             const generatePdfBtnMobile = document.getElementById('generatePdfMobile');
@@ -1240,16 +1255,24 @@
             
             function preloadWatermark() {
                 const watermark = document.querySelector('.watermark');
+                const watermarkOutput = document.querySelector('.watermark-output');
                 const logoImg = document.querySelector('.logo-img');
+                
                 if (logoImg.complete && logoImg.naturalWidth !== 0) {
-                    watermark.style.backgroundImage = `url('${logoImg.src}')`;
+                    const logoUrl = logoImg.src;
+                    watermark.style.backgroundImage = `url('${logoUrl}')`;
+                    watermarkOutput.style.backgroundImage = `url('${logoUrl}')`;
                 } else {
                     logoImg.onload = function() {
-                        watermark.style.backgroundImage = `url('${logoImg.src}')`;
+                        const logoUrl = logoImg.src;
+                        watermark.style.backgroundImage = `url('${logoUrl}')`;
+                        watermarkOutput.style.backgroundImage = `url('${logoUrl}')`;
                     };
                     logoImg.onerror = function() {
                         watermark.style.backgroundImage = 'none';
                         watermark.style.backgroundColor = 'rgba(139, 69, 19, 0.015)';
+                        watermarkOutput.style.backgroundImage = 'none';
+                        watermarkOutput.style.backgroundColor = 'rgba(139, 69, 19, 0.015)';
                     };
                 }
             }
@@ -1308,6 +1331,7 @@
                         items[sno].unit = row.querySelector('.item-unit').value;
                         
                         updatePreview();
+                        updateOutputTemplate();
                     });
                 });
                 
@@ -1325,6 +1349,7 @@
                         }
                         
                         updatePreview();
+                        updateOutputTemplate();
                     });
                 });
             }
@@ -1499,33 +1524,42 @@
                 } else {
                     notesContainer.style.display = 'none';
                 }
-                
-                updatePrintTemplate();
             }
             
-            function updatePrintTemplate() {
+            function updateOutputTemplate() {
                 const invoiceNo = document.getElementById('invoiceNo').value;
-                document.getElementById('printInvoiceNo').textContent = invoiceNo || '[Invoice Number]';
+                document.getElementById('outputInvoiceNo').textContent = invoiceNo || '[Invoice Number]';
+                document.getElementById('outputDate').textContent = invoiceNo ? 'INVOICE' : '';
                 
                 const invoiceDate = document.getElementById('invoiceDate').value;
-                document.getElementById('printDate').textContent = invoiceDate ? formatDate(invoiceDate) : '[Date]';
+                document.getElementById('outputInvoiceDate').textContent = invoiceDate ? formatDate(invoiceDate) : '[Date]';
                 
                 const dueDate = document.getElementById('dueDate').value;
-                document.getElementById('printDueDate').textContent = dueDate ? formatDate(dueDate) : '[Due Date]';
+                document.getElementById('outputDueDate').textContent = dueDate ? formatDate(dueDate) : '[Due Date]';
+                
+                const poNumber = document.getElementById('poNumber').value;
+                document.getElementById('outputPoNumber').textContent = poNumber || '-';
                 
                 const clientName = document.getElementById('clientName').value;
                 const clientAddress = document.getElementById('clientAddress').value;
                 const clientGst = document.getElementById('clientGst').value;
                 
+                const clientGstContainer = document.getElementById('outputClientGst');
+                if (clientGst.trim()) {
+                    document.getElementById('outputClientGstNumber').textContent = clientGst;
+                    clientGstContainer.style.display = 'block';
+                } else {
+                    clientGstContainer.style.display = 'none';
+                }
+                
                 if (clientName.trim() || clientAddress.trim()) {
                     let clientHTML = '';
-                    if (clientName.trim()) clientHTML += clientName + '<br>';
+                    if (clientName.trim()) clientHTML += '<strong>' + clientName + '</strong><br>';
                     if (clientAddress.trim()) clientHTML += clientAddress.replace(/\n/g, '<br>');
-                    if (clientGst.trim()) clientHTML += '<br><strong>GSTIN:</strong> ' + clientGst;
                     
-                    document.getElementById('printClient').innerHTML = clientHTML;
+                    document.getElementById('outputClient').innerHTML = clientHTML;
                 } else {
-                    document.getElementById('printClient').innerHTML = '[Client Information]';
+                    document.getElementById('outputClient').innerHTML = '[Client Information]';
                 }
                 
                 const deliveryAddress = document.getElementById('deliveryAddress').value;
@@ -1534,39 +1568,39 @@
                 if (deliveryAddress.trim() || phoneNumber.trim()) {
                     let deliveryHTML = '';
                     if (deliveryAddress.trim()) deliveryHTML += deliveryAddress.replace(/\n/g, '<br>');
-                    if (phoneNumber.trim()) deliveryHTML += (deliveryAddress.trim() ? '<br>' : '') + 'PHONE: ' + phoneNumber;
+                    if (phoneNumber.trim()) deliveryHTML += (deliveryAddress.trim() ? '<br>' : '') + '<strong>Phone:</strong> ' + phoneNumber;
                     
-                    document.getElementById('printDelivery').innerHTML = deliveryHTML;
+                    document.getElementById('outputDelivery').innerHTML = deliveryHTML;
                 } else {
-                    document.getElementById('printDelivery').innerHTML = '[Delivery Address]';
+                    document.getElementById('outputDelivery').innerHTML = '[Delivery Address]';
                 }
                 
-                const printItemsContainer = document.getElementById('printItems');
-                printItemsContainer.innerHTML = '';
+                const outputItemsContainer = document.getElementById('outputItems');
+                outputItemsContainer.innerHTML = '';
                 
                 const hasItems = items.some(item => item.name.trim() !== '' || item.total > 0);
                 
                 if (!hasItems) {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td colspan="7" style="text-align: center; padding: 15px; color: #95a5a6; font-style: italic;">[Add items using the form]</td>
+                        <td colspan="7" style="text-align: center; padding: 20px; color: #95a5a6; font-style: italic; border: 1px solid var(--accent-color);">No items added</td>
                     `;
-                    printItemsContainer.appendChild(row);
+                    outputItemsContainer.appendChild(row);
                 } else {
                     items.forEach(item => {
                         if (item.name.trim() === '' && item.total === 0) return;
                         
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td style="text-align: center; padding: 8px; border: 1px solid var(--light-accent);">${item.slNo}</td>
-                            <td style="padding: 8px; border: 1px solid var(--light-accent);">${item.name || '-'}</td>
-                            <td style="text-align: center; padding: 8px; border: 1px solid var(--light-accent);">${item.hsnCode || '-'}</td>
-                            <td style="text-align: center; padding: 8px; border: 1px solid var(--light-accent);">${item.qty}</td>
-                            <td style="text-align: right; padding: 8px; border: 1px solid var(--light-accent);">${formatCurrency(item.price, true)}</td>
-                            <td style="text-align: center; padding: 8px; border: 1px solid var(--light-accent);">${item.unit || 'Pcs'}</td>
-                            <td style="text-align: right; padding: 8px; border: 1px solid var(--light-accent);">${formatCurrency(item.total, true)}</td>
+                            <td style="text-align: center; padding: 10px; border: 1px solid var(--accent-color);">${item.slNo}</td>
+                            <td style="padding: 10px; border: 1px solid var(--accent-color);">${item.name || '-'}</td>
+                            <td style="text-align: center; padding: 10px; border: 1px solid var(--accent-color);">${item.hsnCode || '-'}</td>
+                            <td style="text-align: center; padding: 10px; border: 1px solid var(--accent-color);">${item.qty}</td>
+                            <td style="text-align: right; padding: 10px; border: 1px solid var(--accent-color);">${formatCurrency(item.price, true)}</td>
+                            <td style="text-align: center; padding: 10px; border: 1px solid var(--accent-color);">${item.unit || 'Pcs'}</td>
+                            <td style="text-align: right; padding: 10px; border: 1px solid var(--accent-color);">${formatCurrency(item.total, true)}</td>
                         `;
-                        printItemsContainer.appendChild(row);
+                        outputItemsContainer.appendChild(row);
                     });
                 }
                 
@@ -1576,20 +1610,20 @@
                 const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
                 const totalAmount = taxableValue + (taxAmount * 2) + roundOff;
                 
-                document.getElementById('printTaxable').textContent = formatCurrency(taxableValue, true);
-                document.getElementById('printTaxRate').textContent = taxRate;
-                document.getElementById('printSgstRate').textContent = taxRate;
-                document.getElementById('printCgst').textContent = formatCurrency(taxAmount, true);
-                document.getElementById('printSgst').textContent = formatCurrency(taxAmount, true);
-                document.getElementById('printRoundOff').textContent = formatCurrency(roundOff, true);
-                document.getElementById('printTotal').textContent = '₹' + formatCurrency(totalAmount, true);
+                document.getElementById('outputTaxable').textContent = formatCurrency(taxableValue, true);
+                document.getElementById('outputTaxRate').textContent = taxRate;
+                document.getElementById('outputSgstRate').textContent = taxRate;
+                document.getElementById('outputCgst').textContent = formatCurrency(taxAmount, true);
+                document.getElementById('outputSgst').textContent = formatCurrency(taxAmount, true);
+                document.getElementById('outputRoundOff').textContent = formatCurrency(roundOff, true);
+                document.getElementById('outputTotal').textContent = '₹' + formatCurrency(totalAmount, true);
                 
                 const amountWords = numberToWords(Math.round(totalAmount));
-                document.getElementById('printAmountWords').textContent = totalAmount > 0 ? amountWords : '[Amount in words]';
+                document.getElementById('outputAmountWords').textContent = totalAmount > 0 ? amountWords : '[Amount in words]';
                 
                 const notes = document.getElementById('notes').value;
-                const notesContainer = document.getElementById('printNotes');
-                const notesContent = document.getElementById('printNotesContent');
+                const notesContainer = document.getElementById('outputNotes');
+                const notesContent = document.getElementById('outputNotesContent');
                 
                 if (notes.trim()) {
                     notesContent.textContent = notes;
@@ -1621,90 +1655,70 @@
                 });
                 renderItems();
                 updatePreview();
+                updateOutputTemplate();
             });
             
-            updateInvoiceBtn.addEventListener('click', updatePreview);
+            updateInvoiceBtn.addEventListener('click', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
             
             function printInvoice() {
-                updatePrintTemplate();
+                updateOutputTemplate();
                 
-                const { jsPDF } = window.jspdf;
+                const originalDisplay = document.getElementById('invoiceOutputTemplate').style.display;
+                document.getElementById('invoiceOutputTemplate').style.display = 'block';
                 
-                const originalText = printInvoiceBtn.innerHTML;
-                const originalTextMobile = printInvoiceBtnMobile.innerHTML;
-                printInvoiceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing...';
-                printInvoiceBtnMobile.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Print';
-                printInvoiceBtn.disabled = true;
-                printInvoiceBtnMobile.disabled = true;
+                const printContent = document.getElementById('invoiceOutputTemplate').outerHTML;
                 
-                const printTemplate = document.getElementById('invoicePrintTemplate');
-                printTemplate.style.display = 'block';
+                document.getElementById('invoiceOutputTemplate').style.display = originalDisplay;
                 
-                html2canvas(printTemplate, {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    backgroundColor: '#ffffff'
-                }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    
-                    // Create a simple print page with the image
-                    const printContent = `
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
-                            <style>
-                                body { margin: 0; padding: 0; background: white; }
-                                img { width: 100%; height: auto; display: block; }
-                                @media print {
-                                    body { margin: 0; padding: 0; }
-                                    img { max-width: 100% !important; }
-                                }
-                                @page { margin: 0; size: auto; }
-                            </style>
-                        </head>
-                        <body>
-                            <img src="${imgData}" onload="window.print(); setTimeout(() => window.close(), 100);">
-                        </body>
-                        </html>
-                    `;
-                    
-                    const printWindow = window.open('', '_blank');
-                    if (!printWindow) {
-                        // Fallback for mobile browsers that block popups
-                        alert('Please allow popups to print the invoice. Alternatively, use the PDF download option.');
-                        printTemplate.style.display = 'none';
-                        printInvoiceBtn.innerHTML = originalText;
-                        printInvoiceBtnMobile.innerHTML = originalTextMobile;
-                        printInvoiceBtn.disabled = false;
-                        printInvoiceBtnMobile.disabled = false;
-                        return;
-                    }
-                    
-                    printWindow.document.write(printContent);
-                    printWindow.document.close();
-                    
-                    printTemplate.style.display = 'none';
-                    
-                    printInvoiceBtn.innerHTML = originalText;
-                    printInvoiceBtnMobile.innerHTML = originalTextMobile;
-                    printInvoiceBtn.disabled = false;
-                    printInvoiceBtnMobile.disabled = false;
-                }).catch(error => {
-                    console.error('Error generating print image:', error);
-                    printTemplate.style.display = 'none';
-                    
-                    printInvoiceBtn.innerHTML = originalText;
-                    printInvoiceBtnMobile.innerHTML = originalTextMobile;
-                    printInvoiceBtn.disabled = false;
-                    printInvoiceBtnMobile.disabled = false;
-                    alert('Error generating print. Please try again.');
-                });
+                const printWindow = window.open('', '_blank', 'width=1000,height=700');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Urban Kutir - Invoice ${document.getElementById('invoiceNo').value || 'Draft'}</title>
+                        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                        <style>
+                            * {
+                                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                                margin: 0;
+                                padding: 0;
+                                box-sizing: border-box;
+                            }
+                            body {
+                                width: 210mm;
+                                min-height: 297mm;
+                                padding: 0;
+                                margin: 0;
+                                background: white;
+                            }
+                            @page {
+                                size: A4;
+                                margin: 15mm;
+                            }
+                            .invoice-output-template {
+                                display: block !important;
+                                width: 210mm;
+                                min-height: 297mm;
+                                padding: 15mm;
+                                background: white;
+                                margin: 0 auto;
+                            }
+                        </style>
+                    </head>
+                    <body onload="window.print(); setTimeout(() => window.close(), 100);">
+                        ${printContent}
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
             }
             
             function generatePdf() {
-                updatePrintTemplate();
+                updateOutputTemplate();
                 
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({
@@ -1720,10 +1734,10 @@
                 generatePdfBtn.disabled = true;
                 generatePdfBtnMobile.disabled = true;
                 
-                const printTemplate = document.getElementById('invoicePrintTemplate');
-                printTemplate.style.display = 'block';
+                const originalDisplay = document.getElementById('invoiceOutputTemplate').style.display;
+                document.getElementById('invoiceOutputTemplate').style.display = 'block';
                 
-                html2canvas(printTemplate, {
+                html2canvas(document.getElementById('invoiceOutputTemplate'), {
                     scale: 2,
                     useCORS: true,
                     logging: false,
@@ -1731,14 +1745,26 @@
                 }).then(canvas => {
                     const imgData = canvas.toDataURL('image/png');
                     const imgWidth = 210;
+                    const pageHeight = 297;
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
                     
-                    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                    let heightLeft = imgHeight;
+                    let position = 0;
+                    
+                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        doc.addPage();
+                        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
                     
                     const invoiceNo = document.getElementById('invoiceNo').value || 'Draft';
                     doc.save(`UrbanKutir_Invoice_${invoiceNo}.pdf`);
                     
-                    printTemplate.style.display = 'none';
+                    document.getElementById('invoiceOutputTemplate').style.display = originalDisplay;
                     
                     generatePdfBtn.innerHTML = originalText;
                     generatePdfBtnMobile.innerHTML = originalTextMobile;
@@ -1746,7 +1772,7 @@
                     generatePdfBtnMobile.disabled = false;
                 }).catch(error => {
                     console.error('Error generating PDF:', error);
-                    printTemplate.style.display = 'none';
+                    document.getElementById('invoiceOutputTemplate').style.display = originalDisplay;
                     
                     generatePdfBtn.innerHTML = originalText;
                     generatePdfBtnMobile.innerHTML = originalTextMobile;
@@ -1785,6 +1811,7 @@
                     
                     renderItems();
                     updatePreview();
+                    updateOutputTemplate();
                 }
             }
             
@@ -1799,18 +1826,55 @@
             
             renderItems();
             updatePreview();
+            updateOutputTemplate();
             
-            document.getElementById('invoiceNo').addEventListener('input', updatePreview);
-            document.getElementById('invoiceDate').addEventListener('input', updatePreview);
-            document.getElementById('dueDate').addEventListener('input', updatePreview);
-            document.getElementById('clientName').addEventListener('input', updatePreview);
-            document.getElementById('clientGst').addEventListener('input', updatePreview);
-            document.getElementById('clientAddress').addEventListener('input', updatePreview);
-            document.getElementById('deliveryAddress').addEventListener('input', updatePreview);
-            document.getElementById('phoneNumber').addEventListener('input', updatePreview);
-            document.getElementById('taxRate').addEventListener('input', updatePreview);
-            document.getElementById('roundOff').addEventListener('input', updatePreview);
-            document.getElementById('notes').addEventListener('input', updatePreview);
+            document.getElementById('invoiceNo').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('invoiceDate').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('dueDate').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('poNumber').addEventListener('input', function() {
+                updateOutputTemplate();
+            });
+            document.getElementById('clientName').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('clientGst').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('clientAddress').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('deliveryAddress').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('phoneNumber').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('taxRate').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('roundOff').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
+            document.getElementById('notes').addEventListener('input', function() {
+                updatePreview();
+                updateOutputTemplate();
+            });
         });
     </script>
 </body>
