@@ -1245,6 +1245,31 @@
         .address-title, .signature-name {
             letter-spacing: 0.2px;
         }
+        
+        /* Optional fields styling */
+        .optional-field-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .toggle-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        
+        .optional-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 5px;
+        }
+        
+        .optional-label .toggle-checkbox {
+            margin-right: 2px;
+        }
     </style>
 </head>
 <body>
@@ -1400,13 +1425,19 @@
                 </div>
 
                 <div class="form-group compact">
-                    <label for="paymentTerms">Payment Terms</label>
-                    <input type="text" id="paymentTerms" placeholder="e.g., 50% advance, 50% on delivery">
+                    <div class="optional-label">
+                        <input type="checkbox" class="toggle-checkbox" id="showPaymentTerms" checked>
+                        <label for="showPaymentTerms" style="margin-bottom: 0;">Payment Terms</label>
+                    </div>
+                    <input type="text" id="paymentTerms" placeholder="e.g., 50% advance, 50% on delivery" value="50% advance, 50% on delivery">
                 </div>
 
                 <div class="form-group compact">
-                    <label for="deliveryTerms">Delivery</label>
-                    <input type="text" id="deliveryTerms" placeholder="e.g., Within 15 working days from order confirmation">
+                    <div class="optional-label">
+                        <input type="checkbox" class="toggle-checkbox" id="showDeliveryTerms" checked>
+                        <label for="showDeliveryTerms" style="margin-bottom: 0;">Delivery</label>
+                    </div>
+                    <input type="text" id="deliveryTerms" placeholder="e.g., Within 15 working days from order confirmation" value="Within 15 working days from order confirmation">
                 </div>
                 
                 <button class="btn btn-primary" id="updateInvoiceBtn" style="width: 100%; margin-top: 16px; padding: 10px;">
@@ -1510,8 +1541,8 @@
                 
                 <div class="authorization-section">
                     <div style="flex: 1;">
-                        <p><strong>Payment Terms:</strong> <span id="previewPaymentTerms">50% advance, 50% on delivery</span></p>
-                        <p><strong>Delivery:</strong> <span id="previewDeliveryTerms">Within 15 working days from order confirmation</span></p>
+                        <p id="previewPaymentTermsContainer"><strong>Payment Terms:</strong> <span id="previewPaymentTerms">50% advance, 50% on delivery</span></p>
+                        <p id="previewDeliveryTermsContainer"><strong>Delivery:</strong> <span id="previewDeliveryTerms">Within 15 working days from order confirmation</span></p>
                         <p><strong>Bank Details:</strong> State Bank of India | A/C: 123456789012 | IFSC: SBIN0001234</p>
                         <p><strong>PAN:</strong> AAHFU6863E</p>
                     </div>
@@ -1651,6 +1682,10 @@
             const updateInvoiceBtnMobile = document.getElementById('updateInvoiceMobile');
             const resetFormBtnMobile = document.getElementById('resetFormMobile');
             
+            // Optional fields checkboxes
+            const showPaymentTermsCheckbox = document.getElementById('showPaymentTerms');
+            const showDeliveryTermsCheckbox = document.getElementById('showDeliveryTerms');
+            
             // Export modal elements
             const exportModal = document.getElementById('exportModal');
             const closeExportModal = document.getElementById('closeExportModal');
@@ -1670,13 +1705,12 @@
             let selectedExportType = null;
             let logoDataUrl = null;
             
-            // Function to convert logo to Data URL - MODIFIED: Using Estimate code's premium logo implementation
+            // Function to convert logo to Data URL
             function convertLogoToDataUrl() {
                 return new Promise((resolve, reject) => {
                     const logoImg = document.querySelector('.logo-img');
                     const logoFallback = document.getElementById('logo-fallback');
                     
-                    // If logo image exists and is loaded
                     if (logoImg && logoImg.src && !logoImg.src.includes('onerror')) {
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
@@ -1692,7 +1726,6 @@
                         };
                         
                         img.onerror = function() {
-                            // Create a premium fallback logo with gradient - FROM ESTIMATE CODE
                             canvas.width = 120;
                             canvas.height = 120;
                             const gradient = ctx.createLinearGradient(0, 0, 120, 120);
@@ -1700,13 +1733,11 @@
                             gradient.addColorStop(0.5, '#d4a574');
                             gradient.addColorStop(1, '#8B4513');
                             
-                            // Draw elegant circular logo
                             ctx.beginPath();
                             ctx.arc(60, 60, 55, 0, Math.PI * 2);
                             ctx.fillStyle = gradient;
                             ctx.fill();
                             
-                            // Add elegant border
                             ctx.beginPath();
                             ctx.arc(60, 60, 58, 0, Math.PI * 2);
                             ctx.strokeStyle = '#5a3921';
@@ -1725,7 +1756,6 @@
                         
                         img.src = logoImg.src;
                     } else {
-                        // Create a premium fallback logo - FROM ESTIMATE CODE
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
                         canvas.width = 120;
@@ -1736,39 +1766,36 @@
                         gradient.addColorStop(0.5, '#d4a574');
                         gradient.addColorStop(1, '#8B4513');
                         
-                        // Draw elegant circular logo
                         ctx.beginPath();
                         ctx.arc(60, 60, 55, 0, Math.PI * 2);
-                            ctx.fillStyle = gradient;
-                            ctx.fill();
-                            
-                            // Add elegant border
-                            ctx.beginPath();
-                            ctx.arc(60, 60, 58, 0, Math.PI * 2);
-                            ctx.strokeStyle = '#5a3921';
-                            ctx.lineWidth = 1.5;
-                            ctx.stroke();
-                            
-                            ctx.fillStyle = 'white';
-                            ctx.font = 'bold 36px Inter';
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText('UK', 60, 60);
-                            
+                        ctx.fillStyle = gradient;
+                        ctx.fill();
+                        
+                        ctx.beginPath();
+                        ctx.arc(60, 60, 58, 0, Math.PI * 2);
+                        ctx.strokeStyle = '#5a3921';
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                        
+                        ctx.fillStyle = 'white';
+                        ctx.font = 'bold 36px Inter';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('UK', 60, 60);
+                        
                         logoDataUrl = canvas.toDataURL('image/png');
                         resolve(logoDataUrl);
                     }
                 });
             }
             
-            // Preload watermark image and convert logo to Data URL - MODIFIED: Using Estimate code's watermark styling
+            // Preload watermark image and convert logo to Data URL
             async function preloadWatermark() {
                 const watermarks = document.querySelectorAll('.watermark');
                 await convertLogoToDataUrl();
                 
                 watermarks.forEach(watermark => {
                     if (logoDataUrl) {
-                        // Premium watermark styling - FROM ESTIMATE CODE
                         watermark.style.backgroundImage = `url('${logoDataUrl}')`;
                         watermark.style.opacity = '0.015';
                         watermark.style.width = '350px';
@@ -1781,7 +1808,6 @@
                 });
             }
             
-            // Call preload function
             setTimeout(preloadWatermark, 500);
             
             // Toast notification system
@@ -1804,17 +1830,14 @@
                 
                 toastContainer.appendChild(toast);
                 
-                // Show toast
                 setTimeout(() => {
                     toast.classList.add('show');
                 }, 10);
                 
-                // Auto-remove toast after 5 seconds
                 const autoRemove = setTimeout(() => {
                     hideToast(toast);
                 }, 5000);
                 
-                // Close button
                 toast.querySelector('.toast-close').addEventListener('click', () => {
                     clearTimeout(autoRemove);
                     hideToast(toast);
@@ -1920,7 +1943,6 @@
                     itemsContainer.appendChild(row);
                 });
                 
-                // Add event listeners to delete buttons
                 document.querySelectorAll('.item-action-btn').forEach(button => {
                     button.addEventListener('click', function() {
                         const index = parseInt(this.getAttribute('data-index'));
@@ -1933,7 +1955,6 @@
                     });
                 });
                 
-                // Add event listeners to qty and price inputs for auto-calculation
                 document.querySelectorAll('.item-qty, .item-price').forEach(input => {
                     input.addEventListener('input', function() {
                         const row = this.closest('tr');
@@ -1955,7 +1976,6 @@
                     });
                 });
                 
-                // Add event listeners to other inputs
                 document.querySelectorAll('.item-name, .item-hsn, .item-unit').forEach(input => {
                     input.addEventListener('input', function() {
                         const row = this.closest('tr');
@@ -2008,7 +2028,6 @@
             
             // Update invoice preview with form values
             function updateInvoicePreview() {
-                // Update basic information
                 const invoiceNo = document.getElementById('invoiceNo').value;
                 document.getElementById('previewInvoiceNo').textContent = invoiceNo || '[Invoice Number]';
                 document.getElementById('previewInvoiceNo').className = invoiceNo ? '' : 'empty-state';
@@ -2021,7 +2040,6 @@
                 document.getElementById('previewDueDate').textContent = dueDate ? formatDate(dueDate) : '[Due Date]';
                 document.getElementById('previewDueDate').className = dueDate ? '' : 'empty-state';
                 
-                // Update client information
                 const clientName = document.getElementById('clientName').value;
                 const clientAddress = document.getElementById('clientAddress').value;
                 const clientGst = document.getElementById('clientGst').value;
@@ -2049,7 +2067,6 @@
                     document.getElementById('previewClient').innerHTML = '<div class="empty-state">[Client Information]</div>';
                 }
                 
-                // Update delivery address
                 const deliveryAddress = document.getElementById('deliveryAddress').value;
                 const phoneNumber = document.getElementById('phoneNumber').value;
                 
@@ -2064,17 +2081,14 @@
                     document.getElementById('previewDelivery').innerHTML = '<div class="empty-state">[Delivery Address]</div>';
                 }
                 
-                // Update items
                 renderPreviewItems();
                 
-                // Calculate totals
                 const taxableValue = items.reduce((sum, item) => sum + item.total, 0);
                 const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
                 const taxAmount = (taxableValue * taxRate) / 100;
                 const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
                 const totalAmount = taxableValue + (taxAmount * 2) + roundOff;
                 
-                // Update summary
                 document.getElementById('previewTaxable').textContent = formatCurrency(taxableValue, true);
                 document.getElementById('previewTaxRate').textContent = taxRate;
                 document.getElementById('previewSgstRate').textContent = taxRate;
@@ -2083,12 +2097,10 @@
                 document.getElementById('previewRoundOff').textContent = formatCurrency(roundOff, true);
                 document.getElementById('previewTotal').textContent = '₹' + formatCurrency(totalAmount, true);
                 
-                // Update amount in words
                 const amountWords = numberToWords(Math.round(totalAmount));
                 document.getElementById('previewAmountWords').textContent = totalAmount > 0 ? amountWords : '[Amount in words]';
                 document.getElementById('previewAmountWords').className = totalAmount > 0 ? '' : 'empty-state';
                 
-                // Update notes
                 const notes = document.getElementById('notes').value;
                 const notesContainer = document.getElementById('previewNotes');
                 const notesContent = document.getElementById('previewNotesContent');
@@ -2100,15 +2112,31 @@
                     notesContainer.style.display = 'none';
                 }
                 
-                // Update payment terms and delivery
+                // Update payment terms with optional toggle
                 const paymentTerms = document.getElementById('paymentTerms').value;
                 const deliveryTerms = document.getElementById('deliveryTerms').value;
+                const showPaymentTerms = document.getElementById('showPaymentTerms').checked;
+                const showDeliveryTerms = document.getElementById('showDeliveryTerms').checked;
 
-                document.getElementById('previewPaymentTerms').textContent = paymentTerms || "50% advance, 50% on delivery";
-                document.getElementById('previewDeliveryTerms').textContent = deliveryTerms || "Within 15 working days from order confirmation";
+                const paymentTermsContainer = document.getElementById('previewPaymentTermsContainer');
+                const deliveryTermsContainer = document.getElementById('previewDeliveryTermsContainer');
+                
+                if (showPaymentTerms && paymentTerms.trim()) {
+                    document.getElementById('previewPaymentTerms').textContent = paymentTerms;
+                    paymentTermsContainer.style.display = 'block';
+                } else {
+                    paymentTermsContainer.style.display = 'none';
+                }
+                
+                if (showDeliveryTerms && deliveryTerms.trim()) {
+                    document.getElementById('previewDeliveryTerms').textContent = deliveryTerms;
+                    deliveryTermsContainer.style.display = 'block';
+                } else {
+                    deliveryTermsContainer.style.display = 'none';
+                }
             }
             
-            // Generate print preview HTML - MODIFIED: Using Estimate code's premium styling for logo
+            // Generate print preview HTML
             function generatePrintPreviewHTML() {
                 const invoiceNo = document.getElementById('invoiceNo').value;
                 const invoiceDate = document.getElementById('invoiceDate').value;
@@ -2124,14 +2152,14 @@
                 const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
                 const paymentTerms = document.getElementById('paymentTerms').value;
                 const deliveryTerms = document.getElementById('deliveryTerms').value;
+                const showPaymentTerms = document.getElementById('showPaymentTerms').checked;
+                const showDeliveryTerms = document.getElementById('showDeliveryTerms').checked;
                 
-                // Calculate totals
                 const taxableValue = items.reduce((sum, item) => sum + item.total, 0);
                 const taxAmount = (taxableValue * taxRate) / 100;
                 const totalAmount = taxableValue + (taxAmount * 2) + roundOff;
                 const amountWords = numberToWords(Math.round(totalAmount));
                 
-                // Generate items HTML
                 let itemsHTML = '';
                 if (items.some(item => item.name.trim() !== '' || item.total > 0)) {
                     items.forEach(item => {
@@ -2153,13 +2181,11 @@
                     itemsHTML = '<tr><td colspan="7" class="text-center">[No items added]</td></tr>';
                 }
                 
-                // Client info
                 let clientHTML = '';
                 if (clientName.trim()) clientHTML += clientName + '<br>';
                 if (clientAddress.trim()) clientHTML += clientAddress.replace(/\n/g, '<br>');
                 if (clientGst.trim()) clientHTML += '<br><strong>GSTIN:</strong> ' + clientGst;
                 
-                // Delivery info
                 let deliveryHTML = '';
                 if (deliveryAddress.trim()) deliveryHTML += deliveryAddress.replace(/\n/g, '<br>');
                 if (phoneNumber.trim()) deliveryHTML += (deliveryAddress.trim() ? '<br>' : '') + 'PHONE: ' + phoneNumber;
@@ -2426,8 +2452,8 @@
                         
                         <div class="print-authorization">
                             <div style="flex: 1;">
-                                <p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Payment Terms:</strong> ${paymentTerms || "50% advance, 50% on delivery"}</p>
-                                <p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Delivery:</strong> ${deliveryTerms || "Within 15 working days from order confirmation"}</p>
+                                ${showPaymentTerms && paymentTerms.trim() ? `<p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Payment Terms:</strong> ${paymentTerms}</p>` : ''}
+                                ${showDeliveryTerms && deliveryTerms.trim() ? `<p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Delivery:</strong> ${deliveryTerms}</p>` : ''}
                                 <p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Bank Details:</strong> State Bank of India | A/C: 123456789012 | IFSC: SBIN0001234</p>
                                 <p style="font-size: 12px; color: #5a3921;"><strong>PAN:</strong> AAHFU6863E</p>
                             </div>
@@ -2466,14 +2492,12 @@
                 confirmExport.disabled = true;
                 
                 try {
-                    // Ensure logo data URL is available
                     if (!logoDataUrl) {
                         await convertLogoToDataUrl();
                     }
                     
                     const html = generatePrintPreviewHTML();
                     
-                    // Create a temporary container
                     const tempContainer = document.createElement('div');
                     tempContainer.style.position = 'absolute';
                     tempContainer.style.left = '-9999px';
@@ -2484,10 +2508,8 @@
                     tempContainer.innerHTML = html;
                     document.body.appendChild(tempContainer);
                     
-                    // Wait for content to load
                     await new Promise(resolve => setTimeout(resolve, 800));
                     
-                    // Convert to canvas
                     const canvas = await html2canvas(tempContainer, {
                         scale: 2,
                         useCORS: true,
@@ -2497,10 +2519,8 @@
                         height: tempContainer.scrollHeight
                     });
                     
-                    // Remove temp container
                     document.body.removeChild(tempContainer);
                     
-                    // Create PDF
                     const pdf = new jsPDF('p', 'mm', 'a4');
                     const imgWidth = 210;
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
@@ -2511,7 +2531,6 @@
                     pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
                     heightLeft -= 297;
                     
-                    // Add additional pages if needed
                     while (heightLeft > 0) {
                         position = heightLeft - imgHeight;
                         pdf.addPage();
@@ -2541,7 +2560,6 @@
             
             // Direct print function
             function directPrint() {
-                // Ensure logo data URL is available
                 if (!logoDataUrl) {
                     convertLogoToDataUrl().then(() => {
                         executePrint();
@@ -2634,7 +2652,6 @@
             closePreviewModal.addEventListener('click', () => printPreviewModal.classList.remove('active'));
             
             printNowBtn.addEventListener('click', () => {
-                // Ensure logo data URL is available
                 if (!logoDataUrl) {
                     convertLogoToDataUrl().then(() => {
                         const html = printPreviewContent.innerHTML;
@@ -2716,7 +2733,6 @@
             // Reset form function
             function resetForm() {
                 if (confirm('Are you sure you want to reset the form? All data will be cleared.')) {
-                    // Reset form fields to empty
                     document.getElementById('invoiceNo').value = '';
                     document.getElementById('invoiceDate').value = formattedToday;
                     document.getElementById('dueDate').value = formattedDueDate;
@@ -2729,10 +2745,11 @@
                     document.getElementById('taxRate').value = '9';
                     document.getElementById('roundOff').value = '0';
                     document.getElementById('notes').value = '';
-                    document.getElementById('paymentTerms').value = '';
-                    document.getElementById('deliveryTerms').value = '';
+                    document.getElementById('paymentTerms').value = '50% advance, 50% on delivery';
+                    document.getElementById('deliveryTerms').value = 'Within 15 working days from order confirmation';
+                    document.getElementById('showPaymentTerms').checked = true;
+                    document.getElementById('showDeliveryTerms').checked = true;
                     
-                    // Reset items to one empty item
                     items = [
                         { 
                             slNo: 1, 
@@ -2756,7 +2773,7 @@
             resetFormBtn.addEventListener('click', resetForm);
             resetFormBtnMobile.addEventListener('click', resetForm);
             
-            // Auto-update on input changes
+            // Auto-update on input changes including optional toggles
             document.getElementById('invoiceNo').addEventListener('input', updateInvoicePreview);
             document.getElementById('invoiceDate').addEventListener('input', updateInvoicePreview);
             document.getElementById('dueDate').addEventListener('input', updateInvoicePreview);
@@ -2770,6 +2787,8 @@
             document.getElementById('notes').addEventListener('input', updateInvoicePreview);
             document.getElementById('paymentTerms').addEventListener('input', updateInvoicePreview);
             document.getElementById('deliveryTerms').addEventListener('input', updateInvoicePreview);
+            document.getElementById('showPaymentTerms').addEventListener('change', updateInvoicePreview);
+            document.getElementById('showDeliveryTerms').addEventListener('change', updateInvoicePreview);
             
             // Close modals when clicking outside
             document.addEventListener('click', (e) => {
