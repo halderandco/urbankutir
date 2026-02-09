@@ -1398,6 +1398,16 @@
                     <label for="notes">Additional Notes</label>
                     <textarea id="notes" rows="2" placeholder="Any special instructions or terms..."></textarea>
                 </div>
+
+                <div class="form-group compact">
+                    <label for="paymentTerms">Payment Terms</label>
+                    <input type="text" id="paymentTerms" placeholder="e.g., 50% advance, 50% on delivery">
+                </div>
+
+                <div class="form-group compact">
+                    <label for="deliveryTerms">Delivery</label>
+                    <input type="text" id="deliveryTerms" placeholder="e.g., Within 15 working days from order confirmation">
+                </div>
                 
                 <button class="btn btn-primary" id="updateInvoiceBtn" style="width: 100%; margin-top: 16px; padding: 10px;">
                     <i class="fas fa-sync-alt"></i> Update Invoice Preview
@@ -1500,8 +1510,8 @@
                 
                 <div class="authorization-section">
                     <div style="flex: 1;">
-                        <p><strong>Payment Terms:</strong> 50% advance, 50% on delivery</p>
-                        <p><strong>Delivery:</strong> Within 15 working days from order confirmation</p>
+                        <p><strong>Payment Terms:</strong> <span id="previewPaymentTerms">50% advance, 50% on delivery</span></p>
+                        <p><strong>Delivery:</strong> <span id="previewDeliveryTerms">Within 15 working days from order confirmation</span></p>
                         <p><strong>Bank Details:</strong> State Bank of India | A/C: 123456789012 | IFSC: SBIN0001234</p>
                         <p><strong>PAN:</strong> AAHFU6863E</p>
                     </div>
@@ -1729,22 +1739,22 @@
                         // Draw elegant circular logo
                         ctx.beginPath();
                         ctx.arc(60, 60, 55, 0, Math.PI * 2);
-                        ctx.fillStyle = gradient;
-                        ctx.fill();
-                        
-                        // Add elegant border
-                        ctx.beginPath();
-                        ctx.arc(60, 60, 58, 0, Math.PI * 2);
-                        ctx.strokeStyle = '#5a3921';
-                        ctx.lineWidth = 1.5;
-                        ctx.stroke();
-                        
-                        ctx.fillStyle = 'white';
-                        ctx.font = 'bold 36px Inter';
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillText('UK', 60, 60);
-                        
+                            ctx.fillStyle = gradient;
+                            ctx.fill();
+                            
+                            // Add elegant border
+                            ctx.beginPath();
+                            ctx.arc(60, 60, 58, 0, Math.PI * 2);
+                            ctx.strokeStyle = '#5a3921';
+                            ctx.lineWidth = 1.5;
+                            ctx.stroke();
+                            
+                            ctx.fillStyle = 'white';
+                            ctx.font = 'bold 36px Inter';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText('UK', 60, 60);
+                            
                         logoDataUrl = canvas.toDataURL('image/png');
                         resolve(logoDataUrl);
                     }
@@ -2089,6 +2099,13 @@
                 } else {
                     notesContainer.style.display = 'none';
                 }
+                
+                // Update payment terms and delivery
+                const paymentTerms = document.getElementById('paymentTerms').value;
+                const deliveryTerms = document.getElementById('deliveryTerms').value;
+
+                document.getElementById('previewPaymentTerms').textContent = paymentTerms || "50% advance, 50% on delivery";
+                document.getElementById('previewDeliveryTerms').textContent = deliveryTerms || "Within 15 working days from order confirmation";
             }
             
             // Generate print preview HTML - MODIFIED: Using Estimate code's premium styling for logo
@@ -2105,6 +2122,8 @@
                 const notes = document.getElementById('notes').value;
                 const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
                 const roundOff = parseFloat(document.getElementById('roundOff').value) || 0;
+                const paymentTerms = document.getElementById('paymentTerms').value;
+                const deliveryTerms = document.getElementById('deliveryTerms').value;
                 
                 // Calculate totals
                 const taxableValue = items.reduce((sum, item) => sum + item.total, 0);
@@ -2407,8 +2426,8 @@
                         
                         <div class="print-authorization">
                             <div style="flex: 1;">
-                                <p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Payment Terms:</strong> 50% advance, 50% on delivery</p>
-                                <p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Delivery:</strong> Within 15 working days from order confirmation</p>
+                                <p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Payment Terms:</strong> ${paymentTerms || "50% advance, 50% on delivery"}</p>
+                                <p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Delivery:</strong> ${deliveryTerms || "Within 15 working days from order confirmation"}</p>
                                 <p style="font-size: 12px; color: #5a3921; margin-bottom: 8px;"><strong>Bank Details:</strong> State Bank of India | A/C: 123456789012 | IFSC: SBIN0001234</p>
                                 <p style="font-size: 12px; color: #5a3921;"><strong>PAN:</strong> AAHFU6863E</p>
                             </div>
@@ -2710,6 +2729,8 @@
                     document.getElementById('taxRate').value = '9';
                     document.getElementById('roundOff').value = '0';
                     document.getElementById('notes').value = '';
+                    document.getElementById('paymentTerms').value = '';
+                    document.getElementById('deliveryTerms').value = '';
                     
                     // Reset items to one empty item
                     items = [
@@ -2747,6 +2768,8 @@
             document.getElementById('taxRate').addEventListener('input', updateInvoicePreview);
             document.getElementById('roundOff').addEventListener('input', updateInvoicePreview);
             document.getElementById('notes').addEventListener('input', updateInvoicePreview);
+            document.getElementById('paymentTerms').addEventListener('input', updateInvoicePreview);
+            document.getElementById('deliveryTerms').addEventListener('input', updateInvoicePreview);
             
             // Close modals when clicking outside
             document.addEventListener('click', (e) => {
