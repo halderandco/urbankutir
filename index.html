@@ -2985,6 +2985,25 @@
                                         -webkit-print-color-adjust: exact;
                                         print-color-adjust: exact;
                                     }
+                                    /* Ensure no page breaks inside critical sections */
+                                    .print-addresses, .print-header, .print-summary, .print-authorization, .print-footer {
+                                        page-break-inside: avoid !important;
+                                        break-inside: avoid !important;
+                                    }
+                                    .print-table tr {
+                                        page-break-inside: avoid !important;
+                                        break-inside: avoid !important;
+                                    }
+                                    .print-table thead {
+                                        display: table-header-group;
+                                    }
+                                    .print-table tbody {
+                                        page-break-inside: auto;
+                                    }
+                                    p, h1, h2, h3, h4, h5, h6 {
+                                        widows: 3;
+                                        orphans: 3;
+                                    }
                                 }
                                 body {
                                     margin: 0;
@@ -3076,6 +3095,25 @@
                                     body {
                                         -webkit-print-color-adjust: exact;
                                         print-color-adjust: exact;
+                                    }
+                                    /* Ensure no page breaks inside critical sections */
+                                    .print-addresses, .print-header, .print-summary, .print-authorization, .print-footer {
+                                        page-break-inside: avoid !important;
+                                        break-inside: avoid !important;
+                                    }
+                                    .print-table tr {
+                                        page-break-inside: avoid !important;
+                                        break-inside: avoid !important;
+                                    }
+                                    .print-table thead {
+                                        display: table-header-group;
+                                    }
+                                    .print-table tbody {
+                                        page-break-inside: auto;
+                                    }
+                                    p, h1, h2, h3, h4, h5, h6 {
+                                        widows: 3;
+                                        orphans: 3;
                                     }
                                 }
                                 body {
