@@ -2906,8 +2906,9 @@
                     
                     await new Promise(resolve => setTimeout(resolve, 800));
                     
+                    // Increased scale for higher resolution and consistent output
                     const canvas = await html2canvas(tempContainer, {
-                        scale: 2,
+                        scale: 3,          // was 2, now 3 for better quality
                         useCORS: true,
                         logging: false,
                         backgroundColor: '#ffffff',
